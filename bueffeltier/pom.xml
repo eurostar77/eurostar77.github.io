@@ -1,0 +1,431 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  	<modelVersion>4.0.0</modelVersion>
+  	<groupId>com.bueffeltier</groupId>
+  	<artifactId>bueffeltier</artifactId>
+  	<version>1.0</version>
+  	<packaging>war</packaging>
+
+	<!--1.	Wir benötigen JDK 11 für Jakarta EE 9-->
+	<properties>
+	
+   		<maven.compiler.source>18</maven.compiler.source>
+   		<maven.compiler.target>18</maven.compiler.target>
+   		<!-- Servlets können auch ohne web.xml betrieben werden. Hiermit kann man 
+        auf die Datei auch verzichten: -->
+   		<failOnMissingWebXml>false</failOnMissingWebXml>
+   		
+    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   		
+	</properties>
+	
+	<dependencies>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
+		
+		<!-- <dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-web</artifactId>
+		    <version>2.7.3</version> -->
+		    <!-- We can exclude spring-boot-starter-tomcat from spring-boot-starter-web as follows: -->
+		    <!-- <exclusions>
+	            <exclusion>
+	                <groupId>org.springframework.boot</groupId>
+	                <artifactId>spring-boot-starter-tomcat</artifactId>
+	            </exclusion>
+        	</exclusions> -->
+		<!-- </dependency> -->
+			
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
+		<!-- <dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-test</artifactId>
+		    <version>2.7.3</version>
+		    <scope>test</scope>
+		</dependency> -->
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-tomcat -->
+		<!-- By default, the spring-boot-starter-web contains tomcat server dependency!-->
+		<!--<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-tomcat</artifactId>
+		    <version>2.7.3</version>
+		</dependency>-->
+
+		<!-- Jakarta (ehemals Java-EE) Unterstützt u.A.Servlets und JSP -->
+		<!-- https://mvnrepository.com/artifact/jakarta.platform/jakarta.jakartaee-web-api -->
+		<!--
+        -->
+		<dependency>
+		    <groupId>jakarta.platform</groupId>
+		    <artifactId>jakarta.jakartaee-web-api</artifactId>
+		    <version>10.0.0</version>
+		    <scope>provided</scope>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/javax/javaee-api -->
+		<!-- 
+		<dependency>
+    		<groupId>javax</groupId>
+    		<artifactId>javaee-api</artifactId>
+    		<version>8.0</version>
+    		<scope>provided</scope>
+		</dependency>
+		-->
+		
+		<!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
+		<!--
+        -->
+		<dependency>
+		    <groupId>jakarta.servlet</groupId>
+		    <artifactId>jakarta.servlet-api</artifactId>
+		    <version>6.0.0</version>
+		    <scope>provided</scope>
+		</dependency>
+         
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<!-- 
+         -->
+		<dependency>
+    		<groupId>javax.servlet</groupId>
+    		<artifactId>javax.servlet-api</artifactId>
+    		<version>3.1.0</version>
+    		<scope>provided</scope>
+		</dependency>
+        
+		<!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api -->
+		<dependency>
+    		<groupId>javax.servlet.jsp</groupId>
+    		<artifactId>javax.servlet.jsp-api</artifactId>
+    		<version>2.3.0</version>
+    		<scope>provided</scope>
+		</dependency>
+
+        
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-artifact</artifactId>
+            <version>3.8.6</version>
+    	</dependency>
+    	
+    	<dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-core</artifactId>
+            <version>3.8.6</version>
+    	</dependency>
+    	
+    	<dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-clean-plugin</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.3.2</version>
+        </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>8.0.33</version>
+		</dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
+		<!--
+		-->
+		<dependency>
+		    <groupId>org.mariadb.jdbc</groupId>
+		    <artifactId>mariadb-java-client</artifactId>
+		    <version>3.0.8</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-simple</artifactId>
+		    <version>1.6.2</version>
+		    <scope>test</scope>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/jakarta.persistence/jakarta.persistence-api -->
+		<!-- Wird benötigt für Hibernate 6.2.0 -->
+		<dependency>
+		    <groupId>jakarta.persistence</groupId>
+		    <artifactId>jakarta.persistence-api</artifactId>
+		    <version>3.1.0</version>
+		</dependency>
+		 
+		 <!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
+		<!-- 
+		<dependency>
+		    <groupId>javax.persistence</groupId>
+		    <artifactId>javax.persistence-api</artifactId>
+		    <version>2.2</version>
+		</dependency>
+		 -->
+
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>6.2.3.Final</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
+<!--		<dependency>-->
+<!--		    <groupId>org.hibernate</groupId>-->
+<!--		    <artifactId>hibernate-entitymanager</artifactId>-->
+<!--		    <version>5.6.12.Final</version>-->
+<!--		</dependency>-->
+		 
+		
+
+		<!-- JAXB API -->
+	    <dependency>
+	        <groupId>javax.xml.bind</groupId>
+	        <artifactId>jaxb-api</artifactId>
+	        <version>2.3.1</version>
+	    </dependency>
+	
+	    <!-- JAXB RI -->
+	    <dependency>
+	        <groupId>com.sun.xml.bind</groupId>
+	        <artifactId>jaxb-impl</artifactId>
+	        <version>2.3.4</version>
+	    </dependency>
+		 
+		<dependency>
+		    <groupId>org.glassfish.jaxb</groupId>
+		    <artifactId>jaxb-runtime</artifactId>
+		    <version>3.0.0</version>
+		</dependency>
+        
+        <dependency>
+			<groupId>com.j2html</groupId>
+    		<artifactId>j2html</artifactId>
+    		<version>1.6.0</version>
+		</dependency>
+        
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>29.0-jre</version>
+        </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.12.0</version>
+		</dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.3</version>
+        </dependency>
+        
+        <!-- <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.11.1</version>
+        </dependency>-->
+        
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.19.0</version>
+        </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.19.0</version>
+        </dependency>
+        
+        <!-- https://logging.apache.org/log4j/2.x/manual/async.html -->
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+            <version>3.4.4</version>
+        </dependency>
+        
+        <!-- Mailing needs this  -->
+        <!-- SMTPAppender need this  -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
+        <!-- NewEmailService -->
+        <dependency>
+		    <groupId>com.google.api-client</groupId>
+		    <artifactId>google-api-client</artifactId>
+		    <version>2.0.0</version>
+		</dependency>
+		
+		<!-- NewEmailService -->
+        <dependency>
+		    <groupId>com.google.oauth-client</groupId>
+		    <artifactId>google-oauth-client-jetty</artifactId>
+		    <version>1.34.1</version>
+		</dependency>
+        
+        <!-- NewEmailService -->
+        <dependency>
+		    <groupId>com.google.apis</groupId>
+		    <artifactId>google-api-services-gmail</artifactId>
+		    <version>v1-rev20220404-2.0.0</version>
+		</dependency>
+        
+        <!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest-all -->
+		<!--
+		<dependency>
+		    <groupId>org.hamcrest</groupId>
+		    <artifactId>hamcrest-all</artifactId>
+		    <version>1.3</version>
+		    <scope>test</scope>
+		</dependency>
+		 
+		<dependency>
+		    <groupId>org.hamcrest</groupId>
+		    <artifactId>hamcrest-library</artifactId>
+		    <version>2.2</version>
+		    <scope>test</scope>
+		</dependency>
+		 -->
+		
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+		<dependency>
+		    <groupId>org.junit.jupiter</groupId>
+		    <artifactId>junit-jupiter-api</artifactId>
+		    <version>5.9.1</version>
+		    <scope>test</scope>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher -->
+		<dependency>
+		    <groupId>org.junit.platform</groupId>
+		    <artifactId>junit-platform-launcher</artifactId>
+		    <version>1.9.1</version>
+		    <scope>test</scope>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-suite-api -->
+		<dependency>
+		    <groupId>org.junit.platform</groupId>
+		    <artifactId>junit-platform-suite-api</artifactId>
+		    <version>1.9.1</version>
+		    <scope>test</scope>
+		</dependency>
+
+
+		
+		<!-- https://mvnrepository.com/artifact/org.easymock/easymock -->
+		<dependency>
+		    <groupId>org.easymock</groupId>
+		    <artifactId>easymock</artifactId>
+		    <version>5.0.1</version>
+		    <scope>test</scope>
+		</dependency>
+
+			<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.11.5</version>
+			<scope>runtime</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.11.5</version>
+			<scope>runtime</scope>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.5</version>
+		</dependency>
+
+	
+	</dependencies>
+	
+	<build>
+	
+		<!--Modify the final WAR file name to avoid including version numbers: -->
+		<finalName>bueffeltier</finalName>
+	
+		<plugins>
+		
+			<!-- <plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>2.7.3</version>
+			</plugin> -->
+		
+			<!-- Clean-Plugin: Vor jedem Build (bei jedem Maven install ) 
+			soll ein bereits vorhandene jar-File im "Target"-Ordner gelöscht werden. /-->
+			<plugin>
+	  			<groupId>org.apache.maven.plugins</groupId>
+	  			<artifactId>maven-clean-plugin</artifactId>
+	  			<version>3.2.0</version>
+	  			<configuration>
+	      			<filesets>
+			      		<fileset>
+			      			<directory>C:\xampp\tomcat\webapps\</directory>
+		      				<includes>
+
+		      					<!-- jedes war-file: -->
+			      				<include>**/*.war</include> -->
+			      				<!-- ein bestimmtes war-file -->
+			      				<include>bueffeltier.war</include>
+		      				</includes>
+		      				<followSymlinks>false</followSymlinks>
+		      			</fileset>
+	      			</filesets>
+	    		</configuration>
+	  		</plugin>
+	
+			<!-- WAR-Plugin: Bei jedem Build (bei jedem Maven install ) 
+			soll das jar-File mit dem angegebenen Namen nicht im "Target"-Ordner, 
+			sondern direkt im angegebenen Tomcat-Webapps-Ordner gespeichert werden. /-->
+	  		<plugin>
+	  			<groupId>org.apache.maven.plugins</groupId>
+	  			<artifactId>maven-war-plugin</artifactId>
+	  			<version>3.3.2</version>
+	  			<configuration>
+		  			<failOnMissingWebXml>false</failOnMissingWebXml>
+		  			<warName>bueffeltier</warName>
+		  			<outputDirectory>C:\xampp\tomcat\webapps\</outputDirectory>
+	  			</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+	    		<version>3.10.1</version> <!-- or whatever current version /-->
+	    		<configuration>
+	      			<source>18</source>
+	      			<target>18</target>
+	    		</configuration>
+	  		</plugin>
+	  		
+		</plugins>
+		
+	</build>
+</project>

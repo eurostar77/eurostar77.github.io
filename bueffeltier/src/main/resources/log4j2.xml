@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--All the status-related messages will be logged with the WARN level – status=”WARN”.-->
+<!--change the status “trace”, “debug”, “info”, “warn”, “error” and “fatal”:-->
+<Configuration status="WARN">
+
+    <!--The Appender is responsible for delivering the LogEvent to its destination.-->
+    <!--'Appender' definieren den Ausgabekanal, zum Beispiel--> 
+    <!--Console, Datei, DailyRollingFile, E-Mail, Socket, Telnet, JDBC und JMS.-->
+    <Appenders>
+        
+        <Console name="LogToConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{YYYY-MM-dd HH:mm:ss} [%t] %-5p %c{1}:%L - %msg%n" />
+        </Console>
+        
+        
+        <!--fileName="logs/app.log"-->
+        <!--fileName="/tmp/log4j2.log"-->
+        <!--fileName="./log4j2.log"-->
+        <RollingFile 
+            name="LogToRollingFile"
+            fileName="${sys:catalina.home}/logs/log4j2.log"
+            filepattern="${logPath}/%d{YYYYMMddHHmmss}-log4j2.log">
+            "${sys:catalina.home}/logs/test.log
+            <PatternLayout pattern="%d{YYYY-MM-dd HH:mm:ss} [%t] %-5p %c{1}:%L - %msg%n" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+            
+            <DefaultRolloverStrategy max="20" />
+            
+<!--            <DefaultRolloverStrategy>
+                
+                  * only files in the log folder, no sub folders
+                  * only rolled over log files (name match)
+                  * only files that are 4 days old or older
+                
+                <Delete basePath="${sys:catalina.home}/logs/" maxDepth="1">
+                    <IfFileName glob="*.service.????????" />
+                    <IfLastModified age="4d" />
+                </Delete>
+            </DefaultRolloverStrategy>-->
+
+            
+        </RollingFile>
+        
+        <RollingFile 
+            name="LogServletContent"
+            fileName="${sys:catalina.home}/logs/log4j2-ServletContent.log"
+            filepattern="${logPath}/%d{YYYYMMddHHmmss}-log4j2.log">
+            "${sys:catalina.home}/logs/test.log
+            <PatternLayout pattern="%d{YYYY-MM-dd HH:mm:ss} [%t] %-5p %c{1}:%L - %msg%n" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingFile>
+
+    </Appenders>
+    <!--'Layout' definiert die Ausgabeformatierung, zum Beispiel 'SimpleLayout', 'PatternLayout', 'HTMLLayout' und 'XMLLayout'.-->
+    <Loggers>
+        
+        <Logger name="com.mycompany.bubbles" level="debug" additivity="true">
+            <AppenderRef ref="LogToConsole"/>
+            <AppenderRef ref="LogToRollingFile"/>
+        </Logger>
+        
+        <Logger name="com.mycompany.bueffeltier.servlet.content.attribute" level="debug" additivity="true">
+            <AppenderRef ref="LogServletContent"/>
+        </Logger>
+        
+<!--    Define the Root logger definition:
+        Root logger definition tells Log4J to use that configuration
+        when a dedicated configuration for a logger is not found.-->
+        <Root level="debug">
+            <AppenderRef ref="LogToConsole" />
+            <!--<AppenderRef ref="LogToRollingFile" />-->
+        </Root>
+        
+    </Loggers>
+    
+</Configuration>

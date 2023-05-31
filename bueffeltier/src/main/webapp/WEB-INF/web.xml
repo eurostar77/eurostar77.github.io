@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+    version="3.1">
+    
+    <display-name>bueffeltier</display-name>
+<!--    <display-name>bueffeltier</display-name>-->
+    
+    <servlet>
+    	<description>xxx</description>
+        <servlet-name>Servlet</servlet-name>
+        <servlet-class>com.bueffeltier.ui.webapp.Servlet</servlet-class>
+<!--         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class> -->
+        
+        <!--Init-param muss immer vor load-on-startup angegeben werden! -->
+        <init-param>
+	        <param-name>contextConfigLocation</param-name>
+	        <param-value>/WEB-INF/Servlet-servlet.xml</param-value>
+    	</init-param>
+
+        <!-- Reihenfolge in der verschiedene Servlets geladen werden, beginnend bei 0. -->
+        <load-on-startup>0</load-on-startup>
+        
+        <!--        <display-name>My App</display-name>
+        <description>My Application</description>-->
+        <!--<jsp-file>WEB-INF/jspf/header.jspf</jsp-file>-->
+        <!--<jsp-file>WEB-INF/jspf/footer.jspf</jsp-file>-->
+        <!--<servlet-name>LessonControl</servlet-name>-->
+        <!--<servlet-class>servlets.LessonControl</servlet-class>-->
+        
+        <async-supported>true</async-supported>
+        
+        <!-- Für Dateiupload: -->
+        <multipart-config>
+	        <!-- Set the maximum file size that can be uploaded to 10 MB -->
+	        <max-file-size>10485760</max-file-size>
+	        <!-- Set the maximum size for all files in a request to 20 MB -->
+	        <max-request-size>20971520</max-request-size>
+	        <!-- Set the threshold for buffering file data to 1 MB -->
+	        <file-size-threshold>1048576</file-size-threshold>
+    	</multipart-config>
+        
+    </servlet>
+    <!--    Die Servlet-Zuordnung gibt den Web-Container an, für den das 
+        Java-Servlet für eine vom Client angegebene URL aufgerufen werden soll. 
+        Es ordnet URL-Muster Servlets zu. Wenn eine Anforderung von einem Client
+        vorliegt, entscheidet der Servlet-Container, an welche Anwendung er 
+        weiterleiten soll. Anschließend wird der Kontextpfad der URL für die 
+        Zuordnung von Servlets abgeglichen.-->
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/</url-pattern>
+        
+<!--        https://stackoverflow.com/questions/14648167/how-to-configure-welcome-file-list-in-web-xml
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern></url-pattern>-->
+        
+        
+        
+        
+<!--        <init-param>
+            <param-name>task_type</param-name>
+            <param-value>Lernkarten</param-value>
+        </init-param>
+        <init-param>
+            <param-name>task_type</param-name>
+            <param-value>Textaufgabe</param-value>
+        </init-param>
+        <init-param>
+            <param-name>task_type</param-name>
+            <param-value>Podcast</param-value>
+        </init-param>-->
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.js</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.css</url-pattern>
+    </servlet-mapping>
+    
+   <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.jpg</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.png</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.svg</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.ico</url-pattern>
+    </servlet-mapping>
+    
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+    
+<!--    <welcome-file-list>
+        <welcome-file>/</welcome-file>
+    </welcome-file-list>-->
+        
+</web-app>

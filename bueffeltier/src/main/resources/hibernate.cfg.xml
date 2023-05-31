@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    
+    <session-factory>
+        
+<!--         <property name="hibernate.connection.driver_class"> -->
+        <property name="org.mariadb.jdbc.Driver">
+            <!--org.mariadb.jdbc.Driver-->
+            com.mysql.cj.jdbc.Driver
+<!-- 			com.mysql.jdbc.Driver -->
+        </property>
+        <property name="hibernate.connection.url">
+            <!--jdbc:mysql://localhost:3306/bueffeltier?zeroDateTimeBehavior=convertToNull-->
+            <!--jdbc:mysql://localhost:3306/bueffeltier?serverTimezone=UTC-->
+            <!--jdbc:mariadb://inet00.de:3306/k404691q_bueffeltier?serverTimezone=UTC-->
+            <!--  -->
+            <!--jdbc:mysql://inet00.de:3306/k404691q_bueffeltier?serverTimezone=MET -->
+			<!--jdbc:mysql://localhost:3306/bueffeltier?serverTimezone=MET-->
+			<!-- jdbc\:mysql\://localhost\:3306/bueffeltier?serverTimezone\=MET -->
+			jdbc:mariadb://localhost:3306/bueffeltier?serverTimezone=MET
+        </property>
+        <!--Um SessionFactory ".getCurrentSession" verwenden zukönnen...:-->
+        <!--<property name="hibernate.current_session_context_class">-->
+        <property name="current_session_context_class">
+            thread
+        </property>
+        <!--Damit man SQL-Keywords als Bezeichner verwenden kann:-->
+        <property name="hibernate.globally_quoted_identifiers">
+            true
+        </property>
+        <property name="hibernate.connection.username">
+            <!--root-->
+            k404691q_root
+        </property>
+        <property name="hibernate.connection.password">
+            <!-- -->
+            ATzUIPMdKNezrc6
+        </property>
+        <property name="hibernate.dialect">
+            <!--org.hibernate.dialect.MySQLDialect-->
+<!--             org.hibernate.dialect.MariaDB103Dialect -->
+            org.hibernate.dialect.MariaDBDialect
+        </property>
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+        
+        
+        <!-- Gibt an, wie Hibernate das Datenbankschema aktualisiert oder erstellt, 
+        basierend auf den Hibernate-Mappings und den Datenbanktabellen. -->
+        <!--https://www.codejava.net/frameworks/hibernate/hibernate-forward-engineering-create-tables-from-entity-classes-->
+        <!--<property name="hibernate.hbm2ddl.auto" value="update"/>-->
+        
+        <!-- CREATE: Erstellt das Datenbankschema bei jedem Start der Anwendung 
+        neu. Alle Datenbanktabellen werden dabei gelöscht! -->
+        <!--<property name="hibernate.hbm2ddl.auto" value="create"/>-->
+        
+        <!-- UPDATE: Aktualisiert das Datenbankschema -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        
+        <!-- NONE: Deaktiviert das automatische Generieren oder Aktualisieren 
+        des Schemas durch Hibernate. Sollte im Produktiv-Einsatz verwendet
+        werden -->
+		<!--<property name="hibernate.hbm2ddl.auto">none</property> -->
+        
+        <!-- VALIDATE: -->
+        <!-- CREATE-DROP: -->
+        
+<!--         <mapping class="com.bueffeltier.data.entity.User"/> -->
+        <mapping class="com.bueffeltier.logic.domain.Lesson"/>
+<!--         <mapping class="com.bueffeltier.data.entity.FrageAntwort"/> -->
+<!--         <mapping class="com.bueffeltier.data.entity.Page"/> -->
+<!--         <mapping class="com.bueffeltier.data.entity.Article"/> -->
+<!--         <mapping class="com.bueffeltier.data.entity.Content"/> -->
+
+    </session-factory>
+  
+</hibernate-configuration>
