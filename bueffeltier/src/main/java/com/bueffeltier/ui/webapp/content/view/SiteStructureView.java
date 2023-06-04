@@ -141,30 +141,30 @@ public class SiteStructureView extends AbstractView
 		// todo: index seite nicht kopierbar machen!
 	}
 
-	/**
-	 *
-	 * @return
-	 */
-	public DomContent infoField()
-	{
-
-		String info = "";
-		try
-		{
-			info = (String) getContentAttributeValue("info");
-		} catch (Exception ex)
-		{
-
-		}
-
-		if (info != null)
-		{
-			return p(info).withStyle("background-color: tomato");
-		} else
-		{
-			return p();
-		}
-	}
+//	/**
+//	 *
+//	 * @return
+//	 */
+//	public DomContent infoField()
+//	{
+//
+//		String info = "";
+//		try
+//		{
+//			info = (String) getContentAttributeValue("info");
+//		} catch (Exception ex)
+//		{
+//
+//		}
+//
+//		if (info != null)
+//		{
+//			return p(info).withStyle("background-color: tomato");
+//		} else
+//		{
+//			return p();
+//		}
+//	}
 
 	public DomContent pageTitle(long l, String pageTitle)
 	{

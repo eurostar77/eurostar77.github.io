@@ -3,7 +3,7 @@ package com.bueffeltier.data.hibernate.dao;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Query;
+import jakarta.persistence.NamedQuery;
 
 /**
  *
@@ -37,14 +37,14 @@ public interface GenericDao<T, ID extends Serializable>
 	 * @param query
 	 * @return
 	 */
-	public List<T> findMany(Query query);
+	public List<T> findMany(NamedQuery query);
 
 	/**
 	 *
 	 * @param query
 	 * @return
 	 */
-	public T findOne(Query query);
+	public T findOne(NamedQuery query);
 
 	// todo: methode wurde von mir definiert. gehört die hier rein?
 	/**

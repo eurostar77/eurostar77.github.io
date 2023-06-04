@@ -10,9 +10,6 @@ import com.bueffeltier.ui.webapp.content.view.ArticleFeederView;
 import com.bueffeltier.ui.webapp.content.view.ChooseContentTypeView;
 import com.bueffeltier.ui.webapp.content.view.ContactView;
 import com.bueffeltier.ui.webapp.content.view.CreateFlipcardsView;
-import com.bueffeltier.ui.webapp.content.view.EditArticleElementsView;
-import com.bueffeltier.ui.webapp.content.view.EditArticleSettingsView;
-import com.bueffeltier.ui.webapp.content.view.EditContentElementView;
 import com.bueffeltier.ui.webapp.content.view.EditPageView;
 import com.bueffeltier.ui.webapp.content.view.ElementsView;
 import com.bueffeltier.ui.webapp.content.view.FlipCardStartPageView;
@@ -29,7 +26,6 @@ import com.bueffeltier.ui.webapp.content.view.MemberLearningSettingsView;
 import com.bueffeltier.ui.webapp.content.view.MemberMessagesView;
 import com.bueffeltier.ui.webapp.content.view.MemberNotesView;
 import com.bueffeltier.ui.webapp.content.view.MottoView;
-import com.bueffeltier.ui.webapp.content.view.NavigationView;
 import com.bueffeltier.ui.webapp.content.view.RegisterConfirmView;
 import com.bueffeltier.ui.webapp.content.view.RegisterSubmittedView;
 import com.bueffeltier.ui.webapp.content.view.RegisterView;
@@ -77,17 +73,17 @@ public class ViewRegistry
 		case "EDIT_PAGE":
 			return EditPageView.getInstance();
 		case "EDIT_ARTICLE":
-			return EditArticleSettingsView.getInstance();
+//			return EditArticleSettingsView.getInstance();
 		case "REGISTER":
 			return RegisterView.getInstance();
 		case "FOOTER":
 			return FooterView.getInstance();
 		case "NAVIGATION":
-			return NavigationView.getInstance();
+//			return NavigationView.getInstance();
 		case "EDIT_ARTICLE_ELEMENTS":
-			return EditArticleElementsView.getInstance();
+//			return EditArticleElementsView.getInstance();
 		case "EDIT_CONTENT_ELEMENT":
-			return EditContentElementView.getInstance();
+//			return EditContentElementView.getInstance();
 		case "HTML":
 			return HtmlView.getInstance();
 		case "CHOOSE_CONTENT_TYPE":

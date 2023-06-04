@@ -34,7 +34,7 @@ public class CreateFlashcardsAction extends AbstractAction
 	}
 
 	@Override
-	public void execute(HttpServletRequest request) throws Exception
+	public void execute(HttpServletRequest request)
 	{
 //        FrageAntwortDaoImpl frageAntwortDaoImpl = new FrageAntwortDaoImpl();
 //        /*
@@ -174,9 +174,9 @@ public class CreateFlashcardsAction extends AbstractAction
 //            frageAntwortDaoImpl.save(frageAntwort); // todo: Vor Speichern noch prüfen, was gelöscht werden muss.
 //        }
 
-		this.setForwardingPage("/lernkarten-erstellen"); // todo: this.getPage
+//		this.setForwardingPage("/lernkarten-erstellen"); // todo: this.getPage
 
-		this.doPageLoad();
+//		this.doPageLoad();
 	}
 
 //    private boolean containsCard(Enumeration cards)
@@ -200,34 +200,26 @@ public class CreateFlashcardsAction extends AbstractAction
 	{
 		this.cardCount++;
 		return div(
-				h3("Karte " + this.cardCount).withClass("card-header")
-						.withId("ch" + cardCount),
-				div(
-						div(
-								h4("Aufgabe").withClass("card-header"),
-								div(
-										textarea(card.getFrage())
-												.withClass("form-control")
-												.attr("rows", "2")
-												.withId("q" + cardCount).attr(
-														"name",
-														"q" + card.getID()
-												)
-								).withClass("card-body")
-						).withClass(".g-col-4"),
-						div(
-								h4("Lösung").withClass("card-header"),
-								div(
-										textarea(card.getFrage())
-												.withClass("form-control")
-												.attr("rows", "2")
-												.withId("a" + cardCount).attr(
-														"name",
-														"a" + card.getID()
-												)
-								).withClass("card-body")
-						).withClass(".g-col-4")
-				).withClass("grid").attr("class", "grid")
+		    h3("Karte " + this.cardCount).withClass("card-header")
+		        .withId("ch" + cardCount),
+		    div(
+		        div(
+		            h4("Aufgabe").withClass("card-header"),
+		            div(
+		                textarea(card.getFrage()).withClass("form-control")
+		                    .attr("rows", "2").withId("q" + cardCount)
+		                    .attr("name", "q" + card.getID())
+		            ).withClass("card-body")
+		        ).withClass(".g-col-4"),
+		        div(
+		            h4("Lösung").withClass("card-header"),
+		            div(
+		                textarea(card.getFrage()).withClass("form-control")
+		                    .attr("rows", "2").withId("a" + cardCount)
+		                    .attr("name", "a" + card.getID())
+		            ).withClass("card-body")
+		        ).withClass(".g-col-4")
+		    ).withClass("grid").attr("class", "grid")
 		).withClass("card my-5 bg-light").withId("card" + cardCount);
 	}
 }

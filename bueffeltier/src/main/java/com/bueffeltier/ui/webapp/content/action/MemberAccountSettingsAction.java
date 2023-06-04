@@ -26,7 +26,7 @@ public class MemberAccountSettingsAction extends AbstractAction
 	}
 
 	@Override
-	public void execute(HttpServletRequest request) throws Exception
+	public void execute(HttpServletRequest request)
 	{
 		throw new UnsupportedOperationException("Not supported yet.");
 	}

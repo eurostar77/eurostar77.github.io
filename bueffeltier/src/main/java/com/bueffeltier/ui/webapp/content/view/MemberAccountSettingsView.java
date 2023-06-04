@@ -45,18 +45,24 @@ public class MemberAccountSettingsView extends AbstractView
 		    element.getType(), //
 		    h1("Personal Data"), //
 		    LabelBuilder.create().build("Vorname", "vorname"),
-		    FormControlBuilder.create().build("vorname"),
+		    FormControlBuilder.create()//
+		        .withId("vorname")//
+		        .build(),
 
 		    LabelBuilder.create().build("Nachname", "nachname"),
-		    FormControlBuilder.create().build("nachname"),
+		    FormControlBuilder.create()//
+		        .withId("nachname")//
+		        .build(),
 
 		    LabelBuilder.create().build("E-Mail", "email"),
-		    FormControlBuilder.create().withType(FormInputTypeDV.EMAIL)
-		        .build("email"),
+		    FormControlBuilder.create().withType(FormInputTypeDV.EMAIL)//
+		        .withId("email")//
+		        .build(),
 
 		    LabelBuilder.create().build("Passwort", "password"),
-		    FormControlBuilder.create().withType(FormInputTypeDV.PASSWORD)
-		        .build("password"), //
+		    FormControlBuilder.create().withType(FormInputTypeDV.PASSWORD)//
+		        .withId("password")//
+		        .build(), //
 		    p("Konto löschen.")
 		);
 

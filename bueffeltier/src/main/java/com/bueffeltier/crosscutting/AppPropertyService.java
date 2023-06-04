@@ -27,7 +27,7 @@ public class AppPropertyService
 
 	private static Properties properties;
 
-	private String filePath = "C:\\eclipse-workspace\\bueffeltier\\application.properties";
+	private String filePath = "C:\\git-repository\\bueffeltier\\application.properties";
 
 	private AppPropertyService()
 	{

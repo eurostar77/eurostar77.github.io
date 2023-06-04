@@ -5,13 +5,8 @@ import java.util.Map;
 
 import com.bueffeltier.ui.webapp.content.action.Action;
 import com.bueffeltier.ui.webapp.content.action.ArticleFeederAction;
-import com.bueffeltier.ui.webapp.content.action.ChooseContentTypeAction;
 import com.bueffeltier.ui.webapp.content.action.ContactAction;
 import com.bueffeltier.ui.webapp.content.action.CreateFlashcardsAction;
-import com.bueffeltier.ui.webapp.content.action.EditArticleElementsAction;
-import com.bueffeltier.ui.webapp.content.action.EditArticleSettingsAction;
-import com.bueffeltier.ui.webapp.content.action.EditContentElementAction;
-import com.bueffeltier.ui.webapp.content.action.EditPageAction;
 import com.bueffeltier.ui.webapp.content.action.FlipCardAction;
 import com.bueffeltier.ui.webapp.content.action.FlipCardStartPageAction;
 import com.bueffeltier.ui.webapp.content.action.FooterAction;
@@ -22,11 +17,8 @@ import com.bueffeltier.ui.webapp.content.action.LoginAction;
 import com.bueffeltier.ui.webapp.content.action.LoginMenuAction;
 import com.bueffeltier.ui.webapp.content.action.MemberAccountSettingsAction;
 import com.bueffeltier.ui.webapp.content.action.MemberLearningSettingsActionHandler;
-import com.bueffeltier.ui.webapp.content.action.MemberMessagesAction;
-import com.bueffeltier.ui.webapp.content.action.MemberNotesAction;
 import com.bueffeltier.ui.webapp.content.action.MemberPersonalDataAction;
 import com.bueffeltier.ui.webapp.content.action.MottoAction;
-import com.bueffeltier.ui.webapp.content.action.NavigationAction;
 import com.bueffeltier.ui.webapp.content.action.RegisterAction;
 import com.bueffeltier.ui.webapp.content.action.RegisterConfirmAction;
 import com.bueffeltier.ui.webapp.content.action.RegisterSubmittedAction;
@@ -82,15 +74,15 @@ public class ActionRegistry
 		actions.put("TEXT", TextAction.class);
 		actions.put("SITE_STRUCTURE", SiteStructureAction.class);
 		actions.put("LOGIN", LoginAction.class);
-		actions.put("EDIT_PAGE", EditPageAction.class);
-		actions.put("EDIT_ARTICLE", EditArticleSettingsAction.class);
+//		actions.put("EDIT_PAGE", EditPageAction.class);
+//		actions.put("EDIT_ARTICLE", EditArticleSettingsAction.class);
 		actions.put("REGISTER", RegisterAction.class);
 		actions.put("FOOTER", FooterAction.class);
-		actions.put("NAVIGATION", NavigationAction.class);
-		actions.put("EDIT_ARTICLE_ELEMENTS", EditArticleElementsAction.class);
-		actions.put("EDIT_CONTENT_ELEMENT", EditContentElementAction.class);
+//		actions.put("NAVIGATION", NavigationAction.class);
+//		actions.put("EDIT_ARTICLE_ELEMENTS", EditArticleElementsAction.class);
+//		actions.put("EDIT_CONTENT_ELEMENT", EditContentElementAction.class);
 		actions.put("HTML", HtmlAction.class);
-		actions.put("CHOOSE_CONTENT_TYPE", ChooseContentTypeAction.class);
+//		actions.put("CHOOSE_CONTENT_TYPE", ChooseContentTypeAction.class);
 		actions.put("ARTICLE_FEEDER", ArticleFeederAction.class);
 		actions.put("LOGIN_MENU", LoginMenuAction.class);
 //		actions.put("SETTINGS", SettingsAction.class);
@@ -100,8 +92,8 @@ public class ActionRegistry
 		actions.put(
 		    "LEARNING_SETTINGS", MemberLearningSettingsActionHandler.class
 		);
-		actions.put("NOTES", MemberNotesAction.class);
-		actions.put("MESSAGES", MemberMessagesAction.class);
+//		actions.put("NOTES", MemberNotesAction.class);
+//		actions.put("MESSAGES", MemberMessagesAction.class);
 		actions.put("PERSONAL_DATA", MemberPersonalDataAction.class);
 		actions.put("ACCOUNT_SETTINGS", MemberAccountSettingsAction.class);
 		actions.put("APP_SETTINGS", SettingsAction.class);

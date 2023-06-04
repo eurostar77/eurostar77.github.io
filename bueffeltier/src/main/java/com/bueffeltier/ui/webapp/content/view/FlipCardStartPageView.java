@@ -4,7 +4,9 @@ import static j2html.TagCreator.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.bueffeltier.data.hibernate.HibernateUtil;
 import com.bueffeltier.data.jdbc.ElementJDBCFlat;
+import com.bueffeltier.logic.domain.Lesson;
 import com.bueffeltier.ui.html.molecule.SpacingPropertyDV;
 import com.bueffeltier.ui.html.molecule.SpacingSidesDV;
 import com.bueffeltier.ui.html.molecule.SpacingSizeDV;
@@ -12,6 +14,7 @@ import com.bueffeltier.ui.html.organism.ButtonBuilder;
 import com.bueffeltier.ui.html.organism.ButtonBuilder.ColorDV;
 
 import j2html.tags.DomContent;
+import jakarta.persistence.EntityManager;
 
 /**
  *
@@ -41,33 +44,111 @@ public class FlipCardStartPageView extends AbstractView
 	    writeHtml(ElementJDBCFlat element, HttpServletRequest request)
 	        throws Exception
 	{
-//		Session session = HibernateUtil.getSessionFactory().openSession();
+//		Session session = OldHibernateUtil.getSessionFactory().openSession();
 //		session.beginTransaction();
-
-//		// Add new Employee object
-//		Lesson lesson1 = new Lesson();
-//		lesson1.setName("Lesson 1");
 //
-//		Lesson lesson2 = new Lesson();
-//		lesson2.setName("Lesson 2");
+//		Lesson lesson = new Lesson();
+//		lesson.setName("Lesson 7");
 //
-//		Lesson lesson3 = new Lesson();
-//		lesson3.setName("Lesson 3");
+//		session.persist(lesson);
 //
-//		Lesson lesson4 = new Lesson();
-//		lesson4.setName("Lesson 4");
-//
-//		Lesson lesson5 = new Lesson();
-//		lesson5.setName("Lesson 5");
-
-//		session.persist(lesson1);
-//		session.persist(lesson2);
-//		session.persist(lesson3);
-//		session.persist(lesson4);
-//		session.persist(lesson5);
-
 //		session.getTransaction().commit();
-//		HibernateUtil.shutdown();
+//		OldHibernateUtil.shutdown();
+
+		/*
+		 *******************************************************************************
+		 */
+
+		HibernateUtil.getInstance();
+		EntityManager em = HibernateUtil.getEntityManager();
+		em.getTransaction().begin();
+		Lesson lesson = new Lesson();
+		lesson.setName("Lesson 8");
+		em.persist(lesson);
+		em.flush();
+		em.getTransaction().commit();
+		em.close();
+
+//		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+
+		// Erstellen Sie ein CriteriaQuery-Objekt mit dem gewünschten
+		// Ergebnistyp
+//		CriteriaQuery<Lesson> criteriaQuery = criteriaBuilder
+//		    .createQuery(Lesson.class);
+
+		// Definieren Sie die Root-Tabelle für die Abfrage
+//		Root<Lesson> root = criteriaQuery.from(Lesson.class);
+
+		// Fügen Sie die gewünschten Abfragekriterien hinzu
+//		criteriaQuery.select(root)
+//		    .where(criteriaBuilder.equal(root.get("name"), "lesson4"));
+
+		// Führen Sie die Abfrage über den EntityManager aus
+//		List<Lesson> resultList = em.createQuery(criteriaQuery).getResultList();
+
+		// Beenden Sie die Transaktion
+//		em.getTransaction().commit();
+
+		// Schließen Sie den EntityManager
+//		em.close();
+
+		/*
+		 *******************************************************************************
+		 */
+
+//		Session session = OldHibernateUtil.getSessionFactory().openSession();
+//		EntityManager entityManager = session.getEntityManagerFactory()
+//		    .createEntityManager();
+//
+//		Lesson lesson = new Lesson();
+//		lesson.setName("test");
+//		EntityManagerFactory entityManagerFactory = Persistence
+//		    .createEntityManagerFactory("persistence");
+//		EntityManager entityManager = entityManagerFactory
+//		    .createEntityManager();
+//		entityManager.getTransaction().begin();
+//		entityManager.persist(lesson);
+//		entityManager.getTransaction().commit();
+//		entityManager.close();
+//		entityManagerFactory.close();
+
+//		entityManager.close();
+//		session.close();
+
+//		// Konfiguration erstellen
+//		org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
+//		// Füge die Konfigurationseinstellungen hinzu
+//		// ...
+//
+//		// Erstelle den StandardServiceRegistry
+//		StandardServiceRegistry standardServiceRegistry = new StandardServiceRegistryBuilder()
+//		    .applySettings(configuration.getProperties()).build();
+//
+//		// Erstelle das MetadataSources-Objekt
+//		MetadataSources metadataSources = new MetadataSources(
+//		    standardServiceRegistry
+//		);
+//
+//		// Füge die Klasse/Package hinzu, die deine Entities enthält
+//		metadataSources.addAnnotatedClass(Lesson.class);
+//		// ...
+//
+//		// Erstelle die SessionFactory
+//		SessionFactory sessionFactory = metadataSources.buildMetadata()
+//		    .buildSessionFactory();
+//
+//		// Erstelle die EntityManagerFactory
+//		EntityManagerFactory entityManagerFactory = Persistence
+//		    .createEntityManagerFactory("yourPersistenceUnitName");
+//
+//		// Verwende die EntityManagerFactory
+//		EntityManager em = entityManagerFactory.createEntityManager();
+//
+//		em.getTransaction().begin();
+//		em.persist(lesson);
+//		em.getTransaction().commit();
+//		em.close();
+//		entityManagerFactory.close();
 
 		return div(
 		    form(

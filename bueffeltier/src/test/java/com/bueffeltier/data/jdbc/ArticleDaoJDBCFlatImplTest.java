@@ -1,7 +1,6 @@
 package com.bueffeltier.data.jdbc;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.Connection;
 import java.time.LocalDateTime;
@@ -33,11 +32,9 @@ class ArticleDaoJDBCFlatImplTest
 	@BeforeAll
 	static void setUpClass() throws Exception
 	{
-		elementDao = ElementDaoJDBCFlatImpl
-				.getInstance(MaterialTablesDV.ELEMENT_TEST, null);
+		elementDao = ElementDaoJDBCFlatImpl.getInstance();
 
-		dao = ArticleDaoJDBCFlatImpl
-				.getInstance(MaterialTablesDV.ARTICLE_TEST, null, elementDao);
+		dao = ArticleDaoJDBCFlatImpl.getInstance();
 	}
 
 	@BeforeEach
@@ -73,15 +70,15 @@ class ArticleDaoJDBCFlatImplTest
 		// todo zeit richtig testen!
 		String originalDateString = "1977-07-16 00:00:00";
 		DateTimeFormatter originalDateFormatter = DateTimeFormatter
-				.ofPattern("yyyy-MM-dd HH:mm:ss");
+		    .ofPattern("yyyy-MM-dd HH:mm:ss");
 		originalDate = LocalDateTime
-				.parse(originalDateString, originalDateFormatter);
+		    .parse(originalDateString, originalDateFormatter);
 
 		String changedDateString = "2077-07-16 00:00:00";
 		DateTimeFormatter changedDateFormatter = DateTimeFormatter
-				.ofPattern("yyyy-MM-dd HH:mm:ss");
+		    .ofPattern("yyyy-MM-dd HH:mm:ss");
 		changedDate = LocalDateTime
-				.parse(originalDateString, originalDateFormatter);
+		    .parse(originalDateString, originalDateFormatter);
 
 		article1 = new ArticleJDBCFlat();
 
@@ -140,90 +137,91 @@ class ArticleDaoJDBCFlatImplTest
 	}
 
 	@Test
-		void testReadMainArticlesByPath() throws Exception
-		{
-			ArticleJDBCFlat articleResult = dao.read("title1");
-	
-			assertEquals(1, articleResult.getParentId()); // 1
-			assertEquals(1, articleResult.getSorting()); // 2
-			assertEquals("title1", articleResult.getTitle()); // 3
-			assertEquals("author1", articleResult.getAuthor()); // 4
-			assertEquals("teaserText1", articleResult.getTeaserText()); // 5
-			assertEquals("teaserImagePath1", articleResult.getTeaserImagePath()); // 6
-			assertEquals(true, articleResult.showTeaser()); // 7
-			assertEquals(originalDate, articleResult.getLastEditDate());
-			assertEquals(true, articleResult.isPublished()); // 9
-			assertEquals("keywords1", articleResult.getKeywords()); // 10
-			assertEquals("teaserCssClass1", articleResult.getTeaserCssClass()); // 11
-			assertEquals("teaserCssId1", articleResult.getTeaserCssId()); // 12
-			assertEquals("cssClass1", articleResult.getCssClass()); // 13
-			assertEquals("cssId1", articleResult.getCssId()); // 14
-			assertEquals("containerTag1", articleResult.getContainerTag());
-		}
+	void testReadMainArticlesByPath() throws Exception
+	{
+		ArticleJDBCFlat articleResult = dao.read("title1");
+
+		assertEquals(1, articleResult.getParentId()); // 1
+		assertEquals(1, articleResult.getSorting()); // 2
+		assertEquals("title1", articleResult.getTitle()); // 3
+		assertEquals("author1", articleResult.getAuthor()); // 4
+		assertEquals("teaserText1", articleResult.getTeaserText()); // 5
+		assertEquals("teaserImagePath1", articleResult.getTeaserImagePath()); // 6
+		assertEquals(true, articleResult.showTeaser()); // 7
+		assertEquals(originalDate, articleResult.getLastEditDate());
+		assertEquals(true, articleResult.isPublished()); // 9
+		assertEquals("keywords1", articleResult.getKeywords()); // 10
+		assertEquals("teaserCssClass1", articleResult.getTeaserCssClass()); // 11
+		assertEquals("teaserCssId1", articleResult.getTeaserCssId()); // 12
+		assertEquals("cssClass1", articleResult.getCssClass()); // 13
+		assertEquals("cssId1", articleResult.getCssId()); // 14
+		assertEquals("containerTag1", articleResult.getContainerTag());
+	}
 
 	@Test
-		void testReadMainArticlesById() throws Exception
-		{
-			ArticleJDBCFlat articleResult = dao.read(1L);
-	
-			assertEquals(1, articleResult.getParentId()); // 1
-			assertEquals(1, articleResult.getSorting()); // 2
-			assertEquals("title1", articleResult.getTitle()); // 3
-			assertEquals("author1", articleResult.getAuthor()); // 4
-			assertEquals("teaserText1", articleResult.getTeaserText()); // 5
-			assertEquals("teaserImagePath1", articleResult.getTeaserImagePath()); // 6
-			assertEquals(true, articleResult.showTeaser()); // 7
-			assertEquals(originalDate, articleResult.getLastEditDate());
-			assertEquals(true, articleResult.isPublished()); // 9
-			assertEquals("keywords1", articleResult.getKeywords()); // 10
-			assertEquals("teaserCssClass1", articleResult.getTeaserCssClass()); // 11
-			assertEquals("teaserCssId1", articleResult.getTeaserCssId()); // 12
-			assertEquals("cssClass1", articleResult.getCssClass()); // 13
-			assertEquals("cssId1", articleResult.getCssId()); // 14
-			assertEquals("containerTag1", articleResult.getContainerTag());
-	
-			// TODO sveng 07.11.2022: testRolback
-		}
+	void testReadMainArticlesById() throws Exception
+	{
+		ArticleJDBCFlat articleResult = dao.read(1L);
+
+		assertEquals(1, articleResult.getParentId()); // 1
+		assertEquals(1, articleResult.getSorting()); // 2
+		assertEquals("title1", articleResult.getTitle()); // 3
+		assertEquals("author1", articleResult.getAuthor()); // 4
+		assertEquals("teaserText1", articleResult.getTeaserText()); // 5
+		assertEquals("teaserImagePath1", articleResult.getTeaserImagePath()); // 6
+		assertEquals(true, articleResult.showTeaser()); // 7
+		assertEquals(originalDate, articleResult.getLastEditDate());
+		assertEquals(true, articleResult.isPublished()); // 9
+		assertEquals("keywords1", articleResult.getKeywords()); // 10
+		assertEquals("teaserCssClass1", articleResult.getTeaserCssClass()); // 11
+		assertEquals("teaserCssId1", articleResult.getTeaserCssId()); // 12
+		assertEquals("cssClass1", articleResult.getCssClass()); // 13
+		assertEquals("cssId1", articleResult.getCssId()); // 14
+		assertEquals("containerTag1", articleResult.getContainerTag());
+
+		// TODO sveng 07.11.2022: testRolback
+	}
 
 	@Test
-		void testReadMainArticlesByPage() throws Exception
-		{
-			// TODO sveng 06.11.2022: rückgabe null testen. -auch in pageDao test
-			PageJDBCFlat pageWithReturn = new PageJDBCFlat();
-			pageWithReturn.setId(2L);
-	
-			ArticleJDBCFlat article4 = new ArticleJDBCFlat();
-			article4.setParentId(pageWithReturn.getId());
-			article4.setSorting(2);
-			article4.setTitle("Article4");
-	
-			ArticleJDBCFlat article5 = new ArticleJDBCFlat();
-			article5.setParentId(pageWithReturn.getId());
-			article5.setSorting(3);
-			article5.setTitle("Article5");
-	
-			ArticleJDBCFlat article6 = new ArticleJDBCFlat();
-			article6.setParentId(pageWithReturn.getId());
-			article6.setSorting(1);
-			article6.setTitle("Article6");
-	
-			dao.write(article4);
-			dao.write(article5);
-			dao.write(article6);
-	
-			List<ArticleJDBCFlat> articleResult1 = dao.readMainArticles(pageWithReturn, conn);
-			assertEquals(3, articleResult1.size());
-			assertEquals("Article6", articleResult1.get(0).getTitle());
-			assertEquals("Article4", articleResult1.get(1).getTitle());
-			assertEquals("Article5", articleResult1.get(2).getTitle());
-	
-			PageJDBCFlat pageWithoutReturn = new PageJDBCFlat();
-			pageWithReturn.setId(3L);
-	
-			List<ArticleJDBCFlat> articleResult2 = dao
-					.readMainArticles(pageWithoutReturn, conn);
-			assertEquals(0, articleResult2.size());
-		}
+	void testReadMainArticlesByPage() throws Exception
+	{
+		// TODO sveng 06.11.2022: rückgabe null testen. -auch in pageDao test
+		PageJDBCFlat pageWithReturn = new PageJDBCFlat();
+		pageWithReturn.setId(2L);
+
+		ArticleJDBCFlat article4 = new ArticleJDBCFlat();
+		article4.setParentId(pageWithReturn.getId());
+		article4.setSorting(2);
+		article4.setTitle("Article4");
+
+		ArticleJDBCFlat article5 = new ArticleJDBCFlat();
+		article5.setParentId(pageWithReturn.getId());
+		article5.setSorting(3);
+		article5.setTitle("Article5");
+
+		ArticleJDBCFlat article6 = new ArticleJDBCFlat();
+		article6.setParentId(pageWithReturn.getId());
+		article6.setSorting(1);
+		article6.setTitle("Article6");
+
+		dao.write(article4);
+		dao.write(article5);
+		dao.write(article6);
+
+		List<ArticleJDBCFlat> articleResult1 = dao
+		    .readMainArticles(pageWithReturn, conn);
+		assertEquals(3, articleResult1.size());
+		assertEquals("Article6", articleResult1.get(0).getTitle());
+		assertEquals("Article4", articleResult1.get(1).getTitle());
+		assertEquals("Article5", articleResult1.get(2).getTitle());
+
+		PageJDBCFlat pageWithoutReturn = new PageJDBCFlat();
+		pageWithReturn.setId(3L);
+
+		List<ArticleJDBCFlat> articleResult2 = dao
+		    .readMainArticles(pageWithoutReturn, conn);
+		assertEquals(0, articleResult2.size());
+	}
 
 	@Test
 	void testUpdate() throws Exception
@@ -293,33 +291,33 @@ class ArticleDaoJDBCFlatImplTest
 	}
 
 	@Test
-		void testReadMainArticlesAll() throws Exception
-		{
-			List<ArticleJDBCFlat> result = dao.readAll();
-			assertEquals(3, result.size());
-	
-			assertEquals(1L, result.get(0).getParentId()); // 1
-			assertEquals(1, result.get(0).getSorting()); // 2
-			assertEquals("title1", result.get(0).getTitle()); // 3
-			assertEquals("author1", result.get(0).getAuthor()); // 4
-			assertEquals("teaserText1", result.get(0).getTeaserText()); // 5
-			assertEquals("teaserImagePath1", result.get(0).getTeaserImagePath()); // 6
-			assertEquals(true, result.get(0).showTeaser()); // 7
-			assertEquals(originalDate, result.get(0).getLastEditDate()); // 8
-			assertEquals(true, result.get(0).isPublished()); // 9
-			assertEquals("keywords1", result.get(0).getKeywords()); // 10
-			assertEquals("teaserCssClass1", result.get(0).getTeaserCssClass()); // 11
-			assertEquals("teaserCssId1", result.get(0).getTeaserCssId()); // 12
-			assertEquals("cssClass1", result.get(0).getCssClass()); // 13
-			assertEquals("cssId1", result.get(0).getCssId()); // 14
-			assertEquals("containerTag1", result.get(0).getContainerTag());
-	
-			assertEquals("title2", dao.readAll().get(1).getTitle());
-	
-			assertEquals("title3", dao.readAll().get(2).getTitle());
-	
-			// TODO sveng 07.11.2022: test rollback
-		}
+	void testReadMainArticlesAll() throws Exception
+	{
+		List<ArticleJDBCFlat> result = dao.readAll();
+		assertEquals(3, result.size());
+
+		assertEquals(1L, result.get(0).getParentId()); // 1
+		assertEquals(1, result.get(0).getSorting()); // 2
+		assertEquals("title1", result.get(0).getTitle()); // 3
+		assertEquals("author1", result.get(0).getAuthor()); // 4
+		assertEquals("teaserText1", result.get(0).getTeaserText()); // 5
+		assertEquals("teaserImagePath1", result.get(0).getTeaserImagePath()); // 6
+		assertEquals(true, result.get(0).showTeaser()); // 7
+		assertEquals(originalDate, result.get(0).getLastEditDate()); // 8
+		assertEquals(true, result.get(0).isPublished()); // 9
+		assertEquals("keywords1", result.get(0).getKeywords()); // 10
+		assertEquals("teaserCssClass1", result.get(0).getTeaserCssClass()); // 11
+		assertEquals("teaserCssId1", result.get(0).getTeaserCssId()); // 12
+		assertEquals("cssClass1", result.get(0).getCssClass()); // 13
+		assertEquals("cssId1", result.get(0).getCssId()); // 14
+		assertEquals("containerTag1", result.get(0).getContainerTag());
+
+		assertEquals("title2", dao.readAll().get(1).getTitle());
+
+		assertEquals("title3", dao.readAll().get(2).getTitle());
+
+		// TODO sveng 07.11.2022: test rollback
+	}
 
 	@Test
 	void testMapArticlesToPage() throws Exception

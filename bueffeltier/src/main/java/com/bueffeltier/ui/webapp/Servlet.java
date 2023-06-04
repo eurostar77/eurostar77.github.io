@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bueffeltier.data.DBUpdateService;
+import com.bueffeltier.data.hibernate.HibernateUtil;
 import com.bueffeltier.data.jdbc.DBUtils;
 import com.bueffeltier.data.jdbc.MaterialTablesDV;
 import com.bueffeltier.mapping.CompositionRoot;
@@ -97,11 +98,15 @@ public class Servlet extends HttpServlet
 		}
 	}
 
-//	@Override
-//	  public void destroy() {
-//	    super.destroy();
-//	    timer.cancel();
-//	  }
+	@Override
+	public void destroy()
+	{
+		super.destroy();
+
+		// timer.cancel();
+
+		HibernateUtil.closeEntityManagerFactory();
+	}
 
 //    @Override
 //    public void service(HttpServletRequest request, HttpServletResponse response) throws IOException{

@@ -1,4 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project 
+	xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
   	<modelVersion>4.0.0</modelVersion>
   	<groupId>com.bueffeltier</groupId>
   	<artifactId>bueffeltier</artifactId>
@@ -61,6 +65,15 @@
 		    <version>10.0.0</version>
 		    <scope>provided</scope>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/jakarta.platform/jakarta.jakartaee-api -->
+		<dependency>
+		    <groupId>jakarta.platform</groupId>
+		    <artifactId>jakarta.jakartaee-api</artifactId>
+		    <version>10.0.0</version>
+		    <scope>provided</scope>
+		</dependency>
+
 		
 		<!-- https://mvnrepository.com/artifact/javax/javaee-api -->
 		<!-- 
@@ -125,10 +138,10 @@
             <version>3.3.2</version>
         </dependency>
         
-        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
 		<dependency>
-		    <groupId>mysql</groupId>
-		    <artifactId>mysql-connector-java</artifactId>
+		    <groupId>com.mysql</groupId>
+		    <artifactId>mysql-connector-j</artifactId>
 		    <version>8.0.33</version>
 		</dependency>
 
@@ -158,21 +171,23 @@
 		    <version>3.1.0</version>
 		</dependency>
 		 
-		 <!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
-		<!-- 
+		<!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core -->
 		<dependency>
-		    <groupId>javax.persistence</groupId>
-		    <artifactId>javax.persistence-api</artifactId>
-		    <version>2.2</version>
+		    <groupId>org.hibernate.orm</groupId>
+		    <artifactId>hibernate-core</artifactId>
+		    <version>6.2.3.Final</version>
 		</dependency>
-		 -->
 
-		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+		
+		<!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-hikaricp -->
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>6.2.3.Final</version>
+		    <groupId>org.hibernate.orm</groupId>
+		    <artifactId>hibernate-hikaricp</artifactId>
+		    <version>6.2.3.Final</version>
 		</dependency>
+
+
+
 
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
 <!--		<dependency>-->
@@ -182,26 +197,48 @@
 <!--		</dependency>-->
 		 
 		
-
-		<!-- JAXB API -->
-	    <dependency>
-	        <groupId>javax.xml.bind</groupId>
-	        <artifactId>jaxb-api</artifactId>
-	        <version>2.3.1</version>
-	    </dependency>
-	
-	    <!-- JAXB RI -->
-	    <dependency>
-	        <groupId>com.sun.xml.bind</groupId>
-	        <artifactId>jaxb-impl</artifactId>
-	        <version>2.3.4</version>
-	    </dependency>
-		 
+		
+		<!-- https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime -->
 		<dependency>
 		    <groupId>org.glassfish.jaxb</groupId>
 		    <artifactId>jaxb-runtime</artifactId>
-		    <version>3.0.0</version>
+		    <version>4.0.2</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api -->
+		<dependency>
+		    <groupId>jakarta.xml.bind</groupId>
+		    <artifactId>jakarta.xml.bind-api</artifactId>
+		    <version>4.0.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/jakarta.activation/jakarta.activation-api -->
+		<dependency>
+		    <groupId>jakarta.activation</groupId>
+		    <artifactId>jakarta.activation-api</artifactId>
+		    <version>2.1.2</version>
+		</dependency>
+
+
+		<!-- JAXB API -->
+<!--	    <dependency>-->
+<!--	        <groupId>javax.xml.bind</groupId>-->
+<!--	        <artifactId>jaxb-api</artifactId>-->
+<!--	        <version>2.3.1</version>-->
+<!--	    </dependency>-->
+	
+	    <!-- JAXB RI -->
+<!--	    <dependency>-->
+<!--	        <groupId>com.sun.xml.bind</groupId>-->
+<!--	        <artifactId>jaxb-impl</artifactId>-->
+<!--	        <version>2.3.4</version>-->
+<!--	    </dependency>-->
+		 
+<!--		<dependency>-->
+<!--		    <groupId>org.glassfish.jaxb</groupId>-->
+<!--		    <artifactId>jaxb-runtime</artifactId>-->
+<!--		    <version>3.0.0</version>-->
+<!--		</dependency>-->
         
         <dependency>
 			<groupId>com.j2html</groupId>
@@ -369,6 +406,8 @@
 	
 		<!--Modify the final WAR file name to avoid including version numbers: -->
 		<finalName>bueffeltier</finalName>
+		
+		<sourceDirectory>src/main/java</sourceDirectory>
 	
 		<plugins>
 		
@@ -412,6 +451,11 @@
 		  			<failOnMissingWebXml>false</failOnMissingWebXml>
 		  			<warName>bueffeltier</warName>
 		  			<outputDirectory>C:\xampp\tomcat\webapps\</outputDirectory>
+		  			<archive>
+                    <manifest>
+                        <addClasspath>true</addClasspath>
+                    </manifest>
+                </archive>
 	  			</configuration>
 			</plugin>
 

@@ -48,7 +48,12 @@ public class RegisterView extends AbstractView
 		            td(
 		                LabelBuilder.create()
 		                    .build("Benutzername:", "user-name-input")
-		            ), td(FormControlBuilder.create().build("user-name-input"))
+		            ),
+		            td(
+		                FormControlBuilder.create()//
+		                    .withId("user-name-input")//
+		                    .build()
+		            )
 		        ),
 		        tr(
 		            td(
@@ -58,7 +63,7 @@ public class RegisterView extends AbstractView
 		            td(
 		                FormControlBuilder.create()
 		                    .withType(FormInputTypeDV.PASSWORD)
-		                    .build("password-input")
+		                    .withId("password-input").build()
 		            )
 		        ),
 		        tr(
@@ -66,7 +71,7 @@ public class RegisterView extends AbstractView
 		            td(
 		                FormControlBuilder.create()
 		                    .withType(FormInputTypeDV.EMAIL)
-		                    .build("email-input")
+		                    .withId("email-input").build()
 		            )
 		        ), tr(td(
 

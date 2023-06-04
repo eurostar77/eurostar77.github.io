@@ -1,7 +1,6 @@
 package com.bueffeltier.data.jdbc;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.Connection;
 import java.time.LocalDateTime;
@@ -31,8 +30,7 @@ public class ElementDaoJDBCFlatImplTest
 	@BeforeAll
 	static void setUpClass() throws Exception
 	{
-		dao = ElementDaoJDBCFlatImpl
-				.getInstance(MaterialTablesDV.ELEMENT_TEST, null);
+		dao = ElementDaoJDBCFlatImpl.getInstance();
 	}
 
 	@BeforeEach
@@ -64,15 +62,15 @@ public class ElementDaoJDBCFlatImplTest
 		// todo zeit richtig testen!
 		String originalDateString = "1977-07-16 00:00:00";
 		DateTimeFormatter originalDateFormatter = DateTimeFormatter
-				.ofPattern("yyyy-MM-dd HH:mm:ss");
+		    .ofPattern("yyyy-MM-dd HH:mm:ss");
 		originalDate = LocalDateTime
-				.parse(originalDateString, originalDateFormatter);
+		    .parse(originalDateString, originalDateFormatter);
 
 		String changedDateString = "2077-07-16 00:00:00";
 		DateTimeFormatter changedDateFormatter = DateTimeFormatter
-				.ofPattern("yyyy-MM-dd HH:mm:ss");
+		    .ofPattern("yyyy-MM-dd HH:mm:ss");
 		changedDate = LocalDateTime
-				.parse(originalDateString, originalDateFormatter);
+		    .parse(originalDateString, originalDateFormatter);
 
 		element1 = new ElementJDBCFlat();
 		element1.setParentId(1); // 1
@@ -193,7 +191,7 @@ public class ElementDaoJDBCFlatImplTest
 		dao.write(element6);
 
 		List<ElementJDBCFlat> elementResult1 = dao
-				.read(articleWithReturn, conn);
+		    .read(articleWithReturn, conn);
 		assertEquals(3, elementResult1.size());
 		assertEquals("html6", elementResult1.get(0).getHtml());
 		assertEquals("html4", elementResult1.get(1).getHtml());
@@ -203,7 +201,7 @@ public class ElementDaoJDBCFlatImplTest
 		articleWithReturn.setId(3);
 
 		List<ElementJDBCFlat> elementResult2 = dao
-				.read(articleWithoutReturn, conn);
+		    .read(articleWithoutReturn, conn);
 		assertEquals(0, elementResult2.size());
 	}
 

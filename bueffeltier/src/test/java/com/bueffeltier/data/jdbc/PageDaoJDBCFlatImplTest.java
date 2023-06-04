@@ -1,7 +1,6 @@
 package com.bueffeltier.data.jdbc;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.Connection;
 import java.util.List;
@@ -27,14 +26,11 @@ class PageDaoJDBCFlatImplTest
 	@BeforeAll
 	static void setUpClass() throws Exception
 	{
-		elementDao = ElementDaoJDBCFlatImpl
-				.getInstance(MaterialTablesDV.ELEMENT_TEST, null);
+		elementDao = ElementDaoJDBCFlatImpl.getInstance();
 
-		articleDao = ArticleDaoJDBCFlatImpl
-				.getInstance(MaterialTablesDV.ARTICLE_TEST, null, elementDao);
+		articleDao = ArticleDaoJDBCFlatImpl.getInstance();
 
-		dao = PageDaoJDBCFlatImpl
-				.getInstance(MaterialTablesDV.PAGE_TEST, null, articleDao);
+		dao = PageDaoJDBCFlatImpl.getInstance();
 	}
 
 	@BeforeEach
