@@ -3,14 +3,11 @@ package com.bueffeltier.ui.webapp.content.view;
 import static com.bueffeltier.ui.html.molecule.customTag.*;
 import static j2html.TagCreator.*;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import com.bueffeltier.data.jdbc.ElementJDBCFlat;
 import com.bueffeltier.data.jdbc.PageJDBCFlat;
 import com.bueffeltier.logic.foundation.pagetree.SiteRepository;
-import com.bueffeltier.ui.html.Layout;
 
 import j2html.tags.DomContent;
 
@@ -42,35 +39,21 @@ public class EditPageView extends AbstractView
 	public DomContent
 	    writeHtml(ElementJDBCFlat element, HttpServletRequest request)
 	{
-		List<String> layouts = Layout.getLayoutNames();
+		Long pageId = (Long) getActionDataValueOpt(request, "pageId");
 
-		PageJDBCFlat page = siteRepository.read(1l);
+		PageJDBCFlat page = null;
 
-		long id = page.getId();
-		String title = page.getHtmlTitle();
-		String path = page.getPath();
-		int layout = page.getLayout();
-		int permission = page.getPermission();
-		String forwardTo = page.getForwardTo();
-		String author = page.getAuthor();
-		String cacheTime = page.getCacheTime();
-		boolean createSitemap = page.createSitemap();
-		String cssClass = page.getCssClass();
-		String description = page.getDescription();
-		String pageType = page.getPageType();
-		boolean hideInNav = page.isHiddenInNav();
-		boolean includeInCache = page.includeCache();
-		boolean includeLayout = page.includeLayout();
-		boolean isProtected = page.isProtected();
-		String keywords = page.getKeywords();
-		String language = page.getLanguage();
-		String lastVersion = page.getLastVersion();
-		boolean isPublished = page.isPublished();
-		String sitemapName = page.getSitemapName();
-		boolean noFollow = page.noFollow();
-		boolean noIndex = page.noIndex();
-		String internalName = page.getInternalName();
-		String urlAlias = page.getUrlAlias();
+		if (pageId != null)
+		{
+			page = siteRepository.read(pageId);
+
+		} else
+		{
+			// TODO sveng 21.06.2023: default Werte für neue Seite sinnvoll
+			// setzen! Ggf. create Methode bauen.
+			page = new PageJDBCFlat();
+
+		}
 
 		return form(
 		    "test", previewSection(), msgSection(""), pageDataSection(page),

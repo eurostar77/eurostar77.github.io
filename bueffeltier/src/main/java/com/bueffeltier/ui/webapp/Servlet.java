@@ -81,6 +81,8 @@ public class Servlet extends HttpServlet
 
 		compositionRoot = new CompositionRootImpl();
 
+		HibernateUtil.getInstance();
+
 		requestService = compositionRoot.getRoot();
 
 		try

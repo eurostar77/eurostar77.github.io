@@ -50,6 +50,7 @@ public final class ButtonBuilder
 	private IconTypeDV icon;
 	private int iconFontSizeOpt;
 	private String style;
+	private String formAction;
 
 	private ButtonBuilder()
 	{
@@ -271,6 +272,13 @@ public final class ButtonBuilder
 		return this;
 	}
 
+	@Deprecated
+	public ButtonBuilder withFormAction(String formAction)
+	{
+		this.formAction = formAction;
+		return this;
+	}
+
 	public DomContent build()
 	{
 		if (tagType == null)
@@ -386,7 +394,8 @@ public final class ButtonBuilder
 		        "type", "button"
 		    ) //
 		    .condAttr(value != null, "value", value)
-		    .condAttr(jsFunction != null, "onclick", jsFunction);
+		    .condAttr(jsFunction != null, "onclick", jsFunction)
+		    .condAttr(formAction != null, "formaction", formAction);
 
 		return buttonTag;
 	}

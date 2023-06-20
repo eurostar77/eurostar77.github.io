@@ -1,59 +1,52 @@
-package com.bueffeltier.ui.webapp.content.action;
-
-import static j2html.TagCreator.*;
-
-import javax.servlet.http.HttpServletRequest;
-
-import com.bueffeltier.data.hibernate.entity.FrageAntwort;
-
-import j2html.tags.Tag;
-
-/**
- *
- * @author Sven Guderjahn <sven.guderjahn@bueffeltier.com>
- */
-public class CreateFlashcardsAction extends AbstractAction
-{
-
-	int cardCount = 0;
-
-	private static CreateFlashcardsAction instance;
-
-	private CreateFlashcardsAction()
-	{
-		super();
-	}
-
-	public static CreateFlashcardsAction getInstance()
-	{
-		if (instance == null)
-		{
-			instance = new CreateFlashcardsAction();
-		}
-		return instance;
-	}
-
-	@Override
-	public void execute(HttpServletRequest request)
-	{
-//        FrageAntwortDaoImpl frageAntwortDaoImpl = new FrageAntwortDaoImpl();
-//        /*
+//package com.bueffeltier.ui.webapp.content.action;
+//
+//import java.util.Enumeration;
+//
+//import javax.servlet.http.HttpServletRequest;
+//
+///**
+// *
+// * @author Sven Guderjahn <sven.guderjahn@bueffeltier.com>
+// */
+//public class CreateFlashcardsAction extends AbstractAction
+//{
+//
+//	int cardCount = 0;
+//
+//	private static CreateFlashcardsAction instance;
+//
+//	private CreateFlashcardsAction()
+//	{
+//		super();
+//	}
+//
+//	public static CreateFlashcardsAction getInstance()
+//	{
+//		if (instance == null)
+//		{
+//			instance = new CreateFlashcardsAction();
+//		}
+//		return instance;
+//	}
+//
+//	@Override
+//	public void execute(HttpServletRequest request)
+//	{
+//		/*
 //        Fragen tragen den Wert q.
 //        Antworten tragen den Wert a.
 //        Neue Fragen tragen den Wert qn.
 //        Neue Antworten tragen den Wert an.
-//         */
-//        Enumeration parameterNames = this.getRequestParameterNames();
-////        while (parameterNames.hasMoreElements())
-////        {
-////            JOptionPane.showMessageDialog(null, parameterNames.nextElement().toString());
-////        }
-//        while (parameterNames.hasMoreElements())
-//        {
-//            String actionParameterName = parameterNames.nextElement().toString();
+//		 */
+//		Enumeration<String> parameterNames = request.getParameterNames();
 //
-//            switch (actionParameterName)
-//            {
+//		while (parameterNames.hasMoreElements())
+//		{
+//			String actionParameterName = parameterNames.nextElement()
+//			    .toString();
+//
+//			switch (actionParameterName)
+//			{
 //                case "stackName":
 //                    getRequestParameter("stackName");
 //                    JOptionPane.showMessageDialog(null, getRequestParameter("stackName"));
@@ -173,13 +166,13 @@ public class CreateFlashcardsAction extends AbstractAction
 //
 //            frageAntwortDaoImpl.save(frageAntwort); // todo: Vor Speichern noch prüfen, was gelöscht werden muss.
 //        }
-
+//
 //		this.setForwardingPage("/lernkarten-erstellen"); // todo: this.getPage
-
+//
 //		this.doPageLoad();
-	}
-
-//    private boolean containsCard(Enumeration cards)
+//	}
+//
+//	private boolean containsCard(Enumeration cards)
 //    {
 //        boolean containsCard = false;
 //        while (cards.hasMoreElements())
@@ -190,36 +183,37 @@ public class CreateFlashcardsAction extends AbstractAction
 //            }
 //        }
 //    }
-	@Override
-	public void doAjaxAction(HttpServletRequest request)
-	{
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-
-	private Tag writeCard(FrageAntwort card)
-	{
-		this.cardCount++;
-		return div(
-		    h3("Karte " + this.cardCount).withClass("card-header")
-		        .withId("ch" + cardCount),
-		    div(
-		        div(
-		            h4("Aufgabe").withClass("card-header"),
-		            div(
-		                textarea(card.getFrage()).withClass("form-control")
-		                    .attr("rows", "2").withId("q" + cardCount)
-		                    .attr("name", "q" + card.getID())
-		            ).withClass("card-body")
-		        ).withClass(".g-col-4"),
-		        div(
-		            h4("Lösung").withClass("card-header"),
-		            div(
-		                textarea(card.getFrage()).withClass("form-control")
-		                    .attr("rows", "2").withId("a" + cardCount)
-		                    .attr("name", "a" + card.getID())
-		            ).withClass("card-body")
-		        ).withClass(".g-col-4")
-		    ).withClass("grid").attr("class", "grid")
-		).withClass("card my-5 bg-light").withId("card" + cardCount);
-	}
-}
+//
+//	@Override
+//	public void doAjaxAction(HttpServletRequest request)
+//	{
+//		throw new UnsupportedOperationException("Not supported yet.");
+//	}
+//
+////	private Tag writeCard(FrageAntwort card)
+////	{
+////		this.cardCount++;
+////		return div(
+////		    h3("Karte " + this.cardCount).withClass("card-header")
+////		        .withId("ch" + cardCount),
+////		    div(
+////		        div(
+////		            h4("Aufgabe").withClass("card-header"),
+////		            div(
+////		                textarea(card.getFrage()).withClass("form-control")
+////		                    .attr("rows", "2").withId("q" + cardCount)
+////		                    .attr("name", "q" + card.getID())
+////		            ).withClass("card-body")
+////		        ).withClass(".g-col-4"),
+////		        div(
+////		            h4("Lösung").withClass("card-header"),
+////		            div(
+////		                textarea(card.getFrage()).withClass("form-control")
+////		                    .attr("rows", "2").withId("a" + cardCount)
+////		                    .attr("name", "a" + card.getID())
+////		            ).withClass("card-body")
+////		        ).withClass(".g-col-4")
+////		    ).withClass("grid").attr("class", "grid")
+////		).withClass("card my-5 bg-light").withId("card" + cardCount);
+////	}
+//}

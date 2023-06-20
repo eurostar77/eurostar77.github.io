@@ -23,7 +23,7 @@ public class SiteStructureAction extends AbstractAction
 		super();
 	}
 
-	public static SiteStructureAction getInstance()
+	public static SiteStructureAction getInstance(HttpServletRequest request)
 	{
 		if (instance == null)
 		{
@@ -42,9 +42,20 @@ public class SiteStructureAction extends AbstractAction
 		while (parameterNames.hasMoreElements())
 		{
 			String actionParameterName = parameterNames.nextElement()
-					.toString();
+			    .toString();
 
 			switch (actionParameterName) {
+
+			case "editPage":
+
+				String pageEditIdString = request.getParameter("editPage");
+
+				Long pageEditId = Long.parseLong(pageEditIdString);
+
+				forwardViewData(request, "pageId", pageEditId);
+
+				forwardToPage(request, "/edit-page");
+				break;
 
 //			case "expand":
 //
@@ -473,59 +484,6 @@ public class SiteStructureAction extends AbstractAction
 //				this.setForwardingPage("/edit-page");
 //				break;
 
-			case "editPage":
-
-				long editPageId = Long
-						.parseLong(getRequestParameter(request, "editPage"));
-
-//				// rufe die view "page-editor" auf:
-//				request.setAttribute("requestPath", "/edit-page");
-				forwardToPage(request, "/edit-page");
-
-				// TODO sveng 11.02.2023: abstrakte methode schaffen:
-				// TODO eine andere logik muss woanders bestimmen, dass die
-				// seite mit einer bestimmten url angezeigt werden muss.
-				// TODO EInstellung für die Seite, dass es nicht mit für die
-				// Suchmaschinen wichtigen Seiten funktioniert.
-				request.setAttribute("preventRedirect", true);
-				request.setAttribute(
-						"internalScript",
-						"history.replaceState({}, \"\", \"http://localhost:8080/bueffeltier/edit-page\");"
-				);
-				//
-
-//				seiteneditor anhand der id aufrufen. das ist eine pre-actionParameterName.
-//				wie nennt man das?
-//						Rest?
-//				
-//				siteRepository
-
-//				Page editPage;
-//				try
-//				{
-//					editPage = pageTreeController.getPageUnchecked(
-//							// todo: page nur geprüft laden!
-//							editPageId
-//					);
-//
-//					ContentAttribute attrPage2 = new ContentAttributeBuilder(
-//							"page", editPage, this.contentId, this.threadId
-//					).addressedContentId(26).buildContentAttribute();
-//					this.setContentAttribute(attrPage2); // todo:
-//															// ContentElemente
-//															// auch mit deren
-//															// Class-Name
-//															// ansprechbar
-//															// machen!
-//
-//					this.setForwardingPage("/edit-page");
-//
-//				} catch (Exception ex)
-//				{
-//					LOGGER.debug("Page-Objekt konnte nicht geladen werden.");
-//				}
-				break;
-
 //			case "addArticle":
 //				// ?todo: Infotext muss in Attribute gespeichert werden!
 //				// ?todo: Status "einfügen" bleibt bestehen bis:
@@ -876,7 +834,7 @@ public class SiteStructureAction extends AbstractAction
 	{
 		StringBuilder style = new StringBuilder();
 		style.append("padding-left:").append(Integer.toString(pageLevel * 20))
-				.append("px");
+		    .append("px");
 		return style.toString();
 	}
 

@@ -2,27 +2,69 @@ package com.bueffeltier.data.jdbc;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 /**
  * @author Sven Guderjahn <sven.guderjahn@bueffeltier.com>
  */
+@Entity(name = "UserJDBC")
+@Table(name = "user")
 public class UserJDBC implements java.io.Serializable
 {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(name = "id")
 	private long id;
+
+	@Column(name = "name")
 	private String name;
+
+	@Column(name = "password")
 	private String passwordHash;
+
+	@Column(name = "permission")
 	private int permission;
+
+	@Column(name = "email ")
 	private String email;
+
+	@Column(name = "is_active")
 	private boolean isActive;
+
+	@Column(name = "activation_key ")
 	private String activationKey;
+
+	@Column(name = "session_token ")
 	private String sessionToken;
+
+	@Column(name = "activation_key_experiation_time")
 	private LocalDateTime activationKeyExpirationTime;
+
+	@Column(name = "is_anonymous")
 	private boolean isAnonymous;
+
+	@Column(name = "last_visit_date")
 	private LocalDateTime lastVisitDate;
+
+	@Column(name = "account_creation_date")
 	private LocalDateTime accountCreationDate;
+
+	@Column(name = "session_id")
 	private String sessionId;
+
+//	@Column(name = "learning_level")
+//	private LearningLevel learningLevel;
 
 	public UserJDBC()
 	{
+		// nix
 	}
 
 	public UserJDBC(String userName, String passwordHash)
@@ -108,7 +150,7 @@ public class UserJDBC implements java.io.Serializable
 	}
 
 	public void setActivationKeyExpirationTime(
-			LocalDateTime activationKeyExpirationDate
+	    LocalDateTime activationKeyExpirationDate
 	)
 	{
 		this.activationKeyExpirationTime = activationKeyExpirationDate;

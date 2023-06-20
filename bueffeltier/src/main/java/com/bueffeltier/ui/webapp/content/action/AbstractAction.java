@@ -3,30 +3,23 @@ package com.bueffeltier.ui.webapp.content.action;
 import javax.servlet.http.HttpServletRequest;
 
 import com.bueffeltier.data.jdbc.ElementJDBCFlat;
-import com.bueffeltier.ui.webapp.RequestService;
+import com.bueffeltier.ui.webapp.RedirectDataService;
 
 /**
  *
  * @author Sven Guderjahn <sven.guderjahn@bueffeltier.com>
  */
-abstract class AbstractAction implements Action
+public abstract class AbstractAction implements Action
 {
-
-	private static RequestService viewService = RequestService.getInstance();
-
-//	private String containerTag = "form";
-//	private String containerTagClassName = "";
-//	private static boolean useStandardForm = true;
+	RedirectDataService redirectDataService = RedirectDataService.getInstance();
 
 	public AbstractAction()
 	{
 
 	}
 
-	public String getRequestParameter(
-			HttpServletRequest request,
-			String parameterName
-	)
+	public String
+	    getRequestParameter(HttpServletRequest request, String parameterName)
 	{
 		return request.getParameter(parameterName);
 	}
@@ -47,35 +40,15 @@ abstract class AbstractAction implements Action
 		// TODO sveng 01.12.2022: besser eine seitenId angeben.
 	}
 
+	public void
+	    forwardViewData(HttpServletRequest request, String key, Object value)
+	{
+		redirectDataService.addData(request, key, value);
+	}
+
 	@Override
 	public abstract void execute(HttpServletRequest request);
 
 	@Override
 	public abstract void doAjaxAction(HttpServletRequest request);
-
-//	@Override
-//	public void doPageLoad(HttpServletRequest request)
-//	{
-//		FileWriterWithEncoding wird die seite geladen?
-//	}
-
-	/*
-	 * Überschreibt den ContentHandler standardmäßig umklammernden Form-Tag und
-	 * ersetzt ihn durch einen im HTML frei positionierbaren Form-Tag.
-	 */
-//	public static ContainerTag<?>
-//			form(int contentId, int threadId, DomContent... dc)
-//	{
-//		useStandardForm = false;
-//		return new ContainerTag<>("form").attr("method=\"post\"")
-//				.attr("autocomplete", "on")
-//				.with(
-//						input().withType("hidden").withName("content")
-//								.withValue(Integer.toString(contentId))
-//				)
-//				.with(
-//						input().withType("hidden").withName("thread")
-//								.withValue(Integer.toString(threadId))
-//				).with(dc);
-//	}
 }

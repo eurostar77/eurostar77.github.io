@@ -52,7 +52,7 @@ public class ViewBuilder
 		return document().render() + html(
 		    buildHead(page), //
 		    buildBody(page, request)
-		).withLang("en").renderFormatted();
+		).withLang("de").renderFormatted(); // TODO sveng 11.06.2023: settings
 
 //		 .renderFormatted();
 //		documentString = doctype + j2htmlString;

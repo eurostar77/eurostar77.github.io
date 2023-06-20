@@ -6,7 +6,6 @@ import java.util.Map;
 import com.bueffeltier.ui.webapp.content.action.Action;
 import com.bueffeltier.ui.webapp.content.action.ArticleFeederAction;
 import com.bueffeltier.ui.webapp.content.action.ContactAction;
-import com.bueffeltier.ui.webapp.content.action.CreateFlashcardsAction;
 import com.bueffeltier.ui.webapp.content.action.FlipCardAction;
 import com.bueffeltier.ui.webapp.content.action.FlipCardStartPageAction;
 import com.bueffeltier.ui.webapp.content.action.FooterAction;
@@ -104,6 +103,6 @@ public class ActionRegistry
 		actions.put("REGISTER_CONFIRM", RegisterConfirmAction.class);
 		actions.put("HTTP404", Http404Action.class);
 		actions.put("FLIPCARD_START_PAGE", FlipCardStartPageAction.class);
-		actions.put("CREATE_FLASHCARDS", CreateFlashcardsAction.class);
+//		actions.put("CREATE_FLASHCARDS", CreateFlashcardsAction.class);
 	}
 }

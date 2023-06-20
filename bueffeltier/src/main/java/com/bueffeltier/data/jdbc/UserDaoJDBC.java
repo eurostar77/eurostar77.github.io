@@ -186,10 +186,10 @@ public class UserDaoJDBC extends AbstractDAO<UserJDBC>
 
 			rs = ps.executeQuery();
 
-			user = new UserJDBC();
-
-			while (rs.next())
+			if (rs.next())
 			{
+				user = new UserJDBC();
+
 				writeResultSetDataToUser(user, rs);
 			}
 

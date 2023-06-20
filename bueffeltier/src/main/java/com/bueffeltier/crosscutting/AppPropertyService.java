@@ -354,6 +354,16 @@ public class AppPropertyService
 		return properties.getProperty("HMACSecret");
 	}
 
+	public void setAESSecret(String value)
+	{
+		properties.setProperty("AESSecret", value);
+	}
+
+	public String getAESSecret()
+	{
+		return properties.getProperty("AESSecret");
+	}
+
 	public void setAccountActivationMailSubject(String value)
 	{
 		properties.setProperty("accountActivationMailSubject", value);

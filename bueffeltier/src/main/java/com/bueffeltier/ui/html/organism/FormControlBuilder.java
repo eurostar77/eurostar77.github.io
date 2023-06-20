@@ -34,6 +34,8 @@ public class FormControlBuilder
 
 	private boolean openInternalFC;
 
+	private String text;
+
 	private FormControlBuilder()
 	{
 		//
@@ -54,6 +56,12 @@ public class FormControlBuilder
 	public FormControlBuilder withName(String name)
 	{
 		this.name = name;
+		return this;
+	}
+
+	public FormControlBuilder withText(String text)
+	{
+		this.text = text;
 		return this;
 	}
 
@@ -254,6 +262,7 @@ public class FormControlBuilder
 		TextareaTag textArea = null;
 
 		textArea = textarea()//
+		    .withText(text)//
 		    .withClass(buildClassString())//
 		    .condAttr(readonly, "readonly", null)//
 		    .condAttr(oninput != null, "oninput", oninput)//

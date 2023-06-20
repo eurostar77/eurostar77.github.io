@@ -12,7 +12,7 @@ public class HibernateUtil
 
 	private HibernateUtil()
 	{
-		// Privater Konstruktor, um die Instanziierung zu verhindern
+		createEntityManagerFactory();
 	}
 
 	public static HibernateUtil getInstance()
@@ -25,14 +25,17 @@ public class HibernateUtil
 		return instance;
 	}
 
-	public static EntityManager getEntityManager()
+	private static void createEntityManagerFactory()
 	{
 		if (entityManagerFactory == null)
 		{
 			entityManagerFactory = Persistence
 			    .createEntityManagerFactory("persistence");
 		}
+	}
 
+	public static EntityManager getEntityManager()
+	{
 		return entityManagerFactory.createEntityManager();
 	}
 

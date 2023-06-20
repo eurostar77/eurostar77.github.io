@@ -146,8 +146,9 @@ public class AuthPermissionService
 			if (dbId > -1)
 			{
 				user.setId(dbId);
-				request.setAttribute("user", user);
 			}
+
+			request.setAttribute("user", user);
 
 			return true;
 		}
@@ -391,13 +392,11 @@ public class AuthPermissionService
 	 */
 	// TODO sveng 25.01.2023: session ist abgelaufen oder besteht gar nicht.
 	// TODO sveng 25.01.2023: rückfallseite laden
-	// TODO sveng 27.01.2023: session token bei jedem request erneuern?
 	public void authenticate(HttpServletRequest request, String jwt)
 	{
 		UserJDBC authorizedUser = null;
 
-		// TODO sveng 24.05.2023: delete
-//		String jwt = (String) request.getAttribute("sessionToken");
+		// Is JWT valid?
 		Jws<Claims> jws = null;
 		if (jwt != null)
 		{
@@ -413,6 +412,18 @@ public class AuthPermissionService
 			request.setAttribute("permission", 0);
 		}
 
+		// Is JWT expired?
+		boolean isJwtExpired = true;
+		try
+		{
+			isJwtExpired = (boolean) request.getAttribute("isJwtExpired");
+
+		} catch (Exception e)
+		{
+			// nix
+		}
+
+		// Allow anonymous session?
 		boolean allowNewAnonymousSession = false;
 		boolean hasBrowserCookies = (boolean) request
 		    .getAttribute("hasBrowserCookiesEnabled");
@@ -429,23 +440,13 @@ public class AuthPermissionService
 			}
 		}
 
-		boolean isJwtExpired = true;
-		try
-		{
-			isJwtExpired = (boolean) request.getAttribute("isJwtExpired");
-
-		} catch (Exception e)
-		{
-			// nix
-		}
-
+		// Do authentication
 		if (isJwtValid && !isJwtExpired)
 		{
-			try
-			{
-				authorizedUser = userRepository
-				    .readBySessionToken(jwt.toString());
+			authorizedUser = userRepository.readBySessionToken(jwt.toString());
 
+			if (authorizedUser != null)
+			{
 				authorizedUser.setSessionToken(sessionId);
 
 				// update JWT
@@ -468,8 +469,7 @@ public class AuthPermissionService
 				request
 				    .setAttribute("permission", authorizedUser.getPermission());
 				request.setAttribute("user", authorizedUser);
-
-			} catch (Exception e)
+			} else
 			{
 				// setup user for anonymous-session:
 				if (allowNewAnonymousSession == true)
@@ -485,6 +485,7 @@ public class AuthPermissionService
 
 				// TODO sveng 29.01.2023: fehlerseite zurückgeben.
 			}
+
 		} else
 		{
 			// setup user for anonymous-session:

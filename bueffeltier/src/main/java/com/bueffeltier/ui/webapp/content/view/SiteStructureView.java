@@ -17,7 +17,9 @@ import com.bueffeltier.ui.html.molecule.SpacingPropertyDV;
 import com.bueffeltier.ui.html.molecule.SpacingSidesDV;
 import com.bueffeltier.ui.html.molecule.SpacingSizeDV;
 import com.bueffeltier.ui.html.organism.ButtonBuilder;
+import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonInputTypeDV;
 import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonTagTypeDV;
+import com.bueffeltier.ui.html.organism.ButtonBuilder.ColorDV;
 import com.bueffeltier.ui.html.organism.ColumnBuilder;
 import com.bueffeltier.ui.html.organism.ColumnBuilder.GridWidthDV;
 import com.bueffeltier.ui.html.organism.FormControlBuilder;
@@ -72,16 +74,30 @@ public class SiteStructureView extends AbstractView
 			    .withOncLick(
 			        "loadArticles(" + Long.toString(page.getId()) + ")"
 			    ).build();
+
 			String txtId = Long.toString(page.getId());
 			String txtTitle = page.getHtmlTitle();
-			DomContent btnEdit = ButtonBuilder.create().withText("Edit")
+
+			DomContent btnEdit = ButtonBuilder.create()//
+			    .withText("Edit")//
+			    .withName("editPage")//
+			    .withValue(txtId)//
+			    .withInputType(ButtonInputTypeDV.SUBMIT)//
 			    .build();
-			DomContent btnPublish = ButtonBuilder.create().withText("Publish")
+
+			DomContent btnPublish = ButtonBuilder.create()//
+			    .withText("Publish")//
+			    .withColor(ColorDV.SECONDARY)//
 			    .build();
-			DomContent btnDelete = ButtonBuilder.create().withText("Delete")
+
+			DomContent btnDelete = ButtonBuilder.create()//
+			    .withText("Delete")//
+			    .withColor(ColorDV.DANGER)//
 			    .build();
-			DomContent btnAddArticle = ButtonBuilder.create()
-			    .withText("Add Article").build();
+
+			DomContent btnAddArticle = ButtonBuilder.create()//
+			    .withText("Add Article")//
+			    .build();
 
 			List<Object> row = Arrays.asList(
 			    btnExpand, txtId, txtTitle, btnEdit, btnPublish, btnDelete,
@@ -227,9 +243,12 @@ public class SiteStructureView extends AbstractView
 	{
 		String articleIdString = Long.toString(articleId);
 		return div().withClass("article-buttons").with(
-		    submitButtonSwitchable(
-		        "Edit Article", "editArticle", articleIdString, true
-		    ),
+
+		    ButtonBuilder.create()//
+		        .withText("Edit Article")//
+		        .withName("editArticle")//
+		        .withValue(articleIdString)//
+		        .build(),
 		    // todo: Wenn kein JS-dann muss die Message Box als extra Seite
 		    // oder als Info-Feld direkt bei dem Button.
 		    // Anker auf der Seite helfen, dabei, dass die INfo auch gelesen
@@ -242,15 +261,22 @@ public class SiteStructureView extends AbstractView
 		        "Delete Article", "deleteArticle", articleIdString, true,
 		        articleId, "showDialog"
 		    ),
-		    submitButtonSwitchable(
-		        "Move Article", "moveArticle", articleIdString, true
-		    ),
-		    submitButtonSwitchable(
-		        "Publish Article", "publishArticle", articleIdString, true
-		    ),
-		    submitButtonSwitchable(
-		        "Insert Behind Article", "test todo", articleIdString, true
-		    ), dlgBackground(), dlgBox(articleId)
+		    ButtonBuilder.create()//
+		        .withText("Move Article")//
+		        .withName("moveArticle")//
+		        .withValue(articleIdString)//
+		        .build(),
+		    ButtonBuilder.create()//
+		        .withText("Publish Article")//
+		        .withName("publishArticle")//
+		        .withValue(articleIdString)//
+		        .build(),
+		    ButtonBuilder.create()//
+		        .withText("Insert Behind Article")//
+		        .withName("test todo")//
+		        .withValue(articleIdString)//
+		        .build(),
+		    dlgBackground(), dlgBox(articleId)
 		);
 	}
 

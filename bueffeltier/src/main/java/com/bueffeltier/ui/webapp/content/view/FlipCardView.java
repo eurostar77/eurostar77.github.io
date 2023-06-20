@@ -114,7 +114,7 @@ public class FlipCardView extends AbstractView
 		return div(
 		    div(
 		        ButtonBuilder.create()//
-		            .withText("Lernkarten bearbeiten")//
+		            .withText("Kartenstapel bearbeiten")//
 		            .withColor(ColorDV.SECONDARY)//
 		            .withSpacing(
 		                SpacingPropertyDV.MARGIN, SpacingSidesDV.BLANK,

@@ -10,11 +10,13 @@
 
 		<properties>
 			<property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mariadb://localhost:3306/bueffeltier?serverTimezone=MET" />
+<!--             <property name="jakarta.persistence.jdbc.url" value="jdbc:mariadb://localhost:3306/bueffeltier?serverTimezone=MET" /> -->
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/bueffeltier?serverTimezone=MET" />
             <property name="jakarta.persistence.jdbc.user" value="k404691q_root" />
 			<property name="jakarta.persistence.jdbc.password" value="ATzUIPMdKNezrc6" />
 <!-- 			<property name="hibernate.show_sql" value="true" /> -->
 			<property name="jakarta.persistence.schema-generation.database.action" value="update" />
+			
 		</properties>
 
 	</persistence-unit>

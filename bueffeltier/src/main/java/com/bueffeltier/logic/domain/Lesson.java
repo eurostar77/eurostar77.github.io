@@ -1,10 +1,16 @@
 package com.bueffeltier.logic.domain;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -25,22 +31,36 @@ import jakarta.persistence.Table;
  */
 @Entity(name = "Lesson")
 @Table(name = "lesson")
-public class Lesson
+public class Lesson implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	private Long id;
+
 	@Column(name = "name")
 	private String name;
+
+	@Column(name = "theme")
+	private String theme;
+
+	@Column(name = "image_path")
+	private String imagePath;
+
+	@JoinColumn(name = "owner_id")
+	private long ownerId;
+
+	@OneToMany
+	@JoinColumn(name = "learning_task")
+	private List<LearningTask> learningTasks = new ArrayList<>();
 
 	public Lesson()
 	{
 
 	}
 
-//	@GeneratedValue(generator = "increment")
-//	@GenericGenerator(name = "increment", strategy = "increment")
 	public void setId(Long id)
 	{
 		this.id = id;
@@ -61,29 +81,54 @@ public class Lesson
 		return this.name;
 	}
 
-	private void buildLesson()
+	public String getTheme()
 	{
-		// User bestimmen
-
-		// Lernstand ermitteln
-		// Themen auswählen
-		// gewählte Aufgabentypen generieren anhand Lernstand
-//        FrageAntwortDaoImpl franDao = new FrageAntwortDaoIml();
-//        franDao.findAll(clazz, sqlTableName)
+		return theme;
 	}
 
-	/**
-	 *
-	 * @param type
-	 * @return
-	 */
-//	public LearningTask getNextTask(String type)
-//	{
-//		// todo: zähler etablieren und nächsten task auswerfen:
-//
-//		// todo: künftig werden tasks bei Lesson Erstellung angelegt:
-//		task = new LearningTask(type);
-//
-//		return task;
-//	}
+	public void setTheme(String theme)
+	{
+		this.theme = theme;
+	}
+
+	public String getImagePath()
+	{
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath)
+	{
+		this.imagePath = imagePath;
+	}
+
+	public long getOwnerId()
+	{
+		return ownerId;
+	}
+
+	public void setOwnerId(long ownerId)
+	{
+		this.ownerId = ownerId;
+	}
+
+	public List<LearningTask> getLearningTasks()
+	{
+		return learningTasks;
+	}
+
+	public void setLearningTasks(List<LearningTask> learningTasks)
+	{
+		this.learningTasks = learningTasks;
+	}
+
+	public void setLearningTask(LearningTask learningTask)
+	{
+		this.learningTasks.add(learningTask);
+	}
+
+	private static long getSerialversionuid()
+	{
+		return serialVersionUID;
+	}
+
 }

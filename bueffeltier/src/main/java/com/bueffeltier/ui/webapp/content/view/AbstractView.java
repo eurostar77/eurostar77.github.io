@@ -2,11 +2,10 @@ package com.bueffeltier.ui.webapp.content.view;
 
 import static j2html.TagCreator.input;
 
-import java.util.Enumeration;
-
 import javax.servlet.http.HttpServletRequest;
 
 import com.bueffeltier.data.jdbc.ElementJDBCFlat;
+import com.bueffeltier.ui.webapp.RedirectDataService;
 
 import j2html.tags.ContainerTag;
 import j2html.tags.DomContent;
@@ -19,23 +18,31 @@ import j2html.tags.DomContent;
  */
 abstract class AbstractView implements ViewHandler
 {
+	private RedirectDataService redirectDataService = RedirectDataService
+	    .getInstance();
+
 	// todo: ggf. container-tag und css-id als feld einfügen, mit standard-wert.
 	public AbstractView()
 	{
 
 	}
 
-	public String
-	    getRequestParameter(HttpServletRequest request, String parameterName)
+	public Object getActionDataValueOpt(HttpServletRequest request, String key)
 	{
-		return request.getParameter(parameterName);
+		return redirectDataService.getValueOpt(request, key);
 	}
 
-	public Enumeration<String>
-	    getRequestParameterNames(HttpServletRequest request)
-	{
-		return request.getParameterNames();
-	}
+//	public String
+//	    getRequestParameter(HttpServletRequest request, String parameterName)
+//	{
+//		return request.getParameter(parameterName);
+//	}
+
+//	public Enumeration<String>
+//	    getRequestParameterNames(HttpServletRequest request)
+//	{
+//		return request.getParameterNames();
+//	}
 
 	public int getRequestPermission(HttpServletRequest request)
 	{
@@ -109,12 +116,16 @@ abstract class AbstractView implements ViewHandler
 		// sein,
 		// mit der man margin setzen kann (margin-bottom z.B.).
 		// TODO sveng 21.02.2023: margin analog für fieldsets.
-		return new ContainerTag<>("form").attr("method=\"post\"")
-		    .attr("autocomplete", "on")
-		    .with(
-		        input().withType("hidden").withName("action")
-		            .withValue(actionName).attr("action", "Servlet")
-		    ).with(domContent);
+		return new ContainerTag<>("form")//
+		    .attr("method=\"post\"")//
+		    .attr("autocomplete", "on")//
+		    .attr("action", "Servlet").with(
+		        input()//
+		            .withType("hidden")//
+		            .withName("action")//
+		            .withValue(actionName)//
+		    )//
+		    .with(domContent);//
 	}
 
 	@Override

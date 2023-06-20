@@ -18,14 +18,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources">
-		<attributes>
-			<attribute name="test" value="true"/>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry excluding="main/java/|main/resources/|test/java/|test/resources/|main/resources/META-INF/" kind="src" path="src.main.webapp"/>
-	<classpathentry kind="src" path="src/main/resources/META-INF"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-18">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
@@ -39,5 +32,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="lib" path="E:/#3_Ressourcen/#9_Software/__Programmieren/_Datenbank/_MariaDB Connector-J/mariadb-java-client-3.0.8.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/META-INF/persistence.xml"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -20,6 +20,7 @@ import com.bueffeltier.data.jdbc.PageJDBCFlat;
 import com.bueffeltier.logic.foundation.AuthPermissionService;
 import com.bueffeltier.logic.foundation.pagetree.SiteRepository;
 import com.bueffeltier.ui.webapp.content.ActionRegistry;
+import com.bueffeltier.ui.webapp.content.PageActionRegistry;
 import com.bueffeltier.ui.webapp.content.action.Action;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -43,6 +44,8 @@ public class RequestService
 	private CookieService cookieService = CookieService.getInstance();
 
 	ActionRegistry actionRegistry = ActionRegistry.getInstance();
+
+	PageActionRegistry pageActionRegistry = PageActionRegistry.getInstance();
 
 	private RequestService()
 	{
@@ -107,6 +110,11 @@ public class RequestService
 		case "GET":
 
 			handleGet(request);
+			break;
+
+		case "PAGE":
+
+			handlePage(request);
 			break;
 		}
 	}
@@ -269,6 +277,37 @@ public class RequestService
 		}
 	}
 
+	// todo: mehrere posts nach einander
+	private void handlePage(HttpServletRequest request)
+	{
+		Class<? extends Action> actionClass = pageActionRegistry
+		    .getActionClass(request.getParameter("action"));
+
+		Action action;
+		try
+		{
+			action = (Action) actionClass
+			    .getMethod("getInstance", HttpServletRequest.class)
+			    .invoke(actionClass, request);
+
+			action.execute(request);
+
+		} catch (IllegalAccessException | InvocationTargetException
+		    | NoSuchMethodException | SecurityException e1)
+		{
+			// TODO Auto-generated catch block
+
+			// todo: andere Seite laden. Fehlerseite, etc...
+
+			e1.printStackTrace();
+		}
+
+		// TODO sveng 11.02.2023: hier kann auch null rauskommen!
+		buildView((String) request.getAttribute("responsePath"), request);
+
+		responseService.doResponse(request);
+	}
+
 	// todo: in Response Service verschieben:
 	// todo: auch view von id abrufbar.
 	// TODO sveng 31.12.2022: fehler zurückgeben, wenn seite nicht geladen.
@@ -324,18 +363,23 @@ public class RequestService
 	 */
 	private void detectRequestType(HttpServletRequest request)
 	{
-		String requestedWith = request.getHeader("X-Requested-With");
+		String xRequestedWithHeader = request.getHeader("X-Requested-With");
 
-		boolean isAjax = requestedWith != null
-		    && "XMLHttpRequest".equals(requestedWith);
+		boolean isAjaxRequest = xRequestedWithHeader != null
+		    && "XMLHttpRequest".equals(xRequestedWithHeader);
 
-		if (isAjax)
+		if (isAjaxRequest)
 		{
 			request.setAttribute("requestType", "AJAX");
 
 		} else if ("POST".equals(request.getMethod()))
 		{
 			request.setAttribute("requestType", "POST");
+
+		} else if (isRequestPageAction(request))
+		{
+			request.setAttribute("requestType", "PAGE");
+			return;
 
 		} else if ("GET".equals(request.getMethod()))
 		{
@@ -348,7 +392,14 @@ public class RequestService
 		}
 	}
 
+	private boolean isRequestPageAction(HttpServletRequest request)
+	{
+		return pageActionRegistry
+		    .hasPageAction((String) request.getAttribute("requestedPath"));
+	}
+
 	private PageJDBCFlat
+
 	    getAccessiblePage(HttpServletRequest request, String path)
 	{
 		PageJDBCFlat page = siteRepository.read(path);

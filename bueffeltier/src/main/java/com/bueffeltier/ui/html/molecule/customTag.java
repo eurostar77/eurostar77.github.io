@@ -22,23 +22,23 @@ public class customTag
 	}
 
 	public static DomContent
-			submitButton(String text, String name, String value)
+	    submitButton(String text, String name, String value)
 	{
 		return button().withText(text).withName(name).withValue(value)
-				.withType("submit");
+		    .withType("submit");
 	}
 
 	public static DomContent
-			submitButton(String text, String name, String value, String idOpt)
+	    submitButton(String text, String name, String value, String idOpt)
 	{
 		if (StringUtils.isNotBlank(idOpt))
 		{
 			return button().withText(text).withName(name).withValue(value)
-					.withType("submit").withId(idOpt);
+			    .withType("submit").withId(idOpt);
 		} else
 		{
 			return button().withText(text).withName(name).withValue(value)
-					.withType("submit");
+			    .withType("submit");
 		}
 	}
 
@@ -51,51 +51,10 @@ public class customTag
 	 * @return
 	 */
 	public static DomContent
-			onClickButton(String text, String name, String function)
+	    onClickButton(String text, String name, String function)
 	{
 		return button().withText(text).withName(name).withType("button")
-				.attr("onclick", function);
-	}
-
-//	public static DomContent
-//			onClickButtonSwitchable(String text, String name, String function, boolean enabled)
-//	{
-//		return button().withText(text).withName(name).withType("button")
-//				.attr("onclick", function);
-//	}
-
-	public static DomContent submitButtonSwitchable(
-			String text,
-			String name,
-			String value,
-			boolean enabled
-	)
-	{
-		if (!enabled)
-		{
-			return button().withText(text).withName(name).withValue(value)
-					.withType("submit");
-		} else
-		{
-			return button().withText(text).withName(name).withValue(value)
-					.withType("submit").attr("disabled=\"disabled\"");
-		}
-	}
-
-	// todo: onclick als variable einführen!
-	/**
-	 *
-	 * @param text
-	 * @param name
-	 * @param value
-	 * @return
-	 */
-	public static DomContent
-			clientSideActionButton(String text, String name, String value)
-	{
-		return button().withText(text).withName(name).withValue(value)
-				.withType("submit")
-				.attr("type = \"button\" onclick=\"showDialog()\"");
+		    .attr("onclick", function);
 	}
 
 	// todo: param onclick umbenennen!
@@ -110,26 +69,26 @@ public class customTag
 	 * @return
 	 */
 	public static DomContent clientSideActionButtonSwitchable(
-			String text,
-			String name,
-			String value,
-			boolean enabled,
-			long articleId,
-			String onclick
+	    String text,
+	    String name,
+	    String value,
+	    boolean enabled,
+	    long articleId,
+	    String onclick
 	)
 	{
 		if (!enabled)
 		{
 			return button().withText(text).withName(name).withValue(value).attr(
-					"type = \"button\" onclick=\"" + onclick + "(" + articleId
-							+ ")\""
+			    "type = \"button\" onclick=\"" + onclick + "(" + articleId
+			        + ")\""
 			); // !
 //                .attr("type = \"button\" onclick=\"document.showDialog(\'" + articleId + "\')\""); // !
 //                .attr("type = \"button\" onclick=\"showDialog()\""); // !
 		} else
 		{
 			return button().withText(text).withName(name).withValue(value).attr(
-					"disabled=\"disabled\" type = \"button\" onclick=\"showDialog()\""
+			    "disabled=\"disabled\" type = \"button\" onclick=\"showDialog()\""
 			);
 		}
 	}
@@ -147,7 +106,7 @@ public class customTag
 		if (value != null && !"".equals(value))
 		{
 			return input().withType("text").withName(name).withValue(value)
-					.withId(id);
+			    .withId(id);
 		} else
 		{
 			return input().withType("text").withName(name).withId(id);
