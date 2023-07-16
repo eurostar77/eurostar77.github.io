@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.bueffeltier.data.jdbc.ElementJDBCFlat;
 import com.bueffeltier.ui.html.organism.ButtonBuilder;
-import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonInputTypeDV;
+import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonTypeDV;
 import com.bueffeltier.ui.html.organism.FormControlBuilder;
 import com.bueffeltier.ui.html.organism.FormControlBuilder.FormInputTypeDV;
 import com.bueffeltier.ui.html.organism.LabelBuilder;
@@ -83,7 +83,7 @@ public class LoginView extends AbstractView
 		            td("Passwort vergessen?"),
 		            td(
 		                ButtonBuilder.create().withText("Senden")
-		                    .withInputType(ButtonInputTypeDV.SUBMIT)
+		                    .withButtonType(ButtonTypeDV.SUBMIT)
 		                    .withName("login").withValue("login").build()
 		            )
 		        ),

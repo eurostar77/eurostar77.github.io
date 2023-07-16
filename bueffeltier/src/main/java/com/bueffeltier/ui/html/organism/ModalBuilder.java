@@ -35,6 +35,8 @@ public class ModalBuilder
 	private String mainScript;
 	private boolean withFunctionIdParameter;
 	private String openFunctionParameterName;
+	private boolean withoutOpenScript;
+	private String abortBtnTxt = "Abbrechen";
 
 	/*
 	 * TODO: modal hauptfunktion, openModal kann auch im hauptscript festgelegt
@@ -55,6 +57,12 @@ public class ModalBuilder
 		return this;
 	}
 
+	public ModalBuilder withoutOpenScript()
+	{
+		this.withoutOpenScript = true;
+		return this;
+	}
+
 	public ModalBuilder withSizeOpt(SizeOptDV size)
 	{
 		this.size = size;
@@ -70,6 +78,13 @@ public class ModalBuilder
 	public ModalBuilder withAbortButton()
 	{
 		this.hasAbortButton = true;
+		return this;
+	}
+
+	public ModalBuilder withAbortButton(String abortBtnTxt)
+	{
+		this.hasAbortButton = true;
+		this.abortBtnTxt = abortBtnTxt;
 		return this;
 	}
 
@@ -146,10 +161,10 @@ public class ModalBuilder
 	 * TODO: call myModal.handleUpdate() to update height of dialog box.
 	 * 
 	 * @param title
-	 * @param message
 	 * @param id
 	 * @param ariaLabelledById
 	 * @param ariaDescribedByOpt Beschreibender Text für Screenreader.
+	 * @param openFunctionName
 	 * @return
 	 */
 	public DomContent build(
@@ -183,7 +198,7 @@ public class ModalBuilder
 		            div(
 		                //
 		                h5(title).withClass("modal-title")
-		                    .withId(ariaLabelledById), // todo: methode mit
+		                    .withId(id + "-title"), // todo: methode mit
 		                // null
 		                button()//
 		                    .withType("button")//
@@ -198,7 +213,7 @@ public class ModalBuilder
 		            div(
 		                //
 		                each(bodyContent, bc -> bc)
-		            ).withClass("modal-body"), //
+		            ).withClass("modal-body").withId("modal-body"), //
 		            div(
 		                //
 //		                each(buttons, button -> button)
@@ -237,41 +252,48 @@ public class ModalBuilder
 
 	private ScriptTag getModalOpenScript(String id)
 	{
-		if (withFunctionIdParameter)
+		if (!withoutOpenScript)
 		{
-			return
+			if (withFunctionIdParameter)
+			{
+				return
 
-			script(
-			    //
-			    "var " + this.openFunctionParameterName + ";\n" + "\n"
-			        + "function "
-			        + addParameterNameToOpenFunction(
-			            openFunctionName, openFunctionParameterName
-			        )
-					// dann
-					// definieren
-			        + "{\n"//
-			        + "  const modal = document.getElementById('" + id + "');\n"
-			        + "  const modalInstance = new bootstrap.Modal(modal);\n"
-			        + "  " + this.openFunctionParameterName + " = "
-			        + this.openFunctionParameterName + "Param;\n"
-			        + "  modalInstance.show();\n"//
-			        + "}"
-			);
+				script(
+				    //
+				    "var " + this.openFunctionParameterName + ";\n" + "\n"
+				        + "function "
+				        + addParameterNameToOpenFunction(
+				            openFunctionName, openFunctionParameterName
+				        )
+						// dann
+						// definieren
+				        + "{\n"//
+				        + "  const modal = document.getElementById('" + id
+				        + "');\n"
+				        + "  const modalInstance = new bootstrap.Modal(modal);\n"
+				        + "  " + this.openFunctionParameterName + " = "
+				        + this.openFunctionParameterName + "Param;\n"
+				        + "  modalInstance.show();\n"//
+				        + "}"
+				);
+			} else
+			{
+				return
+
+				script(
+				    //
+				    "function " + this.openFunctionName + "{\n"//
+				        + "  const modal = document.getElementById('" + id
+				        + "');\n"
+				        + "  const modalInstance = new bootstrap.Modal(modal);\n"
+				        + "  modalInstance.show();\n"//
+				        + "}"
+				);
+			}
 		} else
 		{
-			return
-
-			script(
-			    //
-			    "function " + this.openFunctionName + "{\n"//
-			        + "  const modal = document.getElementById('" + id + "');\n"
-			        + "  const modalInstance = new bootstrap.Modal(modal);\n"
-			        + "  modalInstance.show();\n"//
-			        + "}"
-			);
+			return null;
 		}
-
 	}
 
 	private String addParameterNameToOpenFunction(
@@ -316,7 +338,7 @@ public class ModalBuilder
 		{
 			abortBtn = (ButtonTag) ButtonBuilder.create()//
 			    .withOncLick(this.abortFunctionName)//
-			    .withText("Abbrechen")//
+			    .withText(abortBtnTxt)//
 			    .build();
 			abortBtn.attr("data-bs-dismiss", "modal");
 			abortBtn.attr("aria-label", "Close");

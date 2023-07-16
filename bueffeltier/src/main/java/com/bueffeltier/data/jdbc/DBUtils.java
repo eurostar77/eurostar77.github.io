@@ -28,7 +28,6 @@ public class DBUtils
 			{
 				// TODO Auto-generated catch block
 				System.out.println("Driver Class not found. sg");
-				e1.printStackTrace();
 			}
 			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 			System.out.println("Successfully connected to database.");

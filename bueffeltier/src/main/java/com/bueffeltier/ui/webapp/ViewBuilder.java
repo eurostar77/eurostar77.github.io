@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import com.bueffeltier.crosscutting.AppPropertyService;
 import com.bueffeltier.data.jdbc.ArticleJDBCFlat;
 import com.bueffeltier.data.jdbc.ElementJDBCFlat;
-import com.bueffeltier.data.jdbc.PageJDBCFlat;
+import com.bueffeltier.data.jdbc.Page;
+import com.bueffeltier.ui.html.organism.ModalBuilder;
 import com.bueffeltier.ui.webapp.content.ViewRegistry;
 import com.bueffeltier.ui.webapp.content.view.ViewHandler;
 
@@ -40,7 +41,7 @@ public class ViewBuilder
 		return instance;
 	}
 
-	public String buildView(PageJDBCFlat page, HttpServletRequest request)
+	public String buildView(HttpServletRequest request, Page page)
 	    throws Exception
 	{
 		// Seitenstringbuilder anlegen
@@ -49,10 +50,12 @@ public class ViewBuilder
 //		String documentString;
 //		String doctype = "<!DOCTYPE html>\n";
 
-		return document().render() + html(
-		    buildHead(page), //
-		    buildBody(page, request)
-		).withLang("de").renderFormatted(); // TODO sveng 11.06.2023: settings
+		return document().render()//
+		    + html(
+		        buildHead(page), //
+		        buildBody(page, request)
+		    ).withLang("de").renderFormatted(); // TODO sveng 11.06.2023:
+		                                        // settings
 
 //		 .renderFormatted();
 //		documentString = doctype + j2htmlString;
@@ -60,7 +63,7 @@ public class ViewBuilder
 //		return documentString;
 	}
 
-	private HeadTag buildHead(PageJDBCFlat page) throws Exception
+	private HeadTag buildHead(Page page) throws Exception
 	{
 		// TODO sveng 02.05.2023: random als optional
 		Random random = new Random();
@@ -134,19 +137,19 @@ public class ViewBuilder
 		        )//
 		        .attr("crossorigin", "anonymous")//
 			//
-		    ,
 
-//				link().withRel("stylesheet")
-//						.withHref("bootstrap-5.1.3-dist/css/bootstrap.min.css")
-//						,
+		    , link()//
+		        .withRel("stylesheet")//
+		        .withHref(
+		            "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+		        )//
+		    , //
+		    //
+
 		    link().withRel("stylesheet").withHref(
 		        appProperties.getHostName()
 		            + appProperties.getServletContextPath()
 		            + "/css/styles.css?v=" + randomString
-		    ),
-		    // todo: settings
-		    link().withRel("stylesheet").withHref(
-		        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
 		    ),
 		    /*
 		     * todo: theme-color für mobile-browser einbinden. theme-color wird
@@ -160,7 +163,7 @@ public class ViewBuilder
 		).withLang(appProperties.getHtmlLang());
 	}
 
-	private DomContent buildBody(PageJDBCFlat page, HttpServletRequest request)
+	private DomContent buildBody(Page page, HttpServletRequest request)
 	    throws Exception
 	{
 
@@ -174,7 +177,8 @@ public class ViewBuilder
 		            // noScriptMsg(),
 		            buildHeader(page.getHeaderArticles(), request), //
 		            buildMainLayoutArea(page.getMainArticles(), request), //
-		            buildFooter(page.getFooterArticles(), request)
+		            buildFooter(page.getFooterArticles(), request), //
+		            buildModal(request)
 		        ).withClass("page-content")
 		    ).withClass("page"), buildScriptImports(request)
 		).withClass("body");
@@ -328,16 +332,25 @@ public class ViewBuilder
 	    HttpServletRequest request
 	)
 	{
-		switch (article.getContainerTag()) {
+		String containerTag = article.getContainerTag();
 
-		case "div":
-			return div(loadContentElements(article, request))
-			    .withClass(article.getCssClass());
-		// case "section":
-		case "article":
-			return article(loadContentElements(article, request))
-			    .withClass(article.getCssClass());
-		default:
+		if (containerTag != null)
+		{
+			switch (containerTag) {
+
+			case "div":
+				return div(loadContentElements(article, request))
+				    .withClass(article.getCssClass());
+			// case "section":
+			case "article":
+				return article(loadContentElements(article, request))
+				    .withClass(article.getCssClass());
+			default:
+				return html(loadContentElements(article, request))
+				    .withClass(article.getCssClass());
+			}
+		} else
+		{
 			return html(loadContentElements(article, request))
 			    .withClass(article.getCssClass());
 		}
@@ -432,6 +445,10 @@ public class ViewBuilder
 		            "sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
 		        )//
 		        .attr("crossorigin", "anonymus")
+		).with(
+		    script().withSrc(
+		        "http://localhost:8080/bueffeltier/js/lesson-editor.js"
+		    )//
 		);
 	}
 
@@ -508,4 +525,74 @@ public class ViewBuilder
 //
 //      }
 //  }
+
+	private DomContent buildModal(HttpServletRequest request)
+	{
+		// TODO sveng 15.07.2023: oben unter dem body element anzeigen
+		// TODO sveng 15.07.2023: bei fehlendem js message anzeigen
+//		return ModalBuilder.create()//
+//		    .withMessage("Test Message")//
+//		    .build("Info", "pageModal", null, null, "showPageModal()");
+
+//		return div(
+//		    //
+//		    div(
+//		        //
+//		        div(
+//		            //
+//		            div(
+//		                //
+//		                h5(
+//		                    //
+//		                    text("Modal Title")
+//		                )//
+//		                    .withClass("modal-title fs-5")//
+//		                    .withId("modalTitle"),
+//		                button(
+//		                    //
+//		                    span("&times;").attr("aria-hidden", "true")
+//		                )//
+//		                    .withType("button")//
+//		                    .withClass("close")//
+//		                    .withData("bs-dismiss", "modal")//
+//		                    .attr("aria-label", "Close")//
+//		            )//
+//		                .withClass("modal-header"),
+//
+//		            div(
+//		                //
+//		                text("Modal Body Text")
+//		            )//
+//		                .withClass("modal-body")//
+//		                .withId("modalBody"),
+//		            div(
+//		                //
+//		                button("Schließen")//
+//		                    .withType("button")//
+//		                    .withClass("btn btn-secondary")//
+//		                    .withData("bs-dismiss", "modal")
+//		            )//
+//		                .withClass("modal-footer")//
+//		        )//
+//		            .withClass("modal-content")
+//		    )//
+//		        .withClass("modal-dialog")//
+//		        .attr("role", "document")
+//		)//
+//		    .withClass("modal fade")//
+//		    .withId("pageModal")//
+//		    .withTabindex(-1)//
+//		    .attr("role", "dialog")//
+//		    .attr("aria-labelledby", "modalTitle")//
+//		    .attr("aria-hidden", "true");
+
+		// Delete File Modal
+		return ModalBuilder.create()//
+		    .withoutOpenScript()//
+		    .withAbortButton("OK")//
+		    .build(
+		        "Datei löschen", "pageModal", "pageModal", null,
+		        "showPageModal()"
+		    );
+	}
 }

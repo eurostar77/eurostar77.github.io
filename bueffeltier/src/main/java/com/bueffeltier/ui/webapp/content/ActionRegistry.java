@@ -6,8 +6,10 @@ import java.util.Map;
 import com.bueffeltier.ui.webapp.content.action.Action;
 import com.bueffeltier.ui.webapp.content.action.ArticleFeederAction;
 import com.bueffeltier.ui.webapp.content.action.ContactAction;
+import com.bueffeltier.ui.webapp.content.action.LessonEditorAction;
+import com.bueffeltier.ui.webapp.content.action.PageEditorAction;
 import com.bueffeltier.ui.webapp.content.action.FlipCardAction;
-import com.bueffeltier.ui.webapp.content.action.FlipCardStartPageAction;
+import com.bueffeltier.ui.webapp.content.action.CourseEditorAction;
 import com.bueffeltier.ui.webapp.content.action.FooterAction;
 import com.bueffeltier.ui.webapp.content.action.HeaderAction;
 import com.bueffeltier.ui.webapp.content.action.HtmlAction;
@@ -22,7 +24,7 @@ import com.bueffeltier.ui.webapp.content.action.RegisterAction;
 import com.bueffeltier.ui.webapp.content.action.RegisterConfirmAction;
 import com.bueffeltier.ui.webapp.content.action.RegisterSubmittedAction;
 import com.bueffeltier.ui.webapp.content.action.RessourcesAction;
-import com.bueffeltier.ui.webapp.content.action.SettingsAction;
+import com.bueffeltier.ui.webapp.content.action.AppSettingsAction;
 import com.bueffeltier.ui.webapp.content.action.SiteStructureAction;
 import com.bueffeltier.ui.webapp.content.action.TextAction;
 import com.bueffeltier.ui.webapp.content.action.UserAdminActionr;
@@ -58,14 +60,20 @@ public class ActionRegistry
 		actions.put(actionName, actionClass);
 	}
 
-	public Class<? extends Action> getActionClass(String actionName)
+	public Class<? extends Action> getAction(String actionName)
 	{
-		return actions.get(actionName);
+		Class<? extends Action> actionClass = actions.get(actionName);
+
+		if (actionClass == null)
+		{
+			// TODO sveng 23.06.2023: Exeption werfen und ggf. Fehlerseite
+			// laden.
+			return null;
+		}
+
+		return actionClass;
 	}
 
-//	request.getParameter("content"); // TODO sveng 01.12.2022: content
-// verschlüsselt und auch als enum?
-//        default: throw new Exception("Content-Type does not exist!");
 	private void buildActionMap()
 	{
 		actions = new HashMap<>();
@@ -73,7 +81,7 @@ public class ActionRegistry
 		actions.put("TEXT", TextAction.class);
 		actions.put("SITE_STRUCTURE", SiteStructureAction.class);
 		actions.put("LOGIN", LoginAction.class);
-//		actions.put("EDIT_PAGE", EditPageAction.class);
+		actions.put("EDIT_PAGE", PageEditorAction.class);
 //		actions.put("EDIT_ARTICLE", EditArticleSettingsAction.class);
 		actions.put("REGISTER", RegisterAction.class);
 		actions.put("FOOTER", FooterAction.class);
@@ -95,14 +103,49 @@ public class ActionRegistry
 //		actions.put("MESSAGES", MemberMessagesAction.class);
 		actions.put("PERSONAL_DATA", MemberPersonalDataAction.class);
 		actions.put("ACCOUNT_SETTINGS", MemberAccountSettingsAction.class);
-		actions.put("APP_SETTINGS", SettingsAction.class);
+		actions.put("APP_SETTINGS", AppSettingsAction.class);
 		actions.put("USER_ADMIN", UserAdminActionr.class);
 		actions.put("HEADER", HeaderAction.class);
 		actions.put("FLIPCARD", FlipCardAction.class);
 		actions.put("REGISTER_SUBMITTED", RegisterSubmittedAction.class);
 		actions.put("REGISTER_CONFIRM", RegisterConfirmAction.class);
 		actions.put("HTTP404", Http404Action.class);
-		actions.put("FLIPCARD_START_PAGE", FlipCardStartPageAction.class);
-//		actions.put("CREATE_FLASHCARDS", CreateFlashcardsAction.class);
+		actions.put("FLIPCARD_START_PAGE", CourseEditorAction.class);
+		actions.put("CREATE_FLASHCARDS", LessonEditorAction.class);
 	}
+
+	/*
+	 * Nachfolgend Codeänderungen für den Fall, dass instantiierte Objekte in
+	 * der Action-Map sind. Außerdem könnten die Keys aus der Action Klasse
+	 * geladen werden.
+	 */
+//	public void registerAction(String actionName, Action actionInstance) {
+//	    actions.put(actionName, actionInstance);
+//	}
+//
+//	public Action getAction(String actionName) {
+//	    Action actionInstance = actions.get(actionName);
+//	    if (actionInstance == null) {
+//	        // Falls die Aktion nicht gefunden wurde, instanziere sie hier (falls sie Singleton ist)
+//	        if (actionName.equals("TEXT")) {
+//	            actionInstance = TextAction.getInstance();
+//	            actions.put(actionName, actionInstance); // Aktion zur Map hinzufügen
+//	        }
+//	        // Weitere Singleton-Aktionen hier hinzufügen...
+//
+//	        // Alternativ könnte eine Exception geworfen werden, wenn die Aktion nicht gefunden wird.
+//	    }
+//	    return actionInstance;
+//	}
+//
+//	...
+//
+//	private void buildActionMap() {
+//	    actions = new HashMap<>();
+//
+//	    // Die Singleton-Instanz der TextAction hinzufügen
+//	    actions.put("TEXT", TextAction.getInstance());
+//
+//	    // Weitere Singleton-Aktionen hinzufügen...
+//	}
 }

@@ -3,7 +3,7 @@ package com.bueffeltier.ui.webapp.content.action;
 import javax.servlet.http.HttpServletRequest;
 
 import com.bueffeltier.data.jdbc.ElementJDBCFlat;
-import com.bueffeltier.ui.webapp.RedirectDataService;
+import com.bueffeltier.ui.webapp.ViewDataService;
 
 /**
  *
@@ -11,11 +11,11 @@ import com.bueffeltier.ui.webapp.RedirectDataService;
  */
 public abstract class AbstractAction implements Action
 {
-	RedirectDataService redirectDataService = RedirectDataService.getInstance();
+	private ViewDataService viewDataService = ViewDataService.getInstance();
 
 	public AbstractAction()
 	{
-
+		//
 	}
 
 	public String
@@ -40,15 +40,49 @@ public abstract class AbstractAction implements Action
 		// TODO sveng 01.12.2022: besser eine seitenId angeben.
 	}
 
+	// TODO sveng 25.06.2023: viewDataService umbenennen und umbauen.
+	// Abfragen, von welcher Seite das request kommt?
+	// Umbau auf Generische Typen
+	// Service umbenennen
+	// Service nicht nur bei Redirect verwenden (requestAttribute dafür
+	// auflösen)
 	public void
-	    forwardViewData(HttpServletRequest request, String key, Object value)
+	    forwardViewData(HttpServletRequest request, String key, String value)
 	{
-		redirectDataService.addData(request, key, value);
+		viewDataService.addForwardingData(request, key, value);
 	}
+
+//	protected void executeSubAction(
+//	    HttpServletRequest request,
+//	    String actionClassName,
+//	    String actionParameter
+//	)
+//	{
+//		if (StringUtils.isNotBlank(actionClassName))
+//		{
+//			request.setAttribute("nextSubActionName", actionClassName);
+//
+//		} else
+//		{
+//			request.removeAttribute("nextSubActionName");
+//		}
+//	}
 
 	@Override
 	public abstract void execute(HttpServletRequest request);
 
+	public void executeInternal(HttpServletRequest request) throws Exception
+	{
+		execute(request);
+	}
+
+	@Deprecated
 	@Override
-	public abstract void doAjaxAction(HttpServletRequest request);
+	public abstract void executeAjax(HttpServletRequest request);
+
+	@Deprecated
+	public void executeAjaxInternal(HttpServletRequest request) throws Exception
+	{
+		executeAjax(request);
+	}
 }

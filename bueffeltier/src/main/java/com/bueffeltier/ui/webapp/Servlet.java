@@ -37,8 +37,10 @@ public class Servlet extends HttpServlet
 	DBUpdateService dBUpdateService = DBUpdateService.getInstance();
 
 	@Override
-	public void init()
+	public void init() throws ServletException
 	{
+		super.init();
+
 		System.out.println("");
 		System.out
 		    .println(" _                    __   __       _  _    _       ");

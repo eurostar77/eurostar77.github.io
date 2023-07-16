@@ -30,11 +30,13 @@ public class FormControlBuilder
 	private String cssId;
 	private boolean isChecked;
 
-	private String oninput;
+	private String onClick;
 
 	private boolean openInternalFC;
 
 	private String text;
+
+	private boolean required;
 
 	private FormControlBuilder()
 	{
@@ -65,9 +67,9 @@ public class FormControlBuilder
 		return this;
 	}
 
-	public FormControlBuilder withOninput(String oninput)
+	public FormControlBuilder withOnClick(String onClick)
 	{
-		this.oninput = oninput;
+		this.onClick = onClick;
 		return this;
 	}
 
@@ -160,6 +162,12 @@ public class FormControlBuilder
 		return this;
 	}
 
+	public FormControlBuilder required()
+	{
+		this.required = true;
+		return this;
+	}
+
 	public DomContent build()
 	{
 		if (inputType == null)
@@ -193,9 +201,14 @@ public class FormControlBuilder
 		{
 			result = "form-check-input";
 
+		} else if (inputType.equals(FormInputTypeDV.RADIO))
+		{
+			result = "form-check-input";
+
 		} else if (inputType.equals(FormInputTypeDV.COLOR))
 		{
 			result = getFormControlBaseClassString() + " form-control-color";
+
 		} else
 		{
 			result = getFormControlBaseClassString();
@@ -240,7 +253,7 @@ public class FormControlBuilder
 		    .withType(inputType.toString())//
 		    .withCondName(name != null, name)//
 		    .condAttr(readonly, "readonly", null)//
-		    .condAttr(oninput != null, "oninput", oninput)//
+		    .condAttr(onClick != null, "oninput", onClick)//
 		    .withCondValue(value != null, value)//
 		    .withClass(buildClassString())//
 		    .withCondId(cssId != null, cssId)//
@@ -249,8 +262,20 @@ public class FormControlBuilder
 		        "checked", ""
 		    )//
 		    .condAttr(
+		        this.inputType.equals(FormInputTypeDV.CHECKBOX), "type",
+		        "checkbox"
+		    )//
+		    .condAttr(
+		        isChecked && this.inputType.equals(FormInputTypeDV.RADIO),
+		        "checked", ""
+		    )//
+		    .condAttr(
+		        this.inputType.equals(FormInputTypeDV.RADIO), "type", "radio"
+		    )//
+		    .condAttr(
 		        inputType.equals(FormInputTypeDV.FILEMULTIPLE), "multiple", null
 		    )//
+		    .condAttr(required, "required", "")//
 		    .withCondDisabled(isDisabled)//
 		    .attr("aria-describedby", inputType); // todo: aria
 
@@ -265,10 +290,11 @@ public class FormControlBuilder
 		    .withText(text)//
 		    .withClass(buildClassString())//
 		    .condAttr(readonly, "readonly", null)//
-		    .condAttr(oninput != null, "oninput", oninput)//
+		    .condAttr(onClick != null, "oninput", onClick)//
 		    .condAttr(rows != null, "rows", rows)//
 //					.withText(readonly, value)// todo: hier text, bei input value!
 		    // todo: value bei checkbox true oder false?
+		    .condAttr(required, "required", "")//
 		    .withCondDisabled(isDisabled)//
 		    .withCondId(cssId != null, cssId)
 		    .attr("aria-describedby", inputType); // todo: aria
@@ -335,6 +361,7 @@ public class FormControlBuilder
 		EMAIL("email"), //
 		PASSWORD("password"), //
 		CHECKBOX("checkbox"), //
+		RADIO("radio"), //
 		TEXT("text"), //
 		TEXTAREA("textarea"), //
 		FILE("file"), //

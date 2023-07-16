@@ -1,5 +1,7 @@
 package com.bueffeltier.ui.webapp.content.action;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  *
  * @author Sven Guderjahn <sven.guderjahn@bueffeltier.com>
@@ -13,7 +15,7 @@ public class DialogBoxActionHandler
 		super();
 	}
 
-	public static DialogBoxActionHandler getInstance()
+	public static DialogBoxActionHandler getInstance(HttpServletRequest request)
 	{
 		if (instance == null)
 		{

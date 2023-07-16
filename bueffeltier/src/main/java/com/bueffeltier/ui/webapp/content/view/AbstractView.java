@@ -5,7 +5,7 @@ import static j2html.TagCreator.input;
 import javax.servlet.http.HttpServletRequest;
 
 import com.bueffeltier.data.jdbc.ElementJDBCFlat;
-import com.bueffeltier.ui.webapp.RedirectDataService;
+import com.bueffeltier.ui.webapp.ViewDataService;
 
 import j2html.tags.ContainerTag;
 import j2html.tags.DomContent;
@@ -18,8 +18,7 @@ import j2html.tags.DomContent;
  */
 abstract class AbstractView implements ViewHandler
 {
-	private RedirectDataService redirectDataService = RedirectDataService
-	    .getInstance();
+	private ViewDataService viewDataService = ViewDataService.getInstance();
 
 	// todo: ggf. container-tag und css-id als feld einfügen, mit standard-wert.
 	public AbstractView()
@@ -27,9 +26,9 @@ abstract class AbstractView implements ViewHandler
 
 	}
 
-	public Object getActionDataValueOpt(HttpServletRequest request, String key)
+	public String getViewDataValueOpt(HttpServletRequest request, String key)
 	{
-		return redirectDataService.getValueOpt(request, key);
+		return viewDataService.getValueOpt(request, key);
 	}
 
 //	public String
@@ -84,7 +83,10 @@ abstract class AbstractView implements ViewHandler
 		// default:
 		// return article(getForm()).render();
 		// return writeHtml().withClass(this.containerTagClassName);
-		return writeHtml(element, request);
+
+		DomContent htmlContent = writeHtml(element, request);
+
+		return htmlContent;
 	}
 
 	/**

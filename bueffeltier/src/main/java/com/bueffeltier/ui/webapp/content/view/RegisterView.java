@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.bueffeltier.data.jdbc.ElementJDBCFlat;
 import com.bueffeltier.ui.html.organism.ButtonBuilder;
-import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonInputTypeDV;
+import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonTypeDV;
 import com.bueffeltier.ui.html.organism.FormControlBuilder;
 import com.bueffeltier.ui.html.organism.FormControlBuilder.FormInputTypeDV;
 import com.bueffeltier.ui.html.organism.LabelBuilder;
@@ -78,7 +78,7 @@ public class RegisterView extends AbstractView
 				), td(
 				    ButtonBuilder.create().withText("Senden").withName("senden")
 				        .withName("login")
-				        .withInputType(ButtonInputTypeDV.SUBMIT)
+				        .withButtonType(ButtonTypeDV.SUBMIT)
 				        .withValue("login").build()
 				))
 

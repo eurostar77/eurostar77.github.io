@@ -20,7 +20,7 @@ import j2html.tags.specialized.SpanTag;
 public final class ButtonBuilder
 {
 	private ButtonTagTypeDV tagType;
-	private ButtonInputTypeDV inputType;
+	private ButtonTypeDV inputType;
 
 	private ColorDV color;
 
@@ -214,6 +214,13 @@ public final class ButtonBuilder
 		return this;
 	}
 
+	/**
+	 * Nicht mehr verwenden, um JS unabhängig vom HTML zu machen.
+	 * 
+	 * @param jsFunction
+	 * @return
+	 */
+	@Deprecated
 	public ButtonBuilder withOncLick(String jsFunction)
 	{
 		this.jsFunction = jsFunction;
@@ -228,7 +235,7 @@ public final class ButtonBuilder
 	 * @param inputType
 	 * @return
 	 */
-	public ButtonBuilder withInputType(ButtonInputTypeDV inputType)
+	public ButtonBuilder withButtonType(ButtonTypeDV inputType)
 	{
 		this.inputType = inputType;
 		return this;
@@ -312,7 +319,7 @@ public final class ButtonBuilder
 
 		if (inputType == null)
 		{
-			inputType = ButtonInputTypeDV.BUTTON;
+			inputType = ButtonTypeDV.BUTTON;
 		}
 
 		DomContent imageTag = null;
@@ -382,15 +389,15 @@ public final class ButtonBuilder
 		    .condAttr(asToggle, "data-bs-toggle", "button")
 		    .condAttr(isToggleSelected, "aria-pressed", "true") //
 		    .condAttr(
-		        inputType != null && inputType.equals(ButtonInputTypeDV.SUBMIT),
+		        inputType != null && inputType.equals(ButtonTypeDV.SUBMIT),
 		        "type", "submit"
 		    ) //
 		    .condAttr(
-		        inputType != null && inputType.equals(ButtonInputTypeDV.RESET),
+		        inputType != null && inputType.equals(ButtonTypeDV.RESET),
 		        "type", "reset"
 		    ) //
 		    .condAttr(
-		        inputType == null || inputType.equals(ButtonInputTypeDV.BUTTON),
+		        inputType == null || inputType.equals(ButtonTypeDV.BUTTON),
 		        "type", "button"
 		    ) //
 		    .condAttr(value != null, "value", value)
@@ -423,15 +430,15 @@ public final class ButtonBuilder
 		    .condAttr(asToggle, "data-bs-toggle", "button")
 		    .condAttr(isToggleSelected, "aria-pressed", "true")
 		    .condAttr(
-		        inputType != null && inputType.equals(ButtonInputTypeDV.SUBMIT),
+		        inputType != null && inputType.equals(ButtonTypeDV.SUBMIT),
 		        "type", "submit"
 		    ) //
 		    .condAttr(
-		        inputType != null && inputType.equals(ButtonInputTypeDV.RESET),
+		        inputType != null && inputType.equals(ButtonTypeDV.RESET),
 		        "type", "reset"
 		    ) //
 		    .condAttr(
-		        inputType == null || inputType.equals(ButtonInputTypeDV.BUTTON),
+		        inputType == null || inputType.equals(ButtonTypeDV.BUTTON),
 		        "type", "button"
 		    ) //
 		    .condAttr(value != null, "value", value);
@@ -594,7 +601,7 @@ public final class ButtonBuilder
 		HORIZONTAL, VERTICAL_LEFT, VERTICAL_RIGHT, CENTER_4, CENTER_6
 	}
 
-	public enum ButtonInputTypeDV
+	public enum ButtonTypeDV
 	{
 		SUBMIT, RESET, BUTTON
 	}

@@ -23,6 +23,7 @@ public class RowBuilder
 	private SpacingPropertyDV spacingProperty;
 	private SpacingSidesDV spacingSides;
 	private SpacingSizeDV spacingSize;
+	private RowAlignmentDV rowAlignment;
 
 	private RowBuilder()
 	{
@@ -54,6 +55,13 @@ public class RowBuilder
 		}
 		this.domContent.addAll(Arrays.asList(domContent));
 //		this.domContent.add(domContent);
+		return this;
+	}
+
+	public RowBuilder withAlignment(RowAlignmentDV alignment)
+	{
+		this.rowAlignment = alignment;
+
 		return this;
 	}
 
@@ -153,6 +161,13 @@ public class RowBuilder
 			builder.deleteCharAt(builder.length() - 1);
 		}
 
+		if (rowAlignment != null)
+		{
+			builder.append(" ");
+
+			builder.append(rowAlignment.toString());
+		}
+
 		return builder.toString();
 	}
 
@@ -172,5 +187,28 @@ public class RowBuilder
 		}
 
 		return builder.toString();
+	}
+
+	public enum RowAlignmentDV
+	{
+		START("justify-content-start"), //
+		END("justify-content-end"), //
+		CENTER("justify-content-center"), //
+		BETWEEN("justify-content-between"), //
+		AROUND("justify-content-around"), //
+		EVENLY("justify-content-evenly");
+
+		private final String value;
+
+		RowAlignmentDV(String value)
+		{
+			this.value = value;
+		}
+
+		@Override
+		public String toString()
+		{
+			return value;
+		}
 	}
 }

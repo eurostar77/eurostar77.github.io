@@ -100,7 +100,7 @@ public class LoginAction extends AbstractAction
 	}
 
 	@Override
-	public void doAjaxAction(HttpServletRequest request)
+	public void executeAjax(HttpServletRequest request)
 	{
 		// TODO Auto-generated method stub
 

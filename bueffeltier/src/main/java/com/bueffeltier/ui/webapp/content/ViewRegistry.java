@@ -9,10 +9,11 @@ import com.bueffeltier.data.jdbc.ElementJDBCFlat;
 import com.bueffeltier.ui.webapp.content.view.ArticleFeederView;
 import com.bueffeltier.ui.webapp.content.view.ChooseContentTypeView;
 import com.bueffeltier.ui.webapp.content.view.ContactView;
-import com.bueffeltier.ui.webapp.content.view.CreateFlipcardsView;
-import com.bueffeltier.ui.webapp.content.view.EditPageView;
+import com.bueffeltier.ui.webapp.content.view.LessonEditorView;
+import com.bueffeltier.ui.webapp.content.view.ArticleEditorView;
+import com.bueffeltier.ui.webapp.content.view.PageEditorView;
 import com.bueffeltier.ui.webapp.content.view.ElementsView;
-import com.bueffeltier.ui.webapp.content.view.FlipCardStartPageView;
+import com.bueffeltier.ui.webapp.content.view.CourseEditorView;
 import com.bueffeltier.ui.webapp.content.view.FlipCardView;
 import com.bueffeltier.ui.webapp.content.view.FooterView;
 import com.bueffeltier.ui.webapp.content.view.HeaderView;
@@ -30,8 +31,9 @@ import com.bueffeltier.ui.webapp.content.view.RegisterConfirmView;
 import com.bueffeltier.ui.webapp.content.view.RegisterSubmittedView;
 import com.bueffeltier.ui.webapp.content.view.RegisterView;
 import com.bueffeltier.ui.webapp.content.view.RessourcesView;
-import com.bueffeltier.ui.webapp.content.view.SettingsView;
+import com.bueffeltier.ui.webapp.content.view.AppSettingsView;
 import com.bueffeltier.ui.webapp.content.view.SiteStructureView;
+import com.bueffeltier.ui.webapp.content.view.TestView;
 import com.bueffeltier.ui.webapp.content.view.TextViewHandler;
 import com.bueffeltier.ui.webapp.content.view.UserAdminView;
 import com.bueffeltier.ui.webapp.content.view.ViewHandler;
@@ -71,9 +73,9 @@ public class ViewRegistry
 		case "LOGIN":
 			return LoginView.getInstance();
 		case "EDIT_PAGE":
-			return EditPageView.getInstance();
+			return PageEditorView.getInstance();
 		case "EDIT_ARTICLE":
-//			return EditArticleSettingsView.getInstance();
+			return ArticleEditorView.getInstance();
 		case "REGISTER":
 			return RegisterView.getInstance();
 		case "FOOTER":
@@ -110,7 +112,7 @@ public class ViewRegistry
 		case "MEMBER_ACCOUNT_SETTINGS":
 			return MemberAccountSettingsView.getInstance();
 		case "APP_SETTINGS":
-			return SettingsView.getInstance();
+			return AppSettingsView.getInstance();
 		case "USER_ADMIN":
 			return UserAdminView.getInstance();
 		case "HEADER":
@@ -124,11 +126,17 @@ public class ViewRegistry
 		case "HTTP404":
 			return Http404View.getInstance();
 		case "FLIPCARD_START_PAGE":
-			return FlipCardStartPageView.getInstance();
+			return CourseEditorView.getInstance();
 		case "CREATE_FLASHCARDS":
-			return CreateFlipcardsView.getInstance();
+			return LessonEditorView.getInstance();
 		case "ELEMENTS":
 			return ElementsView.getInstance();
+		case "TEST_VIEW":
+			return TestView.getInstance(request);
+//            case "":
+//                return xxx;
+//            case "":
+//                return xxx;
 //            case "":
 //                return xxx;
 //            case "":

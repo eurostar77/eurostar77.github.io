@@ -36,29 +36,29 @@ public class ArticleDaoJDBCFlatImpl extends AbstractDAO<ArticleJDBCFlat>
 	public void write(ArticleJDBCFlat article)
 	{
 		String sql = "INSERT INTO " + getTable() + " (" //
-				+ "parent_id, " // 1
-				+ "sorting, " // 2
-				+ "title, " // 3 UNIQUE
-				+ "author, " // 4
-				+ "teaser_text, " // 5
-				+ "teaser_image_path, " // 6
-				+ "show_teaser, " // 7
-				+ "last_edit_date, " // 8
-				+ "is_published, " // 9
-				+ "keywords, " // 10
-				+ "teaser_css_class, " // 11
-				+ "teaser_css_id, " // 12
-				+ "css_class, " // 13
-				+ "css_id, " // 14
-				+ "container_tag, " // 15
-				+ "create_time, " // 16
-				+ "show_from, " // 17
-				+ "show_until, " // 18
-				+ "layout_column," // 19
-				+ "page_path" // 20
+		    + "parent_id, " // 1
+		    + "sorting, " // 2
+		    + "title, " // 3 UNIQUE
+		    + "author, " // 4
+		    + "teaser_text, " // 5
+		    + "teaser_image_path, " // 6
+		    + "show_teaser, " // 7
+		    + "last_edit_date, " // 8
+		    + "is_published, " // 9
+		    + "keywords, " // 10
+		    + "teaser_css_class, " // 11
+		    + "teaser_css_id, " // 12
+		    + "css_class, " // 13
+		    + "css_id, " // 14
+		    + "container_tag, " // 15
+		    + "create_time, " // 16
+		    + "show_from, " // 17
+		    + "show_until, " // 18
+		    + "layout_column," // 19
+		    + "page_path" // 20
 
-				//
-				+ ") VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			//
+		    + ") VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -177,7 +177,7 @@ public class ArticleDaoJDBCFlatImpl extends AbstractDAO<ArticleJDBCFlat>
 		List<ArticleJDBCFlat> articles = new ArrayList<>();
 
 		String sql = "SELECT * FROM " + getTable()
-				+ " WHERE parent_id = ? ORDER BY sorting ASC";
+		    + " WHERE parent_id = ? ORDER BY sorting ASC";
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -221,13 +221,12 @@ public class ArticleDaoJDBCFlatImpl extends AbstractDAO<ArticleJDBCFlat>
 	}
 
 	public List<ArticleJDBCFlat>
-			readMainArticles(PageJDBCFlat page, Connection conn)
-					throws SQLException
+	    readMainArticles(Page page, Connection conn) throws SQLException
 	{
 		List<ArticleJDBCFlat> articles = new ArrayList<>();
 
 		String sql = "SELECT * FROM " + getTable()
-				+ " WHERE parent_id = ? ORDER BY sorting ASC";
+		    + " WHERE parent_id = ? ORDER BY sorting ASC";
 
 		PreparedStatement ps = conn.prepareStatement(sql);
 		ps.setLong(1, page.getId());
@@ -253,28 +252,28 @@ public class ArticleDaoJDBCFlatImpl extends AbstractDAO<ArticleJDBCFlat>
 	public void update(ArticleJDBCFlat article)
 	{
 		String sql = "UPDATE " + getTable() + " SET "//
-				+ "parent_id=?, " // 1
-				+ "sorting=?, " // 2
-				+ "title=?, " // 3 UNIQUE
-				+ "author=?, " // 4
-				+ "teaser_text=?, " // 5
-				+ "teaser_image_path=?, " // 6
-				+ "show_teaser=?, " // 7
-				+ "last_edit_date=?, " // 8
-				+ "is_published=?, " // 9
-				+ "keywords=?, " // 10
-				+ "teaser_css_class=?, " // 11
-				+ "teaser_css_id=?, " // 12
-				+ "css_class=?, " // 13
-				+ "css_id=?, " // 14
-				+ "container_tag=?, " // 15
-				+ "create_time=?, " // 16
-				+ "show_from=?, " // 17
-				+ "show_until=?, " // 18
-				+ "layout_column=?, " // 19
-				+ "page_path=?" // 20
+		    + "parent_id=?, " // 1
+		    + "sorting=?, " // 2
+		    + "title=?, " // 3 UNIQUE
+		    + "author=?, " // 4
+		    + "teaser_text=?, " // 5
+		    + "teaser_image_path=?, " // 6
+		    + "show_teaser=?, " // 7
+		    + "last_edit_date=?, " // 8
+		    + "is_published=?, " // 9
+		    + "keywords=?, " // 10
+		    + "teaser_css_class=?, " // 11
+		    + "teaser_css_id=?, " // 12
+		    + "css_class=?, " // 13
+		    + "css_id=?, " // 14
+		    + "container_tag=?, " // 15
+		    + "create_time=?, " // 16
+		    + "show_from=?, " // 17
+		    + "show_until=?, " // 18
+		    + "layout_column=?, " // 19
+		    + "page_path=?" // 20
 
-				+ " where id=?;";
+		    + " where id=?;";
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -383,10 +382,9 @@ public class ArticleDaoJDBCFlatImpl extends AbstractDAO<ArticleJDBCFlat>
 		return articles;
 	}
 
-	private PreparedStatement setArticleDataToPsExclId(
-			PreparedStatement ps,
-			ArticleJDBCFlat article
-	) throws SQLException
+	private PreparedStatement
+	    setArticleDataToPsExclId(PreparedStatement ps, ArticleJDBCFlat article)
+	        throws SQLException
 	{
 		ps.setLong(1, article.getParentId()); // 1
 		ps.setInt(2, article.getSorting()); // 2
@@ -438,10 +436,9 @@ public class ArticleDaoJDBCFlatImpl extends AbstractDAO<ArticleJDBCFlat>
 		return ps;
 	}
 
-	private PreparedStatement setArticleDataToPsInclId(
-			PreparedStatement ps,
-			ArticleJDBCFlat article
-	) throws SQLException
+	private PreparedStatement
+	    setArticleDataToPsInclId(PreparedStatement ps, ArticleJDBCFlat article)
+	        throws SQLException
 	{
 		ps.setLong(1, article.getId()); // 1
 		ps.setLong(2, article.getParentId()); // 2
@@ -494,8 +491,8 @@ public class ArticleDaoJDBCFlatImpl extends AbstractDAO<ArticleJDBCFlat>
 	}
 
 	private ArticleJDBCFlat
-			writeResultSetDataToArticle(ArticleJDBCFlat article, ResultSet rs)
-					throws SQLException
+	    writeResultSetDataToArticle(ArticleJDBCFlat article, ResultSet rs)
+	        throws SQLException
 	{
 		article.setId(rs.getLong("id"));
 		article.setParentId(rs.getLong("parent_id")); // 1
@@ -513,7 +510,7 @@ public class ArticleDaoJDBCFlatImpl extends AbstractDAO<ArticleJDBCFlat>
 		} else
 		{
 			article.setLastEditDate(
-					rs.getTimestamp("last_edit_date").toLocalDateTime()
+			    rs.getTimestamp("last_edit_date").toLocalDateTime()
 			); // 8
 		}
 
@@ -532,7 +529,7 @@ public class ArticleDaoJDBCFlatImpl extends AbstractDAO<ArticleJDBCFlat>
 		} else
 		{
 			article.setCreateTime(
-					rs.getTimestamp("create_time").toLocalDateTime()
+			    rs.getTimestamp("create_time").toLocalDateTime()
 			); // 16
 		}
 
@@ -551,9 +548,8 @@ public class ArticleDaoJDBCFlatImpl extends AbstractDAO<ArticleJDBCFlat>
 
 		} else
 		{
-			article.setShowUntil(
-					rs.getTimestamp("show_until").toLocalDateTime()
-			); // 18
+			article
+			    .setShowUntil(rs.getTimestamp("show_until").toLocalDateTime()); // 18
 		}
 
 		article.setLayoutColumn(rs.getString("layout_column")); // 19
@@ -563,12 +559,15 @@ public class ArticleDaoJDBCFlatImpl extends AbstractDAO<ArticleJDBCFlat>
 	}
 
 	public List<ArticleJDBCFlat>
-			mapArticlesToPage(PageJDBCFlat page, Connection conn)
-					throws SQLException
+	    mapArticlesToPage(Page page, Connection conn)
+	        throws SQLException
 	{
 		List<ArticleJDBCFlat> articles = new ArrayList<>();
 
-		articles.addAll(page.getMainArticles());
+		if (page.getMainArticles() != null)
+		{
+			articles.addAll(page.getMainArticles());
+		}
 
 		if (articles == null || articles.isEmpty())
 		{
@@ -577,56 +576,55 @@ public class ArticleDaoJDBCFlatImpl extends AbstractDAO<ArticleJDBCFlat>
 
 		PreparedStatement psInsertUpdate;
 		String sqlInsertUpdate = "INSERT INTO " + getTable() + " ("//
-				+ "id, " // 1
-				+ "parent_id, " // 2
-				+ "sorting, " // 3
-				+ "title, " // 4
-				+ "author, " // 5
-				+ "teaser_text, " // 6
-				+ "teaser_image_path, " // 7
-				+ "show_teaser, " // 8
-				+ "last_edit_date, " // 9
-				+ "is_published, " // 10
-				+ "keywords, " // 11
-				+ "teaser_css_class, " // 12
-				+ "teaser_css_id, " // 13
-				+ "css_class, " // 14
-				+ "css_id, " // 15
-				+ "container_tag, " // 16
-				+ "create_time, " // 17
-				+ "show_from, " // 18
-				+ "show_until, " // 19
-				+ "layout_column, " // 20
-				+ "page_path" // 21
-				//
-				+ ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) " //
-				+ "ON DUPLICATE KEY UPDATE " //
-				+ "parent_id = VALUES(parent_id), " // 1
-				+ "sorting = VALUES(sorting), " // 2
-				+ "title = VALUES(title), " // 3
-				+ "author = VALUES(author), " // 4
-				+ "teaser_text = VALUES(teaser_text), " // 5
-				+ "teaser_image_path = VALUES(teaser_image_path), " // 6
-				+ "show_teaser = VALUES(show_teaser), " // 7
-				+ "last_edit_date = VALUES(last_edit_date), " // 8
-				+ "is_published = VALUES(is_published), " // 9
-				+ "keywords = VALUES(keywords), " // 10
-				+ "teaser_css_class = VALUES(teaser_css_class), " // 11
-				+ "teaser_css_id = VALUES(teaser_css_id), " // 12
-				+ "css_class = VALUES(css_class), " // 13
-				+ "css_id = VALUES(css_id), " // 14
-				+ "container_tag = VALUES(container_tag), " // 15
-				+ "create_time = VALUES(create_time), " // 16
-				+ "show_from = VALUES(show_from), " // 17
-				+ "show_until = VALUES(show_until), " // 18
-				+ "layout_column = VALUES(layout_column, )" // 19
-				+ "page_path = VALUES(page_path)" // 20
+		    + "id, " // 1
+		    + "parent_id, " // 2
+		    + "sorting, " // 3
+		    + "title, " // 4
+		    + "author, " // 5
+		    + "teaser_text, " // 6
+		    + "teaser_image_path, " // 7
+		    + "show_teaser, " // 8
+		    + "last_edit_date, " // 9
+		    + "is_published, " // 10
+		    + "keywords, " // 11
+		    + "teaser_css_class, " // 12
+		    + "teaser_css_id, " // 13
+		    + "css_class, " // 14
+		    + "css_id, " // 15
+		    + "container_tag, " // 16
+		    + "create_time, " // 17
+		    + "show_from, " // 18
+		    + "show_until, " // 19
+		    + "layout_column, " // 20
+		    + "page_path" // 21
+			//
+		    + ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) " //
+		    + "ON DUPLICATE KEY UPDATE " //
+		    + "parent_id = VALUES(parent_id), " // 1
+		    + "sorting = VALUES(sorting), " // 2
+		    + "title = VALUES(title), " // 3
+		    + "author = VALUES(author), " // 4
+		    + "teaser_text = VALUES(teaser_text), " // 5
+		    + "teaser_image_path = VALUES(teaser_image_path), " // 6
+		    + "show_teaser = VALUES(show_teaser), " // 7
+		    + "last_edit_date = VALUES(last_edit_date), " // 8
+		    + "is_published = VALUES(is_published), " // 9
+		    + "keywords = VALUES(keywords), " // 10
+		    + "teaser_css_class = VALUES(teaser_css_class), " // 11
+		    + "teaser_css_id = VALUES(teaser_css_id), " // 12
+		    + "css_class = VALUES(css_class), " // 13
+		    + "css_id = VALUES(css_id), " // 14
+		    + "container_tag = VALUES(container_tag), " // 15
+		    + "create_time = VALUES(create_time), " // 16
+		    + "show_from = VALUES(show_from), " // 17
+		    + "show_until = VALUES(show_until), " // 18
+		    + "layout_column = VALUES(layout_column), " // 19
+		    + "page_path = VALUES(page_path)" // 20
 
-				+ ";";
+		    + ";";
 
-		psInsertUpdate = conn.prepareStatement(
-				sqlInsertUpdate, Statement.RETURN_GENERATED_KEYS
-		);
+		psInsertUpdate = conn
+		    .prepareStatement(sqlInsertUpdate, Statement.RETURN_GENERATED_KEYS);
 
 		StringBuilder articlesNoDelete = new StringBuilder();
 
@@ -654,9 +652,9 @@ public class ArticleDaoJDBCFlatImpl extends AbstractDAO<ArticleJDBCFlat>
 
 		PreparedStatement psDelete;
 		String sqlDeleteString = //
-				"DELETE FROM " + getTable() + " "
-						+ "WHERE parent_id=?  AND id NOT IN ("
-						+ articlesNoDelete.toString() + ")";
+		    "DELETE FROM " + getTable() + " "
+		        + "WHERE parent_id=?  AND id NOT IN ("
+		        + articlesNoDelete.toString() + ")";
 		psDelete = conn.prepareStatement(sqlDeleteString);
 		psDelete.setLong(1, page.getId());
 
@@ -665,8 +663,8 @@ public class ArticleDaoJDBCFlatImpl extends AbstractDAO<ArticleJDBCFlat>
 		return articles;
 	}
 
-	public void unmapArticlesFromPage(PageJDBCFlat page, Connection conn)
-			throws SQLException
+	public void unmapArticlesFromPage(Page page, Connection conn)
+	    throws SQLException
 	{
 		String sql = "delete from " + getTable() + " where parent_id=?";
 
@@ -687,12 +685,12 @@ public class ArticleDaoJDBCFlatImpl extends AbstractDAO<ArticleJDBCFlat>
 	}
 
 	public List<ArticleJDBCFlat> readHeaderArticles(Connection conn)
-			throws SQLException
+	    throws SQLException
 	{
 		List<ArticleJDBCFlat> articles = new ArrayList<>();
 
 		String sql = "SELECT * FROM " + getTable()
-				+ " WHERE parent_id = 40 ORDER BY sorting ASC";
+		    + " WHERE parent_id = 40 ORDER BY sorting ASC";
 
 		PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -715,12 +713,12 @@ public class ArticleDaoJDBCFlatImpl extends AbstractDAO<ArticleJDBCFlat>
 	}
 
 	public List<ArticleJDBCFlat> readFooterArticles(Connection conn)
-			throws SQLException
+	    throws SQLException
 	{
 		List<ArticleJDBCFlat> articles = new ArrayList<>();
 
 		String sql = "SELECT * FROM " + getTable()
-				+ " WHERE parent_id = 46 ORDER BY sorting ASC";
+		    + " WHERE parent_id = 46 ORDER BY sorting ASC";
 
 		PreparedStatement ps = conn.prepareStatement(sql);
 

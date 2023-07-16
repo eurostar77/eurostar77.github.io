@@ -38,7 +38,7 @@ public class FlipCardAction extends AbstractAction
 		while (parameterNames.hasMoreElements())
 		{
 			String actionParameterName = parameterNames.nextElement()
-					.toString();
+			    .toString();
 			switch (actionParameterName) {
 			case "right":
 				// todo: ergebnis protokollieren.
@@ -55,17 +55,8 @@ public class FlipCardAction extends AbstractAction
 	}
 
 	@Override
-	public void doAjaxAction(HttpServletRequest request)
+	public void executeAjax(HttpServletRequest request)
 	{
-		throw new UnsupportedOperationException("Not supported yet."); // To
-																		// change
-																		// body
-																		// of
-																		// generated
-																		// methods,
-																		// choose
-																		// Tools
-																		// |
-																		// Templates.
+		throw new UnsupportedOperationException("Not supported yet.");
 	}
 }

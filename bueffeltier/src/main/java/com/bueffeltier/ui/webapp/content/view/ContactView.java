@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.bueffeltier.data.jdbc.ElementJDBCFlat;
 import com.bueffeltier.ui.html.molecule.Bootstrap;
 import com.bueffeltier.ui.html.organism.ButtonBuilder;
-import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonInputTypeDV;
+import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonTypeDV;
 import com.bueffeltier.ui.html.organism.ButtonBuilder.ColorDV;
 
 import j2html.tags.DomContent;
@@ -78,7 +78,7 @@ public class ContactView extends AbstractView
 		        .withClass(" me-md-2")//
 		        .withId("")//
 		        .isToggled(true)//
-		        .withInputType(ButtonInputTypeDV.BUTTON)//
+		        .withButtonType(ButtonTypeDV.BUTTON)//
 		        .build()//
 
 		);

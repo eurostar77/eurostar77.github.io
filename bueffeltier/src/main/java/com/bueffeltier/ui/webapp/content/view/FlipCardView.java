@@ -13,8 +13,8 @@ import com.bueffeltier.ui.html.molecule.SpacingPropertyDV;
 import com.bueffeltier.ui.html.molecule.SpacingSidesDV;
 import com.bueffeltier.ui.html.molecule.SpacingSizeDV;
 import com.bueffeltier.ui.html.organism.ButtonBuilder;
-import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonInputTypeDV;
 import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonTagTypeDV;
+import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonTypeDV;
 import com.bueffeltier.ui.html.organism.ButtonBuilder.ColorDV;
 
 import j2html.tags.DomContent;
@@ -89,7 +89,7 @@ public class FlipCardView extends AbstractView
 		btnList.add(
 		    ButtonBuilder.create()//
 		        .withText("Antwort ist richtig")//
-		        .withInputType(ButtonInputTypeDV.SUBMIT)//
+		        .withButtonType(ButtonTypeDV.SUBMIT)//
 		        .withColor(ColorDV.SUCCESS)//
 		        .withValue("right")//
 		        .withName("right")//
@@ -101,7 +101,7 @@ public class FlipCardView extends AbstractView
 		btnList.add(
 		    ButtonBuilder.create()//
 		        .withText("Antwort ist falsch")//
-		        .withInputType(ButtonInputTypeDV.SUBMIT)//
+		        .withButtonType(ButtonTypeDV.SUBMIT)//
 		        .withColor(ColorDV.DANGER)//
 		        .withValue("wrong")//
 		        .withName("wrong")//
@@ -123,7 +123,7 @@ public class FlipCardView extends AbstractView
 		            .withHref(
 		                appPropertyService.getHostName()
 		                    + appPropertyService.getServletContextPath()
-		                    + "/subject-editor"
+		                    + "/lesson-editor"
 		            )//
 		            .withTagType(ButtonTagTypeDV.A)//
 		            .build(), //
@@ -212,7 +212,7 @@ public class FlipCardView extends AbstractView
 		                SpacingSizeDV.ONE
 		            )//
 		            .withId("flipBtn")//
-		            .withInputType(ButtonInputTypeDV.SUBMIT).build(),
+		            .withButtonType(ButtonTypeDV.SUBMIT).build(),
 		        section(
 		            // p(button("Flip Card").withId("flip"))
 		        ).withId("options")

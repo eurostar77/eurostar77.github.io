@@ -10,7 +10,7 @@ import java.util.List;
 // TODO sveng 12.11.2022: url alias löschen?, css_id einfügen oder löschen? 
 // todo createdate, author
 
-public class PageDaoJDBCFlatImpl extends AbstractDAO<PageJDBCFlat>
+public class PageDaoJDBCFlatImpl extends AbstractDAO<Page>
 {
 	private static PageDaoJDBCFlatImpl instance = null;
 
@@ -32,35 +32,35 @@ public class PageDaoJDBCFlatImpl extends AbstractDAO<PageJDBCFlat>
 		return instance;
 	}
 
-	public void write(PageJDBCFlat page)
+	public void write(Page page)
 	{
 		String sql = "INSERT INTO " + getTable() + " (" //
-				+ "title, " // 1 UNIQUE
-				+ "path, " // 2
-				+ "layout, " // 3
-				+ "permission, " // 4
-				+ "forward_to, " // 5
-				+ "author, " // 6
-				+ "cache_time, " // 7
-				+ "create_sitemap, " // 8
-				+ "css_class, " // 9
-				+ "description, " // 10
-				+ "page_type, " // 11
-				+ "hide_in_nav, " // 12
-				+ "include_cache, " // 13
-				+ "include_layout, " // 14
-				+ "is_protected, " // 15
-				+ "keywords, " // 16
-				+ "language, " // 17
-				+ "last_version, " // 18
-				+ "published, " // 19
-				+ "sitemap_name, " // 20
-				+ "no_follow, " // 21
-				+ "no_index, " // 22
-				+ "internal_name, " // 23
-				+ "url_alias" // 24
-				//
-				+ ") VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		    + "title, " // 1 UNIQUE
+		    + "path, " // 2
+		    + "layout, " // 3
+		    + "permission, " // 4
+		    + "forward_to, " // 5
+		    + "author, " // 6
+		    + "cache_time, " // 7
+		    + "create_sitemap, " // 8
+		    + "css_class, " // 9
+		    + "description, " // 10
+		    + "page_type, " // 11
+		    + "hide_in_nav, " // 12
+		    + "include_cache, " // 13
+		    + "include_layout, " // 14
+		    + "is_protected, " // 15
+		    + "keywords, " // 16
+		    + "language, " // 17
+		    + "last_version, " // 18
+		    + "published, " // 19
+		    + "sitemap_name, " // 20
+		    + "no_follow, " // 21
+		    + "no_index, " // 22
+		    + "internal_name, " // 23
+		    + "url_alias" // 24
+			//
+		    + ") VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -90,9 +90,9 @@ public class PageDaoJDBCFlatImpl extends AbstractDAO<PageJDBCFlat>
 		}
 	}
 
-	public PageJDBCFlat read(String path)
+	public Page read(String path)
 	{
-		PageJDBCFlat page = null;
+		Page page = null;
 
 		String sql = "SELECT * FROM " + getTable() + " WHERE path=?";
 
@@ -110,16 +110,16 @@ public class PageDaoJDBCFlatImpl extends AbstractDAO<PageJDBCFlat>
 
 			rs = ps.executeQuery();
 
-			page = new PageJDBCFlat();
-
-			while (rs.next())
+			if (rs.next())
 			{
+				page = new Page();
+
 				writeResultSetDataToPage(page, rs);
+
+				setArticlesToPage(page, conn);
+
+				conn.commit();
 			}
-
-			setArticlesToPage(page, conn);
-
-			conn.commit();
 
 		} catch (Exception e)
 		{
@@ -133,9 +133,9 @@ public class PageDaoJDBCFlatImpl extends AbstractDAO<PageJDBCFlat>
 		return page;
 	}
 
-	public PageJDBCFlat read(long id)
+	public Page read(long id)
 	{
-		PageJDBCFlat page = null;
+		Page page = null;
 
 		String sql = "SELECT * FROM " + getTable() + " WHERE id = ?";
 
@@ -153,7 +153,7 @@ public class PageDaoJDBCFlatImpl extends AbstractDAO<PageJDBCFlat>
 
 			rs = ps.executeQuery();
 
-			page = new PageJDBCFlat();
+			page = new Page();
 
 			while (rs.next())
 			{
@@ -176,34 +176,34 @@ public class PageDaoJDBCFlatImpl extends AbstractDAO<PageJDBCFlat>
 		return page;
 	}
 
-	public void update(PageJDBCFlat page)
+	public void update(Page page)
 	{
 		String sql = "UPDATE " + getTable() + " SET "//
-				+ "title=?, " // 1
-				+ "path=?, " // 2
-				+ "layout=?, " // 3
-				+ "permission=?, " // 4
-				+ "forward_to=?, " // 5
-				+ "author=?, " // 6
-				+ "cache_time=?, " // 7
-				+ "create_sitemap=?, " // 8
-				+ "css_class=?, " // 9
-				+ "description=?, " // 10
-				+ "page_type=?, " // 11
-				+ "hide_in_nav=?, " // 12
-				+ "include_cache=?, " // 13
-				+ "include_layout=?, " // 14
-				+ "is_protected=?, " // 15
-				+ "keywords=?, " // 16
-				+ "language=?, " // 17
-				+ "last_version=?, " // 18
-				+ "published=?, " // 19
-				+ "sitemap_name=?, " // 20
-				+ "no_follow=?, " // 21
-				+ "no_index=?, " // 22
-				+ "internal_name=?, " // 23
-				+ "url_alias=?" // 24
-				+ " where id=?;";
+		    + "title=?, " // 1
+		    + "path=?, " // 2
+		    + "layout=?, " // 3
+		    + "permission=?, " // 4
+		    + "forward_to=?, " // 5
+		    + "author=?, " // 6
+		    + "cache_time=?, " // 7
+		    + "create_sitemap=?, " // 8
+		    + "css_class=?, " // 9
+		    + "description=?, " // 10
+		    + "page_type=?, " // 11
+		    + "hide_in_nav=?, " // 12
+		    + "include_cache=?, " // 13
+		    + "include_layout=?, " // 14
+		    + "is_protected=?, " // 15
+		    + "keywords=?, " // 16
+		    + "language=?, " // 17
+		    + "last_version=?, " // 18
+		    + "published=?, " // 19
+		    + "sitemap_name=?, " // 20
+		    + "no_follow=?, " // 21
+		    + "no_index=?, " // 22
+		    + "internal_name=?, " // 23
+		    + "url_alias=?" // 24
+		    + " where id=?;";
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -236,7 +236,7 @@ public class PageDaoJDBCFlatImpl extends AbstractDAO<PageJDBCFlat>
 		}
 	}
 
-	public void delete(PageJDBCFlat page)
+	public void delete(Page page)
 	{
 		String sql = "delete from " + getTable() + " where id=?";
 
@@ -269,9 +269,9 @@ public class PageDaoJDBCFlatImpl extends AbstractDAO<PageJDBCFlat>
 		}
 	}
 
-	public List<PageJDBCFlat> readAll()
+	public List<Page> readAll()
 	{
-		List<PageJDBCFlat> pages = new ArrayList<>();
+		List<Page> pages = new ArrayList<>();
 
 		String sql = "SELECT * FROM " + getTable() + " ORDER BY title ASC";
 
@@ -290,7 +290,7 @@ public class PageDaoJDBCFlatImpl extends AbstractDAO<PageJDBCFlat>
 
 			while (rs.next())
 			{
-				PageJDBCFlat page = new PageJDBCFlat();
+				Page page = new Page();
 
 				writeResultSetDataToPage(page, rs);
 
@@ -313,9 +313,9 @@ public class PageDaoJDBCFlatImpl extends AbstractDAO<PageJDBCFlat>
 		return pages;
 	}
 
-	private PageJDBCFlat
-			writeResultSetDataToPage(PageJDBCFlat page, ResultSet rs)
-					throws SQLException
+	private Page
+	    writeResultSetDataToPage(Page page, ResultSet rs)
+	        throws SQLException
 	{
 		page.setId(rs.getLong("id"));
 		page.setHtmlTitle(rs.getString("title")); // 1
@@ -325,7 +325,7 @@ public class PageDaoJDBCFlatImpl extends AbstractDAO<PageJDBCFlat>
 		page.setForwardTo(rs.getString("forward_to")); // 5
 		page.setAuthor(rs.getString("author")); // 6
 		page.setCacheTime(rs.getString("cache_time")); // 7
-		page.setCreateSitemap(rs.getBoolean("create_sitemap")); // 8
+		page.createSitemap(rs.getBoolean("create_sitemap")); // 8
 		page.setCssClass(rs.getString("css_class")); // 9
 		page.setDescription(rs.getString("description")); // 10
 		page.setPageType(rs.getString("page_type")); // 11
@@ -347,8 +347,8 @@ public class PageDaoJDBCFlatImpl extends AbstractDAO<PageJDBCFlat>
 	}
 
 	private PreparedStatement
-			setPageDataToPs(PreparedStatement ps, PageJDBCFlat page)
-					throws SQLException
+	    setPageDataToPs(PreparedStatement ps, Page page)
+	        throws SQLException
 	{
 		ps.setString(1, page.getHtmlTitle()); // 1
 		ps.setString(2, page.getPath()); // 2
@@ -378,8 +378,8 @@ public class PageDaoJDBCFlatImpl extends AbstractDAO<PageJDBCFlat>
 		return ps;
 	}
 
-	private PageJDBCFlat setArticlesToPage(PageJDBCFlat page, Connection conn)
-			throws SQLException
+	private Page setArticlesToPage(Page page, Connection conn)
+	    throws SQLException
 	{
 		List<ArticleJDBCFlat> headerArticles = new ArrayList<>();
 		List<ArticleJDBCFlat> mainArticles = new ArrayList<>();

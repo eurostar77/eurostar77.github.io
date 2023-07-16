@@ -24,11 +24,15 @@ public class CookieService
 	private AuthPermissionService authPermissionService = AuthPermissionService
 	    .getInstance();
 
-	private RedirectDataService redirectDataService = RedirectDataService
-	    .getInstance();
+	private ViewDataService viewDataService = ViewDataService.getInstance();
 
 	private EncryptionService encryptionService = EncryptionService
 	    .getInstance();
+
+	// TODO sveng 23.06.2023: In zwei Services aufteilen.
+	/*
+	 * Service zum Lesen und Schreiben von Cookies
+	 */
 
 	private CookieService()
 	{
@@ -106,11 +110,11 @@ public class CookieService
 	{
 		String cookieValue = cookie.getValue();
 
-		String encryptedCookieValue = null;
+		String decryptedCookieValue = null;
 
 		try
 		{
-			encryptedCookieValue = encryptionService
+			decryptedCookieValue = encryptionService
 
 			    .decryptData(cookieValue);
 
@@ -122,7 +126,7 @@ public class CookieService
 			// methode aufteilen in try und cathc part
 		}
 
-		String[] keyValuePairs = encryptedCookieValue.split(";");
+		String[] keyValuePairs = decryptedCookieValue.split(";");
 
 		if (keyValuePairs.length > 0)
 		{
@@ -132,7 +136,7 @@ public class CookieService
 				String key = keyValue[0];
 				String value = keyValue[1];
 
-				redirectDataService.addData(request, key, value);
+				viewDataService.addReceivedData(request, key, value);
 			}
 		}
 	}
@@ -154,13 +158,18 @@ public class CookieService
 	    HttpServletResponse response
 	)
 	{
-		for (Cookie cookie : request.getCookies())
+		Cookie[] cookies = request.getCookies();
+
+		if (cookies != null)
 		{
-			if (cookie.getName().equals("bueffeltier-redirect"))
+			for (Cookie cookie : cookies)
 			{
-				if (redirectDataService.hasData(request))
+				if (cookie.getName().equals("bueffeltier-redirect"))
 				{
+//					if (viewDataService.hasData(request))
+//					{
 					deleteCookie(response, cookie);
+//					}
 				}
 			}
 		}
@@ -168,8 +177,11 @@ public class CookieService
 
 	private void deleteCookie(HttpServletResponse response, Cookie cookie)
 	{
-		Cookie invalidCookie = new Cookie(cookie.getName(), "");
+		Cookie invalidCookie = new Cookie(
+		    cookie.getName(), "bueffeltier-redirect"
+		);
 
+		invalidCookie.setPath("/");
 		invalidCookie.setMaxAge(0);
 
 		response.addCookie(invalidCookie);
@@ -180,17 +192,22 @@ public class CookieService
 	    HttpServletResponse response
 	)
 	{
-		List<Pair<String, Object>> cookieValuePairs = redirectDataService
-		    .getDataPairs(request);
-
-		if (redirectDataService.hasData(request))
+		if (viewDataService.hasForwardingData(request))
 		{
+			List<Pair<String, String>> cookieValuePairs = viewDataService
+			    .getForwardedViewDataPairs(request);
+
 			StringBuilder cookieValue = new StringBuilder();
 
-			for (Pair<String, Object> pair : cookieValuePairs)
+			for (Pair<String, String> pair : cookieValuePairs)
 			{
 				cookieValue
 				    .append(pair.getValue0() + "=" + pair.getValue1() + ";");
+			}
+
+			if (cookieValue.length() > 0)
+			{
+				cookieValue.deleteCharAt(cookieValue.length() - 1);
 			}
 
 			Cookie redirectDataCookie = null;
@@ -214,8 +231,9 @@ public class CookieService
 			// setzen:
 			// TODO sveng 03.02.2023: denke an localhost.
 //			redirectDataCookie.setDomain(appPropertyService.getServletCookieDomain());
-			redirectDataCookie
-			    .setPath(appPropertyService.getServletCookiePath());
+//			redirectDataCookie
+//			    .setPath(appPropertyService.getServletCookiePath());
+			redirectDataCookie.setPath("/");
 			// TODO sveng 24.01.2023: settings:
 			redirectDataCookie.setHttpOnly(false);
 			// TODO sveng 24.01.2023: cookie lebenszeit; auch als setting?

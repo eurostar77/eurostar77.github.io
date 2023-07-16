@@ -12,5 +12,7 @@ public interface Action
 
 	public void execute(HttpServletRequest request);
 
-	public void doAjaxAction(HttpServletRequest request);
+	public void executeAjax(HttpServletRequest request);
+
+//	public String getSubActionName(HttpServletRequest request);
 }

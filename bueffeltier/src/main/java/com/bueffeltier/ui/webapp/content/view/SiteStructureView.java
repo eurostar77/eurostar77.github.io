@@ -1,6 +1,6 @@
 package com.bueffeltier.ui.webapp.content.view;
 
-import static com.bueffeltier.ui.html.molecule.customTag.*;
+import static com.bueffeltier.ui.html.molecule.customTag.clientSideActionButtonSwitchable;
 import static j2html.TagCreator.*;
 
 import java.util.ArrayList;
@@ -11,14 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.bueffeltier.data.jdbc.ArticleJDBCFlat;
 import com.bueffeltier.data.jdbc.ElementJDBCFlat;
-import com.bueffeltier.data.jdbc.PageJDBCFlat;
+import com.bueffeltier.data.jdbc.Page;
 import com.bueffeltier.logic.foundation.pagetree.SiteRepository;
 import com.bueffeltier.ui.html.molecule.SpacingPropertyDV;
 import com.bueffeltier.ui.html.molecule.SpacingSidesDV;
 import com.bueffeltier.ui.html.molecule.SpacingSizeDV;
 import com.bueffeltier.ui.html.organism.ButtonBuilder;
-import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonInputTypeDV;
 import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonTagTypeDV;
+import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonTypeDV;
 import com.bueffeltier.ui.html.organism.ButtonBuilder.ColorDV;
 import com.bueffeltier.ui.html.organism.ColumnBuilder;
 import com.bueffeltier.ui.html.organism.ColumnBuilder.GridWidthDV;
@@ -37,7 +37,6 @@ import j2html.tags.DomContent;
  */
 public class SiteStructureView extends AbstractView
 {
-
 	SiteRepository siteRepository = SiteRepository.getInstance();
 
 	private static SiteStructureView instance;
@@ -60,14 +59,16 @@ public class SiteStructureView extends AbstractView
 	public DomContent
 	    writeHtml(ElementJDBCFlat element, HttpServletRequest request)
 	{
-		ArrayList<PageJDBCFlat> pages = (ArrayList<PageJDBCFlat>) siteRepository
+		ArrayList<Page> pages = (ArrayList<Page>) siteRepository
 		    .readAll();
 
 		List<TableRow> rows = new ArrayList<>();
 
-		for (PageJDBCFlat page : pages)
+		for (Page page : pages)
 		{
 			DomContent btnExpand = ButtonBuilder.create()//
+			    .withButtonType(ButtonTypeDV.SUBMIT)//
+			    .asOutline()//
 			    .withText("+")//
 //			    .withId(Long.toString(page.getId()))//
 			    .withTagType(ButtonTagTypeDV.BUTTON)//
@@ -82,17 +83,21 @@ public class SiteStructureView extends AbstractView
 			    .withText("Edit")//
 			    .withName("editPage")//
 			    .withValue(txtId)//
-			    .withInputType(ButtonInputTypeDV.SUBMIT)//
+			    .withButtonType(ButtonTypeDV.SUBMIT)//
+			    .asOutline()//
 			    .build();
 
 			DomContent btnPublish = ButtonBuilder.create()//
 			    .withText("Publish")//
 			    .withColor(ColorDV.SECONDARY)//
+			    .asOutline()//
 			    .build();
 
 			DomContent btnDelete = ButtonBuilder.create()//
 			    .withText("Delete")//
 			    .withColor(ColorDV.DANGER)//
+			    .asOutline()//
+			    .asOutline()//
 			    .build();
 
 			DomContent btnAddArticle = ButtonBuilder.create()//
@@ -115,26 +120,37 @@ public class SiteStructureView extends AbstractView
 		        .withSpacing(
 		            SpacingPropertyDV.MARGIN, SpacingSidesDV.BOTTOM,
 		            SpacingSizeDV.FOUR
-		        )
-		        .withDomContent(
+		        ).withDomContent(
 		            div(),
+
 		            ColumnBuilder.create().withGridWidth(GridWidthDV.ONE)
 		                .withClass("text-start").withDomContent(div()).build(),
+
 		            ColumnBuilder.create().withGridWidth(GridWidthDV.FOUR)
 		                .withClass("text-start")
 		                .withDomContent(
 		                    FormControlBuilder.create()
 		                        .withId("filterSearchInput").build()
 		                ).build(),
-		            ColumnBuilder.create().withGridWidth(GridWidthDV.TWO)
-		                .withClass("text-start")
+
+		            ColumnBuilder.create().//
+		                withGridWidth(GridWidthDV.TWO)//
+		                .withClass("text-start")//
 		                .withDomContent(
-		                    ButtonBuilder.create().withText("Suchen").build()
+		                    ButtonBuilder.create()//
+		                        .withText("Suchen")//
+		                        .build()
 		                ).build(),
-		            ColumnBuilder.create().withGridWidth(GridWidthDV.FOUR)
-		                .withClass("text-end")
+
+		            ColumnBuilder.create().//
+		                withGridWidth(GridWidthDV.FOUR)//
+		                .withClass("text-end")//
 		                .withDomContent(
-		                    ButtonBuilder.create().withText("Neue Seite")
+		                    ButtonBuilder.create()//
+		                        .withButtonType(ButtonTypeDV.SUBMIT)//
+		                        .withText("Neue Seite")//
+		                        .withName("newPage")//
+		                        .withValue("newPage")//
 		                        .build()
 		                ).build(),
 		            ColumnBuilder.create().withGridWidth(GridWidthDV.ONE)
@@ -186,24 +202,6 @@ public class SiteStructureView extends AbstractView
 	{
 		return p("ID: " + Long.toString(l) + " - " + pageTitle)
 		    .withClass("page-title");
-	}
-
-	/**
-	 *
-	 * @param pageId
-	 * @param expandedArticlePages
-	 * @return
-	 */
-	public DomContent expandButton(long pageId)
-	{
-//		return submitButton("-", "collapse", Long.toString(pageId));
-		return onClickButton(
-		    "+", "expand", "loadArticles(" + Long.toString(pageId) + ")"
-		); // todo:
-		   // brauche
-		   // ich
-		   // die
-		   // id?
 	}
 
 	/**

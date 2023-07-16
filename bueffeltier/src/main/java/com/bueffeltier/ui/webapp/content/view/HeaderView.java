@@ -13,7 +13,7 @@ import com.bueffeltier.ui.html.molecule.SpacingPropertyDV;
 import com.bueffeltier.ui.html.molecule.SpacingSidesDV;
 import com.bueffeltier.ui.html.molecule.SpacingSizeDV;
 import com.bueffeltier.ui.html.organism.ButtonBuilder;
-import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonInputTypeDV;
+import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonTypeDV;
 import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonTagTypeDV;
 import com.bueffeltier.ui.html.organism.ButtonBuilder.ColorDV;
 
@@ -220,7 +220,7 @@ public class HeaderView extends AbstractView
 			    element.getType(),
 
 			    ButtonBuilder.create().withText("Ausloggen")
-			        .withInputType(ButtonInputTypeDV.SUBMIT).withValue("logout")
+			        .withButtonType(ButtonTypeDV.SUBMIT).withValue("logout")
 			        .withName("logout").withColor(ColorDV.PRIMARY)
 			        .withSpacing(
 			            SpacingPropertyDV.MARGIN, SpacingSidesDV.BLANK,

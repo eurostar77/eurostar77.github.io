@@ -1,54 +1,54 @@
 package com.bueffeltier.logic.foundation.pagetree;
 
-import com.bueffeltier.data.jdbc.PageJDBCFlat;
+import com.bueffeltier.data.jdbc.Page;
 
 public class PageTreeRepoFlatHibernateImpl implements PageTreeRepoFlatHibernate
 {
 
 	@Override
-	public PageJDBCFlat createPage()
+	public Page createPage()
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void write(PageJDBCFlat page)
+	public void write(Page page)
 	{
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public PageJDBCFlat read(String path)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public PageJDBCFlat read(long id)
+	public Page read(String path)
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void update(PageJDBCFlat page)
+	public Page read(long id)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(Page page)
 	{
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void delete(PageJDBCFlat page)
+	public void delete(Page page)
 	{
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public PageJDBCFlat getHomePage()
+	public Page getHomePage()
 	{
 		// TODO Auto-generated method stub
 		return null;

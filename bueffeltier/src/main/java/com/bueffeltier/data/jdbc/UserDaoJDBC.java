@@ -646,7 +646,7 @@ public class UserDaoJDBC extends AbstractDAO<UserJDBC>
 	{
 		// TODO sveng 28.01.2023: return value?
 		String sql = "DELETE FROM " + getTable()
-		    + " WHERE activation_key_experiation_time <=? AND activation_key IS NOT NULL AND activation_key <> '')";
+		    + " WHERE activation_key_experiation_time <=? AND activation_key IS NOT NULL AND activation_key <> ''";
 
 		Connection conn = null;
 		PreparedStatement ps = null;

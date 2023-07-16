@@ -1,22 +1,22 @@
 package com.bueffeltier.logic.foundation.pagetree;
 
-import com.bueffeltier.data.jdbc.PageJDBCFlat;
+import com.bueffeltier.data.jdbc.Page;
 
 public interface PageTreeRepoFlatHibernate
 {
-	PageJDBCFlat createPage();
+	Page createPage();
 
-	void write(PageJDBCFlat page);
+	void write(Page page);
 
-	PageJDBCFlat read(String path);
+	Page read(String path);
 
-	PageJDBCFlat read(long id);
+	Page read(long id);
 
-	void update(PageJDBCFlat page);
+	void update(Page page);
 
-	void delete(PageJDBCFlat page);
+	void delete(Page page);
 
-	PageJDBCFlat getHomePage();
+	Page getHomePage();
 
 	private void writeSitemap()
 	{

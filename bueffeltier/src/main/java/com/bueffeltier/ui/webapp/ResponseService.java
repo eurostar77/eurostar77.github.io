@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bueffeltier.crosscutting.AppPropertyService;
+import com.bueffeltier.data.jdbc.Page;
+import com.google.gson.Gson;
 
 // todo rename responseService
 public class ResponseService
@@ -19,6 +21,13 @@ public class ResponseService
 
 	private AppPropertyService appPropertyService = AppPropertyService
 	    .getInstance();
+
+	private PageLoadingService pageLoadingService = PageLoadingService
+	    .getInstance();
+
+	private ViewDataService viewDataService = ViewDataService.getInstance();
+
+	private ViewBuilder viewBuilder = ViewBuilder.getInstance();
 
 	private ResponseService()
 	{
@@ -39,9 +48,31 @@ public class ResponseService
 	 * redirect oder response Setzt die Cookies. Speichert ConentAttributeSet.
 	 */
 	public void doResponse(HttpServletRequest request)
-
 	{
-		String responseType = detectResponseType(request);
+		boolean isAjaxRequest = (boolean) request.getAttribute("isAjaxRequest");
+
+		String responseType = "RESPOND";
+		request.setAttribute("responseType", "RESPOND");
+
+		if (!isAjaxRequest)
+		{
+			Page accessiblePage = pageLoadingService
+			    .detectResponsePage(request);
+
+			responseType = detectResponseType(request, accessiblePage);
+
+			try
+			{
+				buildResponseViewOpt(request, responseType, accessiblePage);
+
+			} catch (Exception e)
+			{
+				// Bauen der View schlug fehl.
+				// TODO sveng 12.07.2023: fehlerseite laden, schleife mit 3
+				// maligem durchlauf, dann jsp laden, oder html
+
+			}
+		}
 
 		switch (responseType) {
 		// todo: exceeption werfen, für den fall, dass in der db kein
@@ -62,36 +93,81 @@ public class ResponseService
 		}
 	}
 
-	private String detectResponseType(HttpServletRequest request)
+	public String detectResponseType(
+	    HttpServletRequest request,
+	    Page responsePage
+	)
 	{
-		String responseType = (String) request.getAttribute("responseType");
+		String responseType = null;
+
+		String requestedPath = (String) request.getAttribute("requestPath");
+		String responsePath = responsePage.getPath();
+
+		String reponsePageType = responsePage.getPageType();
 
 		boolean preventRedirect = (boolean) request
 		    .getAttribute("preventRedirect");
 
-		// Vergleich des ursprünglich angefragten Pfades mit dem tatsächlich
-		// ausgelieferten Pfades:
-		boolean doRedirect = !request.getServletPath()
-		    .equals(request.getAttribute("responsePath"));
-
-		if (responseType.equals("REDIRECT"))
+		// Zuerst wird nur geprüft, ob mit der vom Client angeforderten Seite
+		// geantwortet wird, um "RESPOND" und "FORWARD" von "REDIRECT" zu
+		// unterscheiden:
+		if (responsePath.equals(requestedPath))
 		{
+			// Wenn angeforderte Seite geladen wurde, dann wird auch dessen
+			// ResponseType verwendet:
+			// REDIRECT, FORWARD oder RESPOND
+			responseType = reponsePageType;
+
+		} else
+		{
+			// ... sonst gehen wir von einem "REDIRECT" aus:
+			responseType = "REDIRECT";
+
 			if (preventRedirect)
 			{
-				request.setAttribute("responseType", "RESPOND");
+				responseType = reponsePageType;
 			}
 		}
 
-		if (responseType.equals("RESPOND"))
-		{
-			if (doRedirect && !preventRedirect)
-			{
-				request.setAttribute("responseType", "REDIRECT");
-				responseType = "REDIRECT";
-			}
-		}
+		// TODO sveng 25.06.2023: Wenn hier response-type == null:
+		// Fehlerseite oder sinnvolle Antwort.
+
+		request.setAttribute("responseType", responseType);
 
 		return responseType;
+	}
+
+	// TODO sveng 25.06.2023: jsp view als startpunkt hier mit einbauen.
+	private void buildResponseViewOpt(
+	    HttpServletRequest request,
+	    String responseType,
+	    Page page
+	)
+	{
+		if (responseType.equals("RESPOND"))
+		{
+			String view = null;
+
+			// while(viewNotBuilt){}
+			try
+			{
+				view = viewBuilder.buildView(request, page);
+
+			} catch (Exception e)
+			{
+				// TODO sveng 25.06.2023: View erneut bauen, sonst in einer
+				// Schleife
+				// Ausweichseiten versuchen zu laden. Erst x, dann y, dann z...
+			}
+
+			request.setAttribute("responseView", view);
+
+			// TODO sveng 25.06.2023: Gilt für "RESPOND" und "FORWARD"
+			// (JSP-View)
+			// Löschen der Action-to-View Daten nach Bauen der View,
+			// damit sie nicht mit Cookie gesendet werden.
+			viewDataService.clearForwardViewData(request);
+		}
 	}
 
 	/*
@@ -105,37 +181,56 @@ public class ResponseService
 		HttpServletResponse response = (HttpServletResponse) asyncContext
 		    .getResponse();
 
+		// TODO sveng 28.06.2023: Wann müssen die Status Codes gesetzt werden?
 		setStatus(request, response);
 
 		cookieService.writeCookies(request, response);
 
-		response.setContentType("text/htmlcharset=UTF-8");
-//		response.setContentType("text/html");
-
-		response.setContentType("text/html"); // todo: wo wird das festgelegt?
-
-		PrintWriter out = null;
-
 		String htmlString = "";
 
-		try
-		{
-			htmlString = (String) request.getAttribute("responseView");
+		boolean isAjaxRequest = (boolean) request.getAttribute("isAjaxRequest");
 
-		} catch (Exception ex)
+		if (!isAjaxRequest)
 		{
-			// todo: fehlerseite
+			response.setContentType("text/htmlcharset=UTF-8");
+			response.setContentType("text/html");
+
+			try
+			{
+				htmlString = (String) request.getAttribute("responseView");
+
+			} catch (Exception ex)
+			{
+				// TODO sveng 28.06.2023: Fehlerseite, Fehlermeldung, Statuscode
+			}
+
+		} else
+		{
+			response.setCharacterEncoding("UTF-8");
+
+			response.setContentType("application/json");
 		}
+
+		PrintWriter out = null;
 
 		try
 		{
 			out = response.getWriter();
 
-			out.print(htmlString);
+			if (isAjaxRequest)
+			{
+				Gson gson = (Gson) request.getAttribute("ajaxResponseData");
+
+				out.print(gson);
+
+			} else
+			{
+				out.print(htmlString);
+			}
 
 		} catch (IOException ex)
 		{
-			// todo: fehlerseite
+			// TODO sveng 28.06.2023: Fehlerseite, Fehlermeldung, Statuscode
 
 		} finally
 		{
@@ -176,6 +271,9 @@ public class ResponseService
 		setStatus(request, response);
 
 		cookieService.writeCookies(request, response);
+		// Löschen der Action-to-View Daten nach dem Setzen der Cookies aller
+		// Response-Types.
+//		viewDataService.clear(request);
 
 		try
 		{
@@ -211,6 +309,9 @@ public class ResponseService
 		setStatus(request, response);
 
 		cookieService.writeCookies(request, response);
+		// Löschen der Action-to-View Daten nach dem Setzen der Cookies aller
+		// Response-Types.
+//		viewDataService.clear(request);
 
 		// Forward durchführen:
 		// todo: url aus page laden!

@@ -39,7 +39,6 @@ public class AppPropertyService
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
 			// TODO sveng 25.11.2022: Fehlerseite laden.
 		}
 	}
@@ -772,7 +771,6 @@ public class AppPropertyService
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 

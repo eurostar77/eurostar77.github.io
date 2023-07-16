@@ -23,7 +23,7 @@ import com.bueffeltier.ui.html.molecule.SpacingPropertyDV;
 import com.bueffeltier.ui.html.molecule.SpacingSidesDV;
 import com.bueffeltier.ui.html.molecule.SpacingSizeDV;
 import com.bueffeltier.ui.html.organism.ButtonBuilder;
-import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonInputTypeDV;
+import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonTypeDV;
 import com.bueffeltier.ui.html.organism.ButtonBuilder.ColorDV;
 import com.bueffeltier.ui.html.organism.FormControlBuilder;
 import com.bueffeltier.ui.html.organism.IconBuilder;
@@ -157,7 +157,7 @@ public class RessourcesView extends AbstractView
 //				    .withText("Bearbeiten")//
 				    .withName("")//
 				    .withValue("")//
-				    .withInputType(ButtonInputTypeDV.SUBMIT)//
+				    .withButtonType(ButtonTypeDV.SUBMIT)//
 				    .build();
 
 				DomContent btnOpen = null;
@@ -172,7 +172,7 @@ public class RessourcesView extends AbstractView
 					    .withValue(
 					        fileExplorerService.getRelativePath(file.getPath())
 					    )//
-					    .withInputType(ButtonInputTypeDV.SUBMIT)//
+					    .withButtonType(ButtonTypeDV.SUBMIT)//
 					    .build();
 				} else
 				{
@@ -184,7 +184,7 @@ public class RessourcesView extends AbstractView
 					    .withValue(
 					        fileExplorerService.getRelativePath(file.getPath())
 					    )//
-					    .withInputType(ButtonInputTypeDV.SUBMIT)//
+					    .withButtonType(ButtonTypeDV.SUBMIT)//
 					    .build();
 				}
 
@@ -215,7 +215,7 @@ public class RessourcesView extends AbstractView
 		        // Datei-Upload
 		        ButtonBuilder.create()//
 		            .withText("Datei hochladen")//
-		            .withInputType(ButtonInputTypeDV.BUTTON)//
+		            .withButtonType(ButtonTypeDV.BUTTON)//
 		            .withOncLick("uploadFiles()")//
 		            .withId("uploadFileButton")//
 		            .build(),
@@ -251,7 +251,7 @@ public class RessourcesView extends AbstractView
 		        // Neuer-Ordner-Button
 		        ButtonBuilder.create()//
 		            .withText("Neuer Ordner")//
-		            .withInputType(ButtonInputTypeDV.BUTTON)//
+		            .withButtonType(ButtonTypeDV.BUTTON)//
 		            .withOncLick("openNewFolderModal()")//
 		            .build()
 
@@ -326,10 +326,7 @@ public class RessourcesView extends AbstractView
 
 		    // Delete File Modal
 		    ModalBuilder.create()//
-		        .withDomContent(
-		            LabelBuilder.create()//
-		                .build("Wollen Sie diese Datei wirklich löschen?", null)
-		        )//
+		        .withDomContent(p("Wollen Sie diese Datei wirklich löschen?"))//
 		        .withOpenFunctionParameter("fileDeletePath")//
 		        .withApproveButton("Löschen")//
 		        .withApproveFunctionName("approveDeleteFileModal()")//
@@ -396,12 +393,12 @@ public class RessourcesView extends AbstractView
 		// todo: keine action auf currentFolder:
 		LiTag upItem = new LiTag().with(
 		    ButtonBuilder.create()//
-		        .withInputType(ButtonInputTypeDV.SUBMIT)//
+		        .withButtonType(ButtonTypeDV.SUBMIT)//
 		        .withName("up")//
 		        .withValue(
 		            fileExplorerService.getRelativePath(parentFile.getPath())
 		        )//
-		        .withInputType(ButtonInputTypeDV.SUBMIT)//
+		        .withButtonType(ButtonTypeDV.SUBMIT)//
 		        .withIcon(IconTypeDV.LEVEL_UP, 0)//
 		        .build()
 		).withClass("breadcrumb-item");
@@ -424,7 +421,7 @@ public class RessourcesView extends AbstractView
 		            SpacingPropertyDV.MARGIN, SpacingSidesDV.BLANK,
 		            SpacingSizeDV.NULL
 		        )//
-		        .withInputType(ButtonInputTypeDV.SUBMIT)//
+		        .withButtonType(ButtonTypeDV.SUBMIT)//
 		        .withIcon(IconTypeDV.HOME, 0)//
 		        .withStyle("vertical-align: middle;")//
 		        .build()
@@ -447,7 +444,7 @@ public class RessourcesView extends AbstractView
 			            SpacingPropertyDV.MARGIN, SpacingSidesDV.BLANK,
 			            SpacingSizeDV.NULL
 			        )//
-			        .withInputType(ButtonInputTypeDV.SUBMIT)//
+			        .withButtonType(ButtonTypeDV.SUBMIT)//
 			        .withIcon(IconTypeDV.FOLDER, 0)//
 			        .withStyle("vertical-align: middle;")//
 			        .build()

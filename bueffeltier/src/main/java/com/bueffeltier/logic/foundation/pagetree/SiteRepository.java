@@ -7,7 +7,7 @@ import com.bueffeltier.data.jdbc.ArticleJDBCFlat;
 import com.bueffeltier.data.jdbc.ElementDaoJDBCFlatImpl;
 import com.bueffeltier.data.jdbc.ElementJDBCFlat;
 import com.bueffeltier.data.jdbc.PageDaoJDBCFlatImpl;
-import com.bueffeltier.data.jdbc.PageJDBCFlat;
+import com.bueffeltier.data.jdbc.Page;
 
 // todo headlines einführen.
 
@@ -42,41 +42,41 @@ public class SiteRepository
 	 * Pages:
 	 */
 
-	public PageJDBCFlat createPage()
+	public Page createPage()
 	{
 		// page richtig initialisieren.
 
 		return null;
 	}
 
-	public void write(PageJDBCFlat page)
+	public void write(Page page)
 	{
 		pageDao.write(page);
 		// todo: mit return values arbeiten, richtige seite, oder meldung
 		// zurückgeben.
 	}
 
-	public PageJDBCFlat read(String path)
+	public Page read(String path)
 	{
 		return pageDao.read(path);
 	}
 
-	public PageJDBCFlat read(long id)
+	public Page read(long id)
 	{
 		return pageDao.read(id);
 	}
 
-	public List<PageJDBCFlat> readAll()
+	public List<Page> readAll()
 	{
 		return pageDao.readAll();
 	}
 
-	public void update(PageJDBCFlat page)
+	public void update(Page page)
 	{
 		pageDao.update(page);
 	}
 
-	public void delete(PageJDBCFlat page)
+	public void delete(Page page)
 	{
 		pageDao.delete(page);
 	}
@@ -113,7 +113,7 @@ public class SiteRepository
 		// artikelpages anlegen
 	}
 
-	public PageJDBCFlat getHomePage()
+	public Page getHomePage()
 	{
 		// TODO Auto-generated method stub
 		return null;

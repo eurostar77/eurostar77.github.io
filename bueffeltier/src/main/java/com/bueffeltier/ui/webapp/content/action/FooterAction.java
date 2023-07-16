@@ -32,7 +32,7 @@ public class FooterAction extends AbstractAction
 	}
 
 	@Override
-	public void doAjaxAction(HttpServletRequest request)
+	public void executeAjax(HttpServletRequest request)
 	{
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
