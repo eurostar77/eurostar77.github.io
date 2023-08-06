@@ -133,9 +133,9 @@ public class ArticleEditorView extends AbstractView
 		{
 			return accordion.buildAccordionItem(
 			    //
-			    accordion.buildHeaderH2("Content Elements"), //
+			    accordion.buildItemHeaderH2("Content Elements"), //
 
-			    accordion.buildBody(
+			    accordion.buildItemBody(
 			        //
 			        each(
 			            //
@@ -173,9 +173,9 @@ public class ArticleEditorView extends AbstractView
 	{
 		return accordion.buildAccordionItem(
 		    //
-		    accordion.buildHeaderH2("Title & Author"), //
+		    accordion.buildItemHeaderH2("Title & Author"), //
 
-		    accordion.buildBody(
+		    accordion.buildItemBody(
 		        //
 		        LabelBuilder.create().//
 		            build("ID", "idInput"), //
@@ -218,9 +218,9 @@ public class ArticleEditorView extends AbstractView
 		}
 		return accordion.buildAccordionItem(
 		    //
-		    accordion.buildHeaderH2("Layout & Search"), //
+		    accordion.buildItemHeaderH2("Layout & Search"), //
 
-		    accordion.buildBody(
+		    accordion.buildItemBody(
 		        //
 		        ul(
 		            // todo: Spalten aus dem Layout anbieten:
@@ -306,9 +306,9 @@ public class ArticleEditorView extends AbstractView
 	{
 		return accordion.buildAccordionItem(
 		    //
-		    accordion.buildHeaderH2("Article Teaser"), //
+		    accordion.buildItemHeaderH2("Article Teaser"), //
 
-		    accordion.buildBody(
+		    accordion.buildItemBody(
 		        //
 		        ul(
 		            //
@@ -358,9 +358,9 @@ public class ArticleEditorView extends AbstractView
 	{
 		return accordion.buildAccordionItem(
 		    //
-		    accordion.buildHeaderH2("Syndication"), //
+		    accordion.buildItemHeaderH2("Syndication"), //
 
-		    accordion.buildBody(
+		    accordion.buildItemBody(
 		        //
 		        input().withType("checkbox").withName("add-layout")
 		            .withValue("add-layout").withId("add-layout"),
@@ -406,9 +406,9 @@ public class ArticleEditorView extends AbstractView
 	{
 		return accordion.buildAccordionItem(
 		    //
-		    accordion.buildHeaderH2("Template"), //
+		    accordion.buildItemHeaderH2("Template"), //
 
-		    accordion.buildBody(
+		    accordion.buildItemBody(
 		        //
 		        input().withType("checkbox").withName("cache-time")
 		            .withValue("cache-time").withId("cache-time"),
@@ -424,9 +424,9 @@ public class ArticleEditorView extends AbstractView
 	{
 		return accordion.buildAccordionItem(
 		    //
-		    accordion.buildHeaderH2("Access"), //
+		    accordion.buildItemHeaderH2("Access"), //
 
-		    accordion.buildBody(
+		    accordion.buildItemBody(
 		        //
 		        ul(
 		            li(
@@ -450,9 +450,9 @@ public class ArticleEditorView extends AbstractView
 	{
 		return accordion.buildAccordionItem(
 		    //
-		    accordion.buildHeaderH2("Experts"), //
+		    accordion.buildItemHeaderH2("Experts"), //
 
-		    accordion.buildBody(
+		    accordion.buildItemBody(
 		        //
 		        // input().withType("checkbox")
 		        // .withName("guest-only")
@@ -501,9 +501,9 @@ public class ArticleEditorView extends AbstractView
 
 		return accordion.buildAccordionItem(
 		    //
-		    accordion.buildHeaderH2("Publish"), //
+		    accordion.buildItemHeaderH2("Publish"), //
 
-		    accordion.buildBody(
+		    accordion.buildItemBody(
 		        //
 		        input().withType("checkbox").withName("publish")
 		            .withValue("true").withId("publish")
@@ -527,9 +527,9 @@ public class ArticleEditorView extends AbstractView
 	{
 		return accordion.buildAccordionItem(
 		    //
-		    accordion.buildHeaderH2("Keyboard Navigation"), //
+		    accordion.buildItemHeaderH2("Keyboard Navigation"), //
 
-		    accordion.buildBody(
+		    accordion.buildItemBody(
 		        //
 		        ul(
 		            li(
@@ -546,7 +546,7 @@ public class ArticleEditorView extends AbstractView
 		return section(
 		    FooterNavigationBuilder.create()//
 		        .withSaveAndCloseOption()//
-		        .withSaveOption()//
+		        .withSaveOption("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")//
 		        .withReturnOption()//
 		        .withAlignment(RowAlignmentDV.END)//
 		        .build()

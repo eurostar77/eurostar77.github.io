@@ -90,12 +90,13 @@ public class RowBuilder
 //		String classString = null;
 		String idString = null;
 
-		if (this.cssClasses == null)
+		String spacingClassString = buildSpacingClassString();
+		if (cssClasses == null
+		    && StringUtils.isNotBlank(buildSpacingClassString()))
 		{
 			cssClasses = new ArrayList<>();
+			cssClasses.add(spacingClassString);
 		}
-
-		cssClasses.add(buildSpacingClassString());
 
 		return div(each(domContent, doc -> {
 			return doc;
@@ -106,40 +107,42 @@ public class RowBuilder
 	}
 
 	// TODO sveng 25.02.2023: zusammen mit form control builder in eingene class
+	// Die ganze Methode überarbeiten. Braucht eine Row überhaupt Margin?
 	private String buildSpacingClassString()
 	{
-		StringBuilder builder = new StringBuilder();
-
-		if (spacingProperty == null)
-		{
-			builder.append("m");
-
-		} else
-		{
-			builder.append(spacingProperty.toString());
-		}
-
-		if (spacingSides == null)
-		{
-			builder.append("b");
-
-		} else
-		{
-			builder.append(spacingSides.toString());
-		}
-
-		builder.append("-");
-
-		if (spacingSize == null)
-		{
-			builder.append("1");
-
-		} else
-		{
-			builder.append(spacingSize.toString());
-		}
-
-		return builder.toString();
+//		StringBuilder builder = new StringBuilder();
+//
+//		if (spacingProperty == null)
+//		{
+////			builder.append("m");
+//
+//		} else
+//		{
+//			builder.append(spacingProperty.toString());
+//		}
+//
+//		if (spacingSides == null)
+//		{
+////			builder.append("b");
+//
+//		} else
+//		{
+//			builder.append(spacingSides.toString());
+//		}
+//
+////		builder.append("-");
+//
+//		if (spacingSize == null)
+//		{
+////			builder.append("1");
+//
+//		} else
+//		{
+//			builder.append(spacingSize.toString());
+//		}
+//
+//		return builder.toString();
+		return null;
 	}
 
 	private String buildClassString()

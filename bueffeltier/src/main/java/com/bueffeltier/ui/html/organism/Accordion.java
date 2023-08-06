@@ -8,14 +8,20 @@ import j2html.tags.specialized.H2Tag;
 
 public class Accordion
 {
+	// TODO sveng 29.07.2023: collapsed in der class und aria expanded per js
+	// setzen.
+	// unterscheide open all = zeige alle geöffnet und allowAllOpen
+	// füge offene karte ab der zweiten kart hinzu, mache das auch in js!
+	// füge js verhalten für open varianten und copy hinzu hinzu!
+
 	private String baseId;
 	private int totalItemCount;
 	private boolean removeBackgroundColor;
 	private boolean openAll = false;
 
-	public Accordion(String baseId)
+	public Accordion(String idBaseName)
 	{
-		this.baseId = baseId + "Accordion";
+		this.baseId = idBaseName + "Accordion";
 	}
 
 	/*
@@ -28,7 +34,7 @@ public class Accordion
 		return this;
 	}
 
-	public Accordion openAll()
+	public Accordion expandAll()
 	{
 		this.openAll = true;
 		return this;
@@ -68,7 +74,7 @@ public class Accordion
 		).withClass("accordion-item");
 	}
 
-	public H2Tag buildHeaderH2(String text)
+	public DomContent buildItemHeaderH2(String text)
 	{
 		return buildHeader(text, "h2");
 	}
@@ -85,28 +91,31 @@ public class Accordion
 
 	private H2Tag buildHeader(String text, String bsHeaderClass)
 	{
-		String ariaExpandedValue = "true";
-		String classString = "accordion-button";
+		String ariaExpandedValue = "false";
+		String classString = "accordion-button collapsed dynamic-id";
 
 		if (!openAll)
 		{
+			// todo: hier variante ab dem zweiten button, wegen der
+			// ausgeblendeten
+			// prototype card.
 			if (totalItemCount == 0)
 			{
 				ariaExpandedValue = "true";
-				classString = "accordion-button";
+				classString = "accordion-button dynamic-id";
 
-			} else
-			{
-				ariaExpandedValue = "false";
-				classString = "accordion-button collapsed";
 			}
+//			else
+//			{
+//				ariaExpandedValue = "false";
+//				classString = "accordion-button collapsed dynamic-id";
+//			}
 		}
 
 		return h2(
 		    button(
 		        //
-		        i().withClass("bi bi-chevron-down"), //
-		        text(text)
+		        span(text).withClass("dynamic-id")
 		    )//
 		        .withClass(classString)//
 		        .withType("button")//
@@ -116,27 +125,28 @@ public class Accordion
 		        )//
 		        .attr("aria-expanded", ariaExpandedValue)//
 		        .condAttr(totalItemCount != 1, "aria-expanded", "false")//
-		        .attr("aria-controls", baseId + "Collapse" + totalItemCount)
+		        .attr("aria-controls", baseId + "Collapse" + totalItemCount)//
+
 		)//
-		    .withClass("accordion-header " + bsHeaderClass)//
+		    .withClass("accordion-header " + bsHeaderClass + " dynamic-id")//
 		    .withId(baseId + "Heading" + totalItemCount);
 	}
 
-	public DomContent buildBody(DomContent... domContent)
+	public DomContent buildItemBody(DomContent... domContent)
 	{
-		String collapseClassString = "accordion-collapse collapse show";
+		String collapseClassString = "accordion-collapse collapse";
 
-		if (!openAll)
-		{
-			if (totalItemCount == 0)
-			{
-				collapseClassString = "accordion-collapse collapse show";
-
-			} else
-			{
-				collapseClassString = "accordion-collapse collapse";
-			}
-		}
+//		if (!openAll)
+//		{
+//			if (totalItemCount == 1)
+//			{
+//				collapseClassString = "accordion-collapse collapse show";
+//
+//			} else
+//			{
+//				collapseClassString = "accordion-collapse collapse";
+//			}
+//		}
 
 		return div(
 		    //
@@ -145,9 +155,11 @@ public class Accordion
 		        domContent
 		    ).withClass("accordion-body")
 		)//
-		    .withClass(collapseClassString)//
+		    .withClass(collapseClassString + " dynamic-id")//
 		    .withId(baseId + "Collapse" + totalItemCount)//
 		    .attr("aria-labelledby", baseId + "Heading" + totalItemCount)//
-		    .withData("bs", "heading" + totalItemCount);
+		    .withData("bs", "heading" + totalItemCount)//
+		    .withCondData(!openAll, "bs-parent", "#" + baseId)//
+		;
 	}
 }

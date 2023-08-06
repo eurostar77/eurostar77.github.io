@@ -146,9 +146,9 @@ public class PageEditorView extends AbstractView
 		{
 			return accordion.buildAccordionItem(
 			    //
-			    accordion.buildHeaderH2("Articles"), //
+			    accordion.buildItemHeaderH2("Articles"), //
 
-			    accordion.buildBody(
+			    accordion.buildItemBody(
 			        //
 			        each(
 			            //
@@ -198,9 +198,9 @@ public class PageEditorView extends AbstractView
 
 		return accordion.buildAccordionItem(
 
-		    accordion.buildHeaderH2("Internal Data"), //
+		    accordion.buildItemHeaderH2("Internal Data"), //
 
-		    accordion.buildBody(
+		    accordion.buildItemBody(
 
 		        p("Page-Id: " + pageIdString), //
 
@@ -362,9 +362,9 @@ public class PageEditorView extends AbstractView
 
 		return accordion.buildAccordionItem(
 
-		    accordion.buildHeaderH2("Meta Info"), //
+		    accordion.buildItemHeaderH2("Meta Info"), //
 
-		    accordion.buildBody(
+		    accordion.buildItemBody(
 
 		        LabelBuilder.create().//
 		            build("HTML-Title (55 Zeichen)", "htmlTitleInput"), //
@@ -439,9 +439,9 @@ public class PageEditorView extends AbstractView
 
 		return accordion.buildAccordionItem(
 
-		    accordion.buildHeaderH2("Access"), //
+		    accordion.buildItemHeaderH2("Access"), //
 
-		    accordion.buildBody(
+		    accordion.buildItemBody(
 
 		        ul(
 		            label(
@@ -558,9 +558,9 @@ public class PageEditorView extends AbstractView
 
 		return accordion.buildAccordionItem(
 
-		    accordion.buildHeaderH2("Caching"), //
+		    accordion.buildItemHeaderH2("Caching"), //
 
-		    accordion.buildBody(
+		    accordion.buildItemBody(
 
 		        // max-age:
 		        LabelBuilder.create().//
@@ -581,14 +581,13 @@ public class PageEditorView extends AbstractView
 		);
 	}
 
-	private DomContent
-	    internalSettingsSection(Page page, Accordion accordion)
+	private DomContent internalSettingsSection(Page page, Accordion accordion)
 	{
 		return accordion.buildAccordionItem(
 
-		    accordion.buildHeaderH2("Internal Settings"), //
+		    accordion.buildItemHeaderH2("Internal Settings"), //
 
-		    accordion.buildBody(
+		    accordion.buildItemBody(
 
 		        ul(
 		            label(
@@ -653,9 +652,9 @@ public class PageEditorView extends AbstractView
 	{
 		return accordion.buildAccordionItem(
 
-		    accordion.buildHeaderH2("Keyboard Navigation"), //
+		    accordion.buildItemHeaderH2("Keyboard Navigation"), //
 
-		    accordion.buildBody(
+		    accordion.buildItemBody(
 
 		        //
 		        input().//
@@ -672,7 +671,7 @@ public class PageEditorView extends AbstractView
 		return section(
 		    FooterNavigationBuilder.create()//
 		        .withSaveAndCloseOption()//
-		        .withSaveOption()//
+		        .withSaveOption("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")//
 		        .withReturnOption()//
 		        .withAlignment(RowAlignmentDV.END)//
 		        .build()

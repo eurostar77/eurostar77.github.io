@@ -3,6 +3,7 @@ package com.bueffeltier.ui.html.organism;
 import static j2html.TagCreator.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -76,13 +77,13 @@ public class CardBuilder
 		return this;
 	}
 
-	public CardBuilder withDomContent(DomContent domContent)
+	public CardBuilder withDomContent(DomContent... domContent)
 	{
 		if (bodyContent == null)
 		{
 			bodyContent = new ArrayList<>();
 		}
-		bodyContent.add(domContent);
+		bodyContent.addAll(Arrays.asList(domContent));
 		return this;
 	}
 

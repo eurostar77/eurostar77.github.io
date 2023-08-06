@@ -15,7 +15,6 @@ import com.bueffeltier.ui.html.organism.ModalBuilder;
 import com.bueffeltier.ui.webapp.content.ViewRegistry;
 import com.bueffeltier.ui.webapp.content.view.ViewHandler;
 
-import j2html.Config;
 import j2html.tags.DomContent;
 import j2html.tags.specialized.DivTag;
 import j2html.tags.specialized.HeadTag;
@@ -44,23 +43,13 @@ public class ViewBuilder
 	public String buildView(HttpServletRequest request, Page page)
 	    throws Exception
 	{
-		// Seitenstringbuilder anlegen
-//		StringBuilder viewStringBuilder = null;
-
-//		String documentString;
-//		String doctype = "<!DOCTYPE html>\n";
-
-		return document().render()//
-		    + html(
-		        buildHead(page), //
-		        buildBody(page, request)
-		    ).withLang("de").renderFormatted(); // TODO sveng 11.06.2023:
-		                                        // settings
-
-//		 .renderFormatted();
-//		documentString = doctype + j2htmlString;
-
-//		return documentString;
+		return document().render() + "\n" + html(
+		    buildHead(page), //
+		    buildBody(page, request)
+		).withLang(appProperties.getHtmlLang())//
+		    // TODO sveng 03.08.2023: Rendern in Production ausschalten!
+		    // Production-Mode
+		    .renderFormatted();
 	}
 
 	private HeadTag buildHead(Page page) throws Exception
@@ -71,34 +60,35 @@ public class ViewBuilder
 		int n = random.nextInt(123456);
 		randomString = Integer.toString(n);
 
-		List<String> styleSheetTags = appProperties.getHtmlStylesheetTags();
-
-//        Config.textEscaper.escape("text");
-		Config.textEscaper = text -> text;
-
 		return head(
-		    meta().withName("charset").withContent("text/html; charset=UTF-8"),
-		    meta().withName("http-equiv")
-		        // todo: cahe wert aus page laden.
-		        // https://www.sistrix.de/frag-sistrix/onpage/meta-tags/http-equiv
-		        .withContent("\"cache-control\" content=\"max-age=60"),
+		    meta()//
+		        .withCharset(appProperties.getHtmlMetaCharset()), //
+		    meta()//
+		        .attr("http-equiv", "cache-control")//
+		        .attr("content", "max-age=60"), //
+		    meta()//
+		        .withName("description")//
+		        // TODO sveng 13.11.2022: nicht mehr als 250 Zeichen zulassen.
+		        .withContent(page.getDescription()),
+		    meta()//
+		        .withName("keywords")//
+		        .withContent(page.getKeywords()),
+		    meta()//
+		        .withName("viewport")//
+		        .withContent(
+		            "width=device-width, initial-scale=1.0, minimum-scale=1.0"
+		        ),
+		    ////////////////////////////////////
 		    iff(
 		        page.includeCache(),
 		        meta().withName("expires").withContent("content=\"0\"")
 		    ),
 		    // TODO sveng 26.11.2022: meta:
 		    // https://stackoverflow.com/questions/4417923/html-meta-tag-for-content-language
-		    // TODO sveng 13.11.2022: nicht mehr als 250 Zeichen zulassen.
-		    meta().withName("description").withContent(page.getDescription()),
-		    meta().withName("keywords").withLang("de")
-		        .withContent(page.getKeywords()),
-		    meta().withName("viewport").withContent(
-		        "width=device-width, initial-scale=1.0, minimum-scale=1.0"
-		    ),
-		    /*
-		     * noindex und nofollow werden bei Bedarf gesetzt: todo:
-		     * Random-String in Production unbedingt entfernen.
-		     */
+
+		    // noindex und nofollow werden bei Bedarf gesetzt:
+		    // TODO sveng 03.08.2023: Random-String in Production unbedingt
+		    // entfernen.
 		    iff(
 		        page.noIndex() == true,
 		        meta().withName("robots").withContent("noindex")
@@ -129,11 +119,11 @@ public class ViewBuilder
 		    link()//
 		        .withRel("stylesheet")//
 		        .withHref(
-		            "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+		            "https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
 		        )//
 		        .attr(
 		            "integrity",
-		            "sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+		            "sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
 		        )//
 		        .attr("crossorigin", "anonymous")//
 			//
@@ -144,7 +134,7 @@ public class ViewBuilder
 		            "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
 		        )//
 		    , //
-		    //
+		      //
 
 		    link().withRel("stylesheet").withHref(
 		        appProperties.getHostName()
@@ -156,11 +146,8 @@ public class ViewBuilder
 		     * aus layout geladen. Farbe kann ggf. aus Seite geladen werden:
 		     * appProperties.getMobileBrowserAppLayoutColor()
 		     */
-		    title(page.getHtmlTitle()),
-		    meta().withCharset(appProperties.getHtmlMetaCharset()),
-		    title("Title")// todo: was macht
-			// titel hier?
-		).withLang(appProperties.getHtmlLang());
+		    title(page.getHtmlTitle())
+		);
 	}
 
 	private DomContent buildBody(Page page, HttpServletRequest request)
@@ -438,17 +425,19 @@ public class ViewBuilder
 		    script()//
 		        .withSrc(
 		            // TODO sveng 15.03.2023: settings
-		            "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+		            "https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
 		        )//
 		        .attr(
 		            "integrity",
-		            "sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+		            "sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
 		        )//
 		        .attr("crossorigin", "anonymus")
 		).with(
-		    script().withSrc(
-		        "http://localhost:8080/bueffeltier/js/lesson-editor.js"
-		    )//
+		    script()//
+		        .withSrc(
+		            "http://localhost:8080/bueffeltier/js/lesson-editor.js"
+		        )//
+		        .withType("text/javascript")
 		);
 	}
 

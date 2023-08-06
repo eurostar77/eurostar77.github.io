@@ -23,12 +23,15 @@ public class Question implements Serializable
 	@Column(name = "id")
 	private Long id;
 
+	@Column(name = "uuid", unique = true, nullable = false)
+	private String uuid;
+
 	@Column(name = "text")
 	private String text;
 
 	@OneToMany
 	@JoinColumn(name = "knowledge_unit_ref")
-	private List<KnowledgeUnit> referencedKnowledgeUnits;
+	private List<Knowledge> referencedKnowledgeUnits;
 
 	public Question()
 	{
@@ -45,6 +48,16 @@ public class Question implements Serializable
 		this.id = id;
 	}
 
+	public String getUuid()
+	{
+		return uuid;
+	}
+
+	public void setUuid(String uuid)
+	{
+		this.uuid = uuid;
+	}
+
 	public String getText()
 	{
 		return text;
@@ -55,13 +68,13 @@ public class Question implements Serializable
 		this.text = text;
 	}
 
-	public List<KnowledgeUnit> getReferencedKnowledgeUnits()
+	public List<Knowledge> getReferencedKnowledgeUnits()
 	{
 		return referencedKnowledgeUnits;
 	}
 
 	public void setReferencedKnowledgeUnits(
-	    List<KnowledgeUnit> referencedKnowledgeUnits
+	    List<Knowledge> referencedKnowledgeUnits
 	)
 	{
 		this.referencedKnowledgeUnits = referencedKnowledgeUnits;

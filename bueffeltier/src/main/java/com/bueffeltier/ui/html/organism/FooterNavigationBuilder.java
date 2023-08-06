@@ -1,8 +1,7 @@
 package com.bueffeltier.ui.html.organism;
 
-import com.bueffeltier.ui.html.molecule.SpacingPropertyDV;
-import com.bueffeltier.ui.html.molecule.SpacingSidesDV;
-import com.bueffeltier.ui.html.molecule.SpacingSizeDV;
+import static j2html.TagCreator.div;
+
 import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonTypeDV;
 import com.bueffeltier.ui.html.organism.RowBuilder.RowAlignmentDV;
 
@@ -16,6 +15,7 @@ public class FooterNavigationBuilder
 	private boolean withAbortOption;
 	private boolean withReturnOption;
 	private RowAlignmentDV rowAlignment;
+	private String saveContainerId;
 
 	private FooterNavigationBuilder()
 	{
@@ -34,9 +34,10 @@ public class FooterNavigationBuilder
 		return this;
 	}
 
-	public FooterNavigationBuilder withSaveOption()
+	public FooterNavigationBuilder withSaveOption(String saveContainerId)
 	{
-		withSaveOption = true;
+		this.saveContainerId = saveContainerId;
+		this.withSaveOption = true;
 		return this;
 	}
 
@@ -62,98 +63,84 @@ public class FooterNavigationBuilder
 	{
 		DivTag footerNav = new DivTag();
 
+		DivTag buttonsNav = new DivTag();
+		buttonsNav
+		    .withClass("d-flex flex-column flex-sm-row justify-content-sm-end");
+
+		footerNav.with(buttonsNav);
+
 		if (withSaveAndCloseOption)
 		{
-			footerNav.with(
+			buttonsNav.with(
 			    //
 			    ButtonBuilder.create()//
 			        .withButtonType(ButtonTypeDV.SUBMIT)//
 			        .withText("Speichern und Schließen")//
 			        .withName("saveAndClose")//
-			        .withSpacing(
-			            SpacingPropertyDV.MARGIN, SpacingSidesDV.BLANK,
-			            SpacingSizeDV.ONE
-			        )//
+			        .withClass("mb-1 ms-sm-1 text-nowrap")//
+//			        .withSpacing(
+//			            SpacingPropertyDV.MARGIN, SpacingSidesDV.START,
+//			            SpacingSizeDV.ONE
+//			        )//
 			        .build()
 			);
 		}
 
 		if (withSaveOption)
 		{
-			footerNav.with(
+			buttonsNav.with(
 			    //
 			    ButtonBuilder.create()//
 			        .withButtonType(ButtonTypeDV.SUBMIT)//
 			        .withText("Speichern")//
 			        .withName("save")//
-			        .withSpacing(
-			            SpacingPropertyDV.MARGIN, SpacingSidesDV.BLANK,
-			            SpacingSizeDV.ONE
-			        )//
+			        .withClass("btn-save mb-1 ms-sm-1 text-nowrap")//
+			        .withData("save-container-id", this.saveContainerId)//
+//			        .withSpacing(
+//			            SpacingPropertyDV.MARGIN, SpacingSidesDV.START,
+//			            SpacingSizeDV.ONE
+//			        )//
 			        .build()
 			);
 		}
 
+		// TODO sveng 02.08.2023: Margins der Buttons je nachdem, welcher am
+		// Ende steht anpassen.
+
 		if (withAbortOption)
 		{
-			footerNav.with(
+			buttonsNav.with(
 			    //
 			    ButtonBuilder.create()//
 			        .withButtonType(ButtonTypeDV.SUBMIT)//
 			        .withText("Abbrechen")//
 			        .withName("abort")//
-			        .withSpacing(
-			            SpacingPropertyDV.MARGIN, SpacingSidesDV.BLANK,
-			            SpacingSizeDV.ONE
-			        )//
+			        .withClass("mb-1 ms-sm-1 text-nowrap")//
+//			        .withSpacing(
+//			            SpacingPropertyDV.MARGIN, SpacingSidesDV.START,
+//			            SpacingSizeDV.ONE
+//			        )//
 			        .build()
 			);
 		}
 
 		if (withReturnOption)
 		{
-			footerNav.with(
+			buttonsNav.with(
 			    //
 			    ButtonBuilder.create()//
 			        .withButtonType(ButtonTypeDV.SUBMIT)//
 			        .withText("Zurück")//
 			        .withName("back")//
-			        .withSpacing(
-			            SpacingPropertyDV.MARGIN, SpacingSidesDV.BLANK,
-			            SpacingSizeDV.ONE
-			        )//
+			        .withClass("mb-1 ms-sm-1 text-nowrap")//
+//			        .withSpacing(
+//			            SpacingPropertyDV.MARGIN, SpacingSidesDV.START,
+//			            SpacingSizeDV.ONE
+//			        )//
 			        .build()
 			);
 		}
 
-		return
-
-		RowBuilder.create()//
-//		    .withAlignment(RowAlignmentDV.END)
-		    .withDomContent(
-		        ColumnBuilder.create()//
-		            .withDomContent(
-		                //
-		                footerNav.withClass(buildClassString())
-		            )//
-		            .build()
-		    ).build();
-
-	}
-
-	private String buildClassString()
-	{
-		StringBuilder resultBuilder = new StringBuilder();
-
-		resultBuilder.append("container");
-
-		if (rowAlignment != null)
-		{
-//			resultBuilder.append(" ");
-//			resultBuilder.append(rowAlignment.toString());
-			resultBuilder.append(" text-end");
-		}
-
-		return resultBuilder.toString();
+		return div(footerNav.withClass("my-4"));
 	}
 }

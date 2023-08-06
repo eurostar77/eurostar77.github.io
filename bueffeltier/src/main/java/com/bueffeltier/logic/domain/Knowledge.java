@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity(name = "KnowledgeUnit")
 @Table(name = "knowledge_unit")
-public class KnowledgeUnit implements Serializable
+public class Knowledge implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
@@ -20,10 +20,13 @@ public class KnowledgeUnit implements Serializable
 	@Column(name = "id")
 	private Long id;
 
+	@Column(name = "uuid", unique = true, nullable = false)
+	private String uuid;
+
 	@Column(name = "text")
 	private String text;
 
-	public KnowledgeUnit()
+	public Knowledge()
 	{
 
 	}
@@ -36,6 +39,16 @@ public class KnowledgeUnit implements Serializable
 	public void setId(Long id)
 	{
 		this.id = id;
+	}
+
+	public String getUuid()
+	{
+		return uuid;
+	}
+
+	public void setUuid(String uuid)
+	{
+		this.uuid = uuid;
 	}
 
 	public String getText()

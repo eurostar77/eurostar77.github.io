@@ -73,9 +73,8 @@ public class CourseEditorAction extends AbstractAction
 		String newLesson = request.getParameter("newLesson");
 		if (newLesson != null)
 		{
-			forwardViewData(request, "createNewLesson", "true");
+			forwardViewData(request, "lessonEditor", "new");
 
-			// request.setAttribute("createNewLesson", true);
 			this.forwardToPage(request, "/lesson-editor");
 		}
 
@@ -86,7 +85,8 @@ public class CourseEditorAction extends AbstractAction
 //			lesson.setName(actionParameterName);
 			lesson.setOwnerId(0);
 			// Lernstand
-			this.forwardToPage(request, "/lesson-editor");
+			forwardToPage(request, "/lesson-editor");
+			forwardViewData(request, "lessonEditor", "new");
 		}
 	}
 

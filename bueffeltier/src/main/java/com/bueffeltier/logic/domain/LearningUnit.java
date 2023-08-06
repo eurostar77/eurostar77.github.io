@@ -23,6 +23,9 @@ public class LearningUnit implements Serializable
 	@Column(name = "id")
 	private Long id;
 
+	@Column(name = "uuid", unique = true, nullable = false)
+	private String uuid;
+
 	@OneToOne
 	@JoinColumn(name = "question")
 	private Question question;
@@ -32,7 +35,7 @@ public class LearningUnit implements Serializable
 
 	@OneToOne
 	@JoinColumn(name = "knowledge_unit")
-	private KnowledgeUnit knowledgeUnit;
+	private Knowledge knowledge;
 
 	public LearningUnit()
 	{
@@ -41,7 +44,7 @@ public class LearningUnit implements Serializable
 
 	public Long getId()
 	{
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id)
@@ -49,9 +52,19 @@ public class LearningUnit implements Serializable
 		this.id = id;
 	}
 
+	public String getUuid()
+	{
+		return this.uuid;
+	}
+
+	public void setUuid(String uuid)
+	{
+		this.uuid = uuid;
+	}
+
 	public Question getQuestion()
 	{
-		return question;
+		return this.question;
 	}
 
 	public void setQuestion(Question question)
@@ -59,9 +72,14 @@ public class LearningUnit implements Serializable
 		this.question = question;
 	}
 
+	public boolean hasQuestion()
+	{
+		return this.question != null;
+	}
+
 	public Answer getAnswer()
 	{
-		return answer;
+		return this.answer;
 	}
 
 	public void setAnswer(Answer answer)
@@ -69,14 +87,19 @@ public class LearningUnit implements Serializable
 		this.answer = answer;
 	}
 
-	public KnowledgeUnit getKnowledgeUnit()
+	public Knowledge getKnowledge()
 	{
-		return knowledgeUnit;
+		return this.knowledge;
 	}
 
-	public void setKnowledgeUnit(KnowledgeUnit knowledgeUnit)
+	public void setKnowledgeUnit(Knowledge knowledge)
 	{
-		this.knowledgeUnit = knowledgeUnit;
+		this.knowledge = knowledge;
+	}
+
+	public boolean hasKnowledge()
+	{
+		return this.knowledge != null;
 	}
 
 	public static long getSerialversionuid()

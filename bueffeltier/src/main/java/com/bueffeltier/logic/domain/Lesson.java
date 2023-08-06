@@ -40,6 +40,9 @@ public class Lesson implements Serializable
 	@Column(name = "id")
 	private Long id;
 
+	@Column(name = "uuid", unique = true, nullable = false)
+	private String uuid;
+
 	@Column(name = "name")
 	private String name;
 
@@ -69,6 +72,16 @@ public class Lesson implements Serializable
 	public Long getId()
 	{
 		return id;
+	}
+
+	public String getUuid()
+	{
+		return uuid;
+	}
+
+	public void setUuid(String uuid)
+	{
+		this.uuid = uuid;
 	}
 
 	public void setName(String name)

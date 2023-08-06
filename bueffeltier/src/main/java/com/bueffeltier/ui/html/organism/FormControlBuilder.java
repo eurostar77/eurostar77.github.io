@@ -29,6 +29,7 @@ public class FormControlBuilder
 	private boolean readonlyAsPlainText;
 	private String cssId;
 	private boolean isChecked;
+	private boolean noSpacing = false;
 
 	private String onClick;
 
@@ -123,23 +124,9 @@ public class FormControlBuilder
 		return this;
 	}
 
-	public FormControlBuilder withSpacingProperty(SpacingPropertyDV property)
+	public FormControlBuilder withDefaultSpacing()
 	{
-		this.spacingProperty = property;
-
-		return this;
-	}
-
-	public FormControlBuilder withSpacingSize(SpacingSizeDV size)
-	{
-		this.spacingSize = size;
-
-		return this;
-	}
-
-	public FormControlBuilder withSpacingSides(SpacingSidesDV sides)
-	{
-		this.spacingSides = sides;
+		this.noSpacing = false;
 
 		return this;
 	}
@@ -287,6 +274,7 @@ public class FormControlBuilder
 		TextareaTag textArea = null;
 
 		textArea = textarea()//
+		    .withCondName(name != null, name)//
 		    .withText(text)//
 		    .withClass(buildClassString())//
 		    .condAttr(readonly, "readonly", null)//
@@ -306,33 +294,36 @@ public class FormControlBuilder
 	{
 		StringBuilder builder = new StringBuilder();
 
-		if (spacingProperty == null)
+		if (noSpacing == false)
 		{
-			builder.append("m");
+			if (spacingProperty == null)
+			{
+				builder.append("m");
 
-		} else
-		{
-			builder.append(spacingProperty.toString());
-		}
+			} else
+			{
+				builder.append(spacingProperty.toString());
+			}
 
-		if (spacingSides == null)
-		{
-			builder.append("b");
+			if (spacingSides == null)
+			{
+				builder.append("b");
 
-		} else
-		{
-			builder.append(spacingSides.toString());
-		}
+			} else
+			{
+				builder.append(spacingSides.toString());
+			}
 
-		builder.append("-");
+			if (spacingSize == null)
+			{
+				builder.append("-");
+				builder.append("3");
 
-		if (spacingSize == null)
-		{
-			builder.append("3");
-
-		} else
-		{
-			builder.append(spacingSize.toString());
+			} else
+			{
+				builder.append("-");
+				builder.append(spacingSize.toString());
+			}
 		}
 
 		return builder.toString();

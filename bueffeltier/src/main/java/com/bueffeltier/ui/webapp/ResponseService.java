@@ -93,10 +93,8 @@ public class ResponseService
 		}
 	}
 
-	public String detectResponseType(
-	    HttpServletRequest request,
-	    Page responsePage
-	)
+	public String
+	    detectResponseType(HttpServletRequest request, Page responsePage)
 	{
 		String responseType = null;
 
@@ -204,11 +202,14 @@ public class ResponseService
 				// TODO sveng 28.06.2023: Fehlerseite, Fehlermeldung, Statuscode
 			}
 
+			response.setContentType("text/html; charset=UTF-8");
+
 		} else
 		{
-			response.setCharacterEncoding("UTF-8");
+//			response.setCharacterEncoding("UTF-8");
 
-			response.setContentType("application/json");
+//			response.setContentType("application/json");
+			response.setContentType("text/html; charset=UTF-8");
 		}
 
 		PrintWriter out = null;

@@ -7,33 +7,32 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.bueffeltier.data.hibernate.Criteria;
 import com.bueffeltier.data.hibernate.dao.GenericDAO;
 import com.bueffeltier.data.jdbc.ElementJDBCFlat;
-import com.bueffeltier.data.jdbc.UserJDBC;
-import com.bueffeltier.logic.domain.LearningLevel;
 import com.bueffeltier.logic.domain.LearningTask;
+import com.bueffeltier.logic.domain.LearningUnit;
 import com.bueffeltier.logic.domain.Lesson;
 import com.bueffeltier.ui.html.molecule.SpacingPropertyDV;
 import com.bueffeltier.ui.html.molecule.SpacingSidesDV;
 import com.bueffeltier.ui.html.molecule.SpacingSizeDV;
-import com.bueffeltier.ui.html.organism.Accordion;
 import com.bueffeltier.ui.html.organism.ButtonBuilder;
-import com.bueffeltier.ui.html.organism.ButtonBuilder.ButtonTypeDV;
 import com.bueffeltier.ui.html.organism.ButtonBuilder.ColorDV;
 import com.bueffeltier.ui.html.organism.ColumnBuilder;
 import com.bueffeltier.ui.html.organism.ColumnBuilder.BreakpointDV;
 import com.bueffeltier.ui.html.organism.ColumnBuilder.GridWidthDV;
+import com.bueffeltier.ui.html.organism.DynamicCardBuilder;
+import com.bueffeltier.ui.html.organism.FooterNavigationBuilder;
+import com.bueffeltier.ui.html.organism.FormBuilder;
 import com.bueffeltier.ui.html.organism.FormControlBuilder;
 import com.bueffeltier.ui.html.organism.FormControlBuilder.FormInputTypeDV;
 import com.bueffeltier.ui.html.organism.LabelBuilder;
 import com.bueffeltier.ui.html.organism.RowBuilder;
 import com.bueffeltier.ui.html.organism.RowBuilder.RowAlignmentDV;
-import com.bueffeltier.ui.webapp.ViewDataService;
 
 import j2html.tags.DomContent;
+import j2html.tags.specialized.DivTag;
+import j2html.tags.specialized.FormTag;
 
 /**
  *
@@ -41,10 +40,7 @@ import j2html.tags.DomContent;
  */
 public class LessonEditorView extends AbstractView
 {
-
 	private static LessonEditorView instance;
-
-	private ViewDataService viewDataService = ViewDataService.getInstance();
 
 	private LessonEditorView()
 	{
@@ -60,22 +56,71 @@ public class LessonEditorView extends AbstractView
 		return instance;
 	}
 
-//    private boolean containsCard(Enumeration cards)
-//    {
-//        boolean containsCard = false;
-//        while (cards.hasMoreElements())
-//        {
-//            if (cards.nextElement().)
-//            {
+//	https://www.tutorialspoint.com/online_json_editor.htm
 //
-//            }
-//        }
-//    }
+//		<input name="crs" ...>
+//		<input name="lid" ...>
+//		<input name="lna" ...>
+//		<input name="ldc" ...>
+//
+//		<input name="tks[].tid" ...>
+//		<input name="tks[].lus[].lui" ...>
+//		<input name="tks[].lus[].kut.kui" ...>
+//		<input name="tks[].lus[].kut.ktx" ...>
+//		<input name="tks[].lus[].qtn.qni" ...>
+//		<input name="tks[].lus[].qtn.qtx" ...>
+//
+//		{
+//		    "crs": "user.getUuid()",					crs	data
+//		    "lid": "lesson.getUuid()",					lid	data
+//		    "lna": "lesson.getName()",					lna	data
+//		    "ldc": "lesson.getTheme()",					ldc	data
+//		    "tks": [									
+//		        {									
+//		            "tid": "task.getUuid()",				tsk[].tid		hidden
+//		            "lus": [								
+//		                {
+//		                    "lui": "unit.getUuid()",			tsk[].lut[].lui		hidden
+//		                    "kut": {
+//		                        "kui": "knowledge.getUuid()",		tsk[].lut[].kut.kui	hidden
+//		                        "ktx": "knowledge.getText()"		tsk[].lut[].kut.ktx	visible
+//		                    },
+//		                    "qtn": {							
+//		                        "qni": "question.getUuid()",		tsk[].lut[].qtn.qni	hidden
+//		                        "qtx": "question.getText()"		tsk[].lut[].qtn.qtx	visible
+//		                    }
+//		                }
+//		            ]
+//		        }
+//		    ]
+//		}
+//
+//	getLearningTaskUuidInputHidden(LearningTask task)
+//	getLearningUnitUuidInputHidden(LearningUnit unit)
+//	getQuestionUuidInputHidden(Question question)
+//	getQuestionTextInputVisible(Question question)
+//	getKnowledgeUuidInputHidden(Knowledge knowledge)
+//	getKnowledgeTextInputVisble(Knowledge knowledge)
 
 	@Override
 	public DomContent
 	    writeHtml(ElementJDBCFlat element, HttpServletRequest request)
 	        throws Exception
+	{
+		Lesson lesson = getLesson(request);
+
+		String dataFormId = "lesson-form-data";
+		String dataAutoSaveUrl = "http://localhost:8080/";
+		String dataAction = "CREATE_FLASHCARDS";
+
+		return div()//
+		    .with(buildElementHeaderNav().withClass("mb-4"))//
+		    .with(buildHeadlineDiv(lesson).withClass("mb-4"))//
+		    .with(buildFormTag(lesson, element, dataFormId))//
+		    .with(getFooterNavigation(dataFormId));
+	}
+
+	private Lesson getLesson(HttpServletRequest request) throws Exception
 	{
 		/*
 		 * 1. Je nach Permission-Status: Musterstapel laden Letzten Stapel laden
@@ -83,357 +128,368 @@ public class LessonEditorView extends AbstractView
 		 * überwacht Stapelgröße (Anzahl), 5.
 		 */
 
-		// - ich komme von /lernkarten (Aktueller Kartenstapel),
-		// dann klicke ich auf Kartenstapel bearbeiten
-		// ich muss aus dem lernstand die aktuelle lesson auslesen
-		// und in der ...Action d
-		// und in der view den richtigen stapel aus der
-
-		// bei kartenstapel wechsel muss das im lernstand vermerkt werden.
-
-		String headline = null;
-
 		Lesson lesson = null;
-		String lessonName = null;
-		String lessonTheme = null;
 
-		List<LearningTask> learningTasks = null;
-
-		boolean isNewLesson;
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		// JS security tipps beachten
-		// hinweise aus cookie sevice hierher kopieren
-		// prüfen von welcher action an welche view gesendet wurde.
-		// ggf. abbruch
-		// code in abstraktion und service auslager, automatik bauen.
-		// ggf. erst beim umbau
-
-		// TODO sveng 25.06.2023: in die abstrakte klasse;
-		// TODO sveng 25.06.2023: prüfen auf herkunnft und empfänger
-		// TODO sveng 25.06.2023: prüfen auf not Null
-		// TODO sveng 25.06.2023: gefragte werte direkt aus der abstraktion
-		// abfragen boolean.get("isNew") // nach schema auf vollst.
-		// prüfen.(meth)
-		// daten auch nach key abfragen!
-
-		String isNewLessonString = getViewDataValueOpt(
-		    request, "createNewLesson"
-		);
-
-		if (isNewLessonString != null)
+		String lessonUuid = getViewDataValueOpt(request, "lessonEditor");
+		if (lessonUuid == null)
 		{
-			isNewLesson = Boolean.parseBoolean(isNewLessonString);
+			lessonUuid = "new";
+		}
+
+		if (lessonUuid.equals("new"))
+		{
+			lesson = new Lesson();
+			lesson.setName("");
+			lesson.setTheme("");
+			lesson.setUuid("new");
 
 		} else
 		{
-			isNewLesson = false;
+			try
+			{
+				Criteria<Lesson> criteriaLesson = GenericDAO
+				    .createCriteria(Lesson.class);
+
+				List<Lesson> lessonList = criteriaLesson
+				    .addEqual("uuid", lessonUuid).getResultList();
+
+			} catch (Exception e)
+			{
+				throw new Exception(
+				    "View konnte nicht erzeugt werden, da Lesson nicht gefunden wurde."
+				);
+			}
 		}
 
-		UserJDBC user = (UserJDBC) request.getAttribute("user");
+		return lesson;
+	}
 
-		if (isNewLesson)
+	private String getHeadline(boolean isNew)
+	{
+		String headline;
+
+		if (isNew)
 		{
 			headline = "Neuen Kartenstapel anlegen";
-			lesson = new Lesson(); // TODO sveng 09.06.2023: lesson erst beim
-			                       // speichern anlegen?
-			lessonName = "";
-			lessonTheme = "";
-			learningTasks = new ArrayList<LearningTask>();
-			learningTasks.add(new LearningTask());
 
 		} else
 		{
-			Criteria<LearningLevel> criteriaLearningLevel = GenericDAO
-			    .createCriteria(LearningLevel.class);
-
-			List<LearningLevel> learningLevelList = criteriaLearningLevel
-			    .addEqual("userId", Long.valueOf(user.getId())).getResultList();
 
 			headline = "Kartenstapel bearbeiten";
-
-			Long lessonId = learningLevelList.get(0).getCurrentLessonId();
-
-			Criteria<Lesson> criteriaLesson = GenericDAO
-			    .createCriteria(Lesson.class);
-
-			List<Lesson> lessonList = criteriaLesson.addEqual("id", lessonId)
-			    .getResultList();
-
-			lesson = lessonList.get(0);
-			lessonName = lesson.getName();
-			lessonTheme = lesson.getTheme();
-			learningTasks = lesson.getLearningTasks();
 		}
 
-//		request.getAttribute("");
-//
-//		if (lesson.size() == 0)
-//		{
-//			InfoBit infoBit = new InfoBit();
-//			// TODO sveng 03.03.2023: default werte
-//		}
+		return headline;
+	}
 
-		return
+	private FormTag
+	    buildFormTag(Lesson lesson, ElementJDBCFlat element, String formId)
+	{
+		return FormBuilder.create()//
+		    .withDomContent(
+		        //
+		        buildFormContent(lesson)
+		    )//
+//		    .withData("crs", lesson.getCourse().getUuid())// User bis Kurse aktiv
+		    .withData("crs", Long.toString(lesson.getOwnerId()))//
+		    .withData("lid", lesson.getUuid())//
+		    .withId(formId)//
+		    .build(element.getType());
+	}
 
-		div(
-		    div(
-		        form(
-		            element.getType(),
+	private DivTag buildHeadlineDiv(Lesson lesson)
+	{
+		return div(
+		    //
+		    h1(getHeadline(lesson.getId() == null)).withClass("h1")
+		);
+	}
 
-		            ButtonBuilder.create()//
-		                .withText("Kartenstapel lernen")//
-		                .withHref("/bueffeltier/lernkarten")//
-		                .withColor(ColorDV.SECONDARY)//
-		                .withSpacing(
-		                    SpacingPropertyDV.MARGIN, SpacingSidesDV.BLANK,
-		                    SpacingSizeDV.ONE
-		                )//
-		                .build(),
-		            ButtonBuilder.create()//
-		                .withText("Kartenstapel wechseln")//
-		                .withHref("/bueffeltier/subject-admin")//
-		                .withColor(ColorDV.SECONDARY)//
-		                .withSpacing(
-		                    SpacingPropertyDV.MARGIN, SpacingSidesDV.BLANK,
-		                    SpacingSizeDV.ONE
-		                )//
-		                .build(), //
+	private DivTag buildElementHeaderNav()
+	{
+		return div(
 
-		            h1(headline).withClass("my-5"),
+		    ButtonBuilder.create()//
+		        .withText("Kartenstapel lernen")//
+		        .withHref("/bueffeltier/lernkarten")//
+		        .withColor(ColorDV.SECONDARY)//
+		        .withSpacing(
+		            SpacingPropertyDV.MARGIN, SpacingSidesDV.BLANK,
+		            SpacingSizeDV.ONE
+		        )//
+		        .build(),
 
-		            RowBuilder.create()//
+		    ButtonBuilder.create()//
+		        .withText("Kartenstapel wechseln")//
+		        .withHref("/bueffeltier/subject-admin")//
+		        .withColor(ColorDV.SECONDARY)//
+		        .withSpacing(
+		            SpacingPropertyDV.MARGIN, SpacingSidesDV.BLANK,
+		            SpacingSizeDV.ONE
+		        )//
+		        .build()
+		);
+	}
+
+	private DivTag buildFormContent(Lesson lesson)
+	{
+		return div(
+
+		    lessonDataContainer(lesson),
+
+		    getLearningTaskContainer(lesson),
+
+		    div().withClass("autosaveMessage")
+
+		)//
+		    .withData("autosave-url", "http://localhost:8080/")//
+		    .withData("action", "CREATE_FLASHCARDS");
+	}
+
+	private DomContent getFooterNavigation(String saveContainerId)
+	{
+		return FooterNavigationBuilder.create()//
+		    .withSaveAndCloseOption()//
+		    .withSaveOption(saveContainerId)//
+		    .withAbortOption()//
+		    .withAlignment(RowAlignmentDV.END)//
+		    .build();
+	}
+
+	private DivTag lessonDataContainer(Lesson lesson)
+	{
+		return div(
+
+		    RowBuilder.create()//
+		        .withDomContent(
+
+		            ColumnBuilder.create()//
 		                .withDomContent(
+		                    LabelBuilder.create()//
+		                        .build("Name des Stapels", "txt-lsn-name")
+							//
+		                )//
+		                .withGridWidth(GridWidthDV.THREE)//
+		                .withBreakpoint(BreakpointDV.MD)//
+		                .build(),
 
-		                    ColumnBuilder.create()//
-		                        .withDomContent(
-		                            LabelBuilder.create()//
-		                                .build("Name des Stapels", "inputName")
-									//
-		                        )//
-		                        .withGridWidth(GridWidthDV.THREE)//
-		                        .withBreakpoint(BreakpointDV.MD).build(),
-
-		                    ColumnBuilder.create()//
-		                        .withDomContent(
-		                            FormControlBuilder.create()//
-		                                .withValue(lessonName)//
-		                                .withName("inputName")//
-		                                .withId("inputName")//
-		                                .build()//
-
-									//
-		                        )//
-		                        .withGridWidth(GridWidthDV.NINE)//
-		                        .withBreakpoint(BreakpointDV.MD).build()
+		            ColumnBuilder.create()//
+		                .withDomContent(
+		                    FormControlBuilder.create()//
+		                        .withValue(lesson.getName())//
+		                        .withName("lna")//
+		                        .withId("txt-lsn-name")//
+		                        .build()//
 
 							//
 		                )//
-		                .build(),
+		                .withGridWidth(GridWidthDV.NINE)//
+		                .withBreakpoint(BreakpointDV.MD)//
+		                .build()
 
-		            RowBuilder.create()//
-		                .withDomContent(
-		                    ColumnBuilder.create()//
-		                        .withDomContent(
-		                            LabelBuilder.create()//
-		                                .build(
-		                                    "Thema des Stapels", "inputTheme"
-		                                )
-		                        )//
-		                        .withGridWidth(GridWidthDV.THREE)//
-		                        .withBreakpoint(BreakpointDV.MD).build(),
-		                    ColumnBuilder.create()//
-		                        .withDomContent(
-		                            FormControlBuilder.create()//
-		                                .withText(lessonTheme)//
-		                                .withValue(lessonTheme)//
-		                                .withName("inputTheme")//
-		                                .withType(FormInputTypeDV.TEXTAREA)//
-		                                .withRows(2)//
-		                                .withId("inputTheme")//
-
-		                                .withSpacing(
-		                                    SpacingPropertyDV.MARGIN,
-		                                    SpacingSidesDV.BOTTOM,
-		                                    SpacingSizeDV.FOUR
-		                                )//
-		                                .build()//
-		                        )//
-		                        .withGridWidth(GridWidthDV.NINE)//
-		                        .withBreakpoint(BreakpointDV.MD).build()
-		                )//
-		                .build(),
-
-		            RowBuilder.create()//
-		                .withDomContent(
-		                    ColumnBuilder.create()//
-		                        .withDomContent(
-		                            ButtonBuilder.create()//
-		                                .withText("Neue Karte erstellen")//
-		                                .withClass("addCardBtn")//
-		                                .withButtonType(ButtonTypeDV.BUTTON)//
-//		                                .withOncLick(null)//
-		                                .withColor(ColorDV.PRIMARY)//
-		                                .build()
-		                        )//
-		                        .withGridWidth(GridWidthDV.AUTO)//
-		                        .withBreakpoint(BreakpointDV.MD).build(),
-		                    ColumnBuilder.create()//
-		                        .withDomContent(
-		                            ButtonBuilder.create()//
-		                                .withText("Lernkarten importieren")//
-		                                .withColor(ColorDV.SECONDARY)//
-//		                                .withSpacing(
-//		                                    SpacingPropertyDV.MARGIN,
-//		                                    SpacingSidesDV.BLANK,
-//		                                    SpacingSizeDV.ONE
-//		                                )//
-		                                .build()
-		                        )//
-		                        .withGridWidth(GridWidthDV.AUTO)//
-		                        .withBreakpoint(BreakpointDV.MD).build()
-		                )//
-		                .build(),
-
-		            div(
-		                each(
-		                    learningTasks,
-		                    (index, learningTask) -> writeLearningTaskEntry(
-		                        learningTask, index + 1
-		                    )
-		                )
-		            ).withId("cards"), br(), //
-
-		            /*
-		             * Untere Buttons nur nach if anzeigen.
-		             */
-
-		            ButtonBuilder.create()//
-		                .withButtonType(ButtonTypeDV.BUTTON)//
-		                .withText("Neue Karte erstellen")//
-		                .withColor(ColorDV.PRIMARY)//
-		                .withClass("addCardBtn")//
-//                    .withOncLick(null)//
-		                .build(), //
-		            br(), //
-
-		            ButtonBuilder.create()//
-		                .withButtonType(ButtonTypeDV.SUBMIT)//
-		                .withText("Kartenstapel speichern")//
-		                .withId("btnSave")//
-		                .withColor(ColorDV.PRIMARY)//
-		                .withSpacing(
-		                    SpacingPropertyDV.MARGIN, SpacingSidesDV.BLANK,
-		                    SpacingSizeDV.TWO
-		                )//
-		                .build(), //
-
-		            div().withClass("autosaveMessage")
-
-//		            ButtonBuilder.create()//
-//		                .withColor(ColorDV.SECONDARY)//
-//		                .withText("Abbrechen")//
-//		                .withSpacing(
-//		                    SpacingPropertyDV.MARGIN, SpacingSidesDV.BLANK,
-//		                    SpacingSizeDV.TWO
-//		                )//
-//		                .withId("")//
-//		                .withInputType(ButtonInputTypeDV.BUTTON)//
-//		                .build() //
+					//
 		        )//
+		        .build(),
 
-//		        .withClass("card-body")
-		    )
-		)//
-		    .withClass("container")//
-		    .withData("autosave-url", "http://localhost:8080/")//
-		    .withData("action", "CREATE_FLASHCARDS")//
-		;//
-//		.withClass("card");
+		    RowBuilder.create()//
+		        .withDomContent(
+		            ColumnBuilder.create()//
+		                .withDomContent(
+		                    LabelBuilder.create()//
+		                        .build("Thema des Stapels", "inputTheme")
+		                )//
+		                .withGridWidth(GridWidthDV.THREE)//
+		                .withBreakpoint(BreakpointDV.MD).build(),
+		            ColumnBuilder.create()//
+		                .withDomContent(
+		                    FormControlBuilder.create()//
+		                        .withText(lesson.getTheme())//
+		                        .withName("ldc")//
+		                        .withId("inputTheme")//
+		                        .withType(FormInputTypeDV.TEXTAREA)//
+		                        .withRows(2)//
+		                        .withSpacing(
+		                            SpacingPropertyDV.MARGIN,
+		                            SpacingSidesDV.BOTTOM, SpacingSizeDV.FOUR
+		                        )//
+		                        .build()//
+		                )//
+		                .withGridWidth(GridWidthDV.NINE)//
+		                .withBreakpoint(BreakpointDV.MD).build()
+		        )//
+		        .build()
+
+		);
 	}
 
-	private DomContent writeLearningTaskEntry(LearningTask task, int taskCount)
+	private DomContent getLearningTaskContainer(Lesson lesson)
 	{
-		Accordion accordion = new Accordion("task" + taskCount);
+		return DynamicCardBuilder.create()//
+		    .withHeadline("Aufgabe")//
+		    .withPrototypeCard(
+		        //
+		        writeLearningTaskEntry(null)
+		    )//
+		    .withCards(
+		        //
+		        writeLearningTaskEntries(lesson.getLearningTasks(), null)
+		    )//
+		    .withAddBtnText("Hinzufügen")//
+		    .withMaxLength(7)//
+		    .expandAll()//
+		    .build("lessonCards").withId("cards");
+	}
 
-		String question = task.getName();
-		if (StringUtils.isBlank(question))
+	private List<DivTag> writeLearningTaskEntries(
+	    List<LearningTask> learningTasks,
+	    LearningTask task
+	)
+	{
+		List<DivTag> learningTaskEntries = new ArrayList<>();
+
+		for (LearningTask t : learningTasks)
 		{
-			question = "";
+			learningTaskEntries.add(writeLearningTaskEntry(t));
+		}
+
+		return learningTaskEntries;
+	}
+
+	private DivTag writeLearningTaskEntry(LearningTask task)
+	{
+		return //
+		div(
+		    div(
+		        getLearningTaskUuidInputHidden(task),
+
+		        getLearningUnitEntries(task)
+		    )//
+		        .withClass("grid")//
+		        .attr("class", "grid")
+		)//
+		    .withClass("card my-1 bg-light dynamic-id");
+	}
+
+	private DomContent getLearningUnitEntries(LearningTask task)
+	{
+		List<LearningUnit> units = null;
+
+		if (task != null)
+		{
+			units = task.getLearningUnits();
+		}
+
+		if (units == null)
+		{
+			units = new ArrayList<>();
+			units.add(new LearningUnit());
 		}
 
 		return div(
 
-		    accordion.buildAccordionContainer(
+		    each(units, unit ->
 
-		        accordion.buildAccordionItem(
+			div(
+			    getLearningUnitUuidInputHidden(unit),
 
-		            accordion.buildHeaderH2("Aufgabe " + taskCount),
+			    getQuestionEntry(unit),
 
-		            accordion.buildBody(
+			    getKnowledgeEntry(unit)
+			))
+		);
+	}
 
-		                // h3("Aufgabe " + taskCount).withClass("card-header")
-//		                    .withId("ch" + taskCount),
+	private DomContent getQuestionEntry(LearningUnit lu)
+	{
+		boolean hasQuestionUuid = lu != null && lu.hasQuestion();
+		boolean hasQuestionString = lu != null && lu.hasQuestion();
 
-		                div(
-		                    div(
-		                        h4("Frage").withClass("card-header"),
-		                        div(
-		                            textarea(question)//
-		                                .withClass("form-control")
-		                                .attr("rows", "2")
-		                                .withId("q" + taskCount)
-		                                .attr("name", "q" + task.getName())
-		                        ).withClass("card-body")
-		                    ).withClass("g-col-4"),
-		                    div(
-		                        h4("Antwort").withClass("card-header"), //
-		                        div(
-		                            // textarea(task.getQuestion()).withClass("form-control")
-		                            textarea("").//
-		                                withClass("form-control")
-		                                .attr("rows", "2")
-		                                .withId("a" + taskCount)
-//		                    .attr("name", "a" + task.getInfoBitId())
-		                                .attr("name", "a" + "ID")
-		                        ).withClass("card-body")
-		                    ).withClass(".g-col-4")
-		                ).withClass("grid").attr("class", "grid"),
+		String questionUuid = hasQuestionUuid ? lu.getQuestion().getUuid() : "";
+		String qString = hasQuestionString ? lu.getQuestion().getText() : "";
 
-//		    ButtonBuilder.create().withText("Bearbeiten").build(),
+		return div(
 
-		                RowBuilder.create()//
-		                    .withAlignment(RowAlignmentDV.END)
-		                    .withDomContent(
-		                        ColumnBuilder.create()//
-		                            .withGridWidth(GridWidthDV.AUTO)
-		                            .withDomContent(
-		                                ButtonBuilder.create()//
-		                                    .withColor(ColorDV.DANGER)//
-		                                    .withClass("btnDelete")//
-		                                    .withName("delete")//
-		                                    .withText("Löschen")//
-		                                    .build()
-		                            )//
-		                            .build()
-		                    )//
-		                    .withDomContent(
-		                        ColumnBuilder.create()//
-		                            .withGridWidth(GridWidthDV.AUTO)
-		                            .withDomContent(
-		                                ButtonBuilder.create()//
-		                                    .withColor(ColorDV.WARNING)//
-		                                    .withClass("btnRemove")//
-		                                    .withName("remove")//
-		                                    .withText("Entfernen")//
-		                                    .build()
-		                            )//
-		                            .build()
-		                    )//
-		                    .build()
-		            )
-		        )
-		    )
-		).withClass("card my-5 bg-light").withId("card" + taskCount);
+		    h4("Frage").withClass("card-header"), //
+
+		    getQuestionUuidInputHidden(questionUuid),
+
+		    getQuestionTextInputVisible(qString)
+
+		).withClass("g-col-4");
+	}
+
+	private DomContent getKnowledgeEntry(LearningUnit lu)
+	{
+		boolean hasKnowledgeUuid = lu != null && lu.hasKnowledge();
+		boolean hasKnowledgeString = lu != null && lu.hasKnowledge();
+
+		String kUuid = hasKnowledgeUuid ? lu.getKnowledge().getUuid() : "";
+		String kString = hasKnowledgeString ? lu.getKnowledge().getText() : "";
+
+		return div(
+
+		    h4("Antwort").withClass("card-header"), //
+
+		    getKnowledgeUuidInputHidden(kUuid),
+
+		    getKnowledgeTextInputVisble(kString)
+
+		).withClass(".g-col-4");
+	}
+
+	private DomContent getLearningTaskUuidInputHidden(LearningTask task)
+	{
+		String taskUuid = task != null ? task.getUuid() : "new";
+
+		return input()//
+		    .withName("tsk[].tid")//
+		    .withValue(taskUuid)//
+		    .isHidden();
+	}
+
+	private DomContent getLearningUnitUuidInputHidden(LearningUnit unit)
+	{
+		String unitUuid = unit != null ? unit.getUuid() : "new";
+
+		return input()//
+		    .withName("tsk[].lut[].lui")//
+		    .withValue(unitUuid)//
+		    .isHidden();
+	}
+
+	private DomContent getQuestionUuidInputHidden(String uuid)
+	{
+		return input()//
+		    .withName("tsk[].lut[].qtn[].qni")//
+		    .withValue(uuid)//
+		    .isHidden();
+	}
+
+	private DomContent getQuestionTextInputVisible(String questionString)
+	{
+		return div(
+		    textarea(questionString)//
+		        .withName("tsk[].lut[].qtn[].qtx")//
+		        .withClass("form-control dynamic-id")//
+		        .attr("rows", "2")//
+		).withClass("card-body");
+	}
+
+	private DomContent getKnowledgeUuidInputHidden(String uuid)
+	{
+		return input()//
+		    .withName("tsk[].lut[].kut[].kui")//
+		    .withValue(uuid)//
+		    .isHidden();
+	}
+
+	private DomContent getKnowledgeTextInputVisble(String knowledgeString)
+	{
+		return div(
+		    textarea(knowledgeString)//
+		        .withName("tsk[].lut[].kut[].ktx")//
+		        .withClass("form-control dynamic-id")//
+		        .attr("rows", "2")//
+		).withClass("card-body");
 	}
 
 	@Override

@@ -51,6 +51,8 @@ public final class ButtonBuilder
 	private int iconFontSizeOpt;
 	private String style;
 	private String formAction;
+	private String dataAttrValue;
+	private String dataAttrName;
 
 	private ButtonBuilder()
 	{
@@ -193,6 +195,14 @@ public final class ButtonBuilder
 			ids = new ArrayList<>();
 		}
 		this.ids.add(id);
+		return this;
+	}
+
+	// TODO sveng 04.08.2023: Liste von Data-Attrs ermöglichen.
+	public ButtonBuilder withData(String dataAttrName, String dataAttrValue)
+	{
+		this.dataAttrName = dataAttrName;
+		this.dataAttrValue = dataAttrValue;
 		return this;
 	}
 
@@ -346,7 +356,6 @@ public final class ButtonBuilder
 			buttonTag.with(imageTag);
 
 			buttonTag.withStyle("display: flex; align-items: center;");
-
 		}
 
 		if (icon != null)
@@ -385,6 +394,9 @@ public final class ButtonBuilder
 		    .withCondName(name != null, name)//
 		    .withClasses(buildClasses())//
 		    .withCondId(ids != null, buildIds())
+		    .withCondData(
+		        this.dataAttrName != null, dataAttrName, dataAttrValue
+		    )//
 		    .condAttr(disabled, "aria-disabled", "true")
 		    .condAttr(asToggle, "data-bs-toggle", "button")
 		    .condAttr(isToggleSelected, "aria-pressed", "true") //
@@ -413,6 +425,9 @@ public final class ButtonBuilder
 		    .withText(text) //
 		    .withClasses(buildClasses())//
 		    .withCondId(ids != null, buildIds())
+		    .withCondData(
+		        this.dataAttrName != null, dataAttrName, dataAttrValue
+		    )//
 		    .condAttr(disabled, "aria-disabled", "true")
 		    .condAttr(asToggle, "data-bs-toggle", "button")
 		    .condAttr(isToggleSelected, "aria-pressed", "true")
@@ -426,6 +441,9 @@ public final class ButtonBuilder
 		    .withValue(text) //
 		    .withClasses(buildClasses())//
 		    .withCondId(ids != null, buildIds())
+		    .withCondData(
+		        this.dataAttrName != null, dataAttrName, dataAttrValue
+		    )//
 		    .condAttr(disabled, "aria-disabled", "true")
 		    .condAttr(asToggle, "data-bs-toggle", "button")
 		    .condAttr(isToggleSelected, "aria-pressed", "true")

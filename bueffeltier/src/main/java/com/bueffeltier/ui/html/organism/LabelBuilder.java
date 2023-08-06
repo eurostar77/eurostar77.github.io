@@ -44,6 +44,18 @@ public class LabelBuilder
 		return this;
 	}
 
+	public LabelBuilder withSpacing(
+	    SpacingPropertyDV property,
+	    SpacingSidesDV sides,
+	    SpacingSizeDV size
+	)
+	{
+		this.spacingProperty = property;
+		this.spacingSize = size;
+		this.spacingSides = sides;
+		return this;
+	}
+
 	public LabelBuilder withSpacingProperty(SpacingPropertyDV property)
 	{
 		this.spacingProperty = property;

@@ -27,6 +27,9 @@ public class LearningTask implements Serializable
 	@Column(name = "id")
 	private Long id;
 
+	@Column(name = "uuid", unique = true, nullable = false)
+	private String uuid;
+
 	@Column(name = "task_name")
 	private String name;
 
@@ -40,14 +43,24 @@ public class LearningTask implements Serializable
 	@Column(name = "type")
 	private String type;
 
+	public void setId(Long id)
+	{
+		this.id = id;
+	}
+
 	public Long getId()
 	{
 		return id;
 	}
 
-	public void setId(Long id)
+	public String getUuid()
 	{
-		this.id = id;
+		return uuid;
+	}
+
+	public void setUuid(String uuid)
+	{
+		this.uuid = uuid;
 	}
 
 	public String getName()
@@ -75,17 +88,17 @@ public class LearningTask implements Serializable
 		return serialVersionUID;
 	}
 
-	public List<LearningUnit> getQuestionsAndAnswers()
+	public List<LearningUnit> getLearningUnits()
 	{
 		return learningUnit;
 	}
 
-	public void setQuestionsAndAnswers(List<LearningUnit> learningUnit)
+	public void setLearningUnits(List<LearningUnit> learningUnit)
 	{
 		this.learningUnit = learningUnit;
 	}
 
-	public void addQuestionAndAnswer(LearningUnit learningUnit)
+	public void addLearningUnit(LearningUnit learningUnit)
 	{
 		this.learningUnit.add(learningUnit);
 	}

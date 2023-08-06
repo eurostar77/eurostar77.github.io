@@ -1,10 +1,11 @@
 package com.bueffeltier.ui.webapp.content.view;
 
-import static j2html.TagCreator.div;
+import static j2html.TagCreator.*;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.bueffeltier.data.jdbc.ElementJDBCFlat;
+import com.bueffeltier.ui.html.organism.Accordion;
 import com.bueffeltier.ui.html.organism.ColumnBuilder;
 import com.bueffeltier.ui.html.organism.FormControlBuilder;
 import com.bueffeltier.ui.html.organism.FormControlBuilder.FormInputTypeDV;
@@ -518,8 +519,31 @@ public class ElementsView extends AbstractView
 
 		            )//
 		            .build()
-		    ).withClass("mb-3")
+		    ).withClass("mb-3"),
 
+		    accordion()
+
+		);
+	}
+
+	private DomContent accordion()
+	{
+		Accordion accordion = new Accordion("TestAccordion");
+		accordion.expandAll();
+
+		return accordion.buildAccordionContainer(
+		    accordion.buildAccordionItem(
+		        accordion.buildItemHeaderH2("Header"), //
+		        accordion.buildItemBody(div(p("Text")))
+		    ),
+		    accordion.buildAccordionItem(
+		        accordion.buildItemHeaderH2("Header"), //
+		        accordion.buildItemBody(div(p("Text")))
+		    ),
+		    accordion.buildAccordionItem(
+		        accordion.buildItemHeaderH2("Header"), //
+		        accordion.buildItemBody(div(p("Text")))
+		    )
 		);
 	}
 
