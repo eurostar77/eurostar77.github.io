@@ -13,7 +13,7 @@ const vokabeln = [
 ["Wie …?","¿Cómo…?"],
 ["ja","sí"],
 ["von; aus","de"],
-["Woher …?","¿De dónde…?"],
+["Woher …?","¿De dónde?"],
 ["Woher kommst du?","¿De dónde eres?"],
 ["Deutschland","Alemania"],
 ["Auf Wiedersehen!; Tschüs!","¡Adiós!"],
