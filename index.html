@@ -1,13 +1,74 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Text-to-Speech</title>
-    <script src="https://code.responsivevoice.org/responsivevoice.js?key=iF4CwuXp"></script>
-</head>
-<body>
-    <h1>Text-to-Speech</h1>
-    <p>Klicken Sie auf den Button:</p>
-    <input onclick='responsiveVoice.speak("Un idioma universal", "Spanish Female");' type='button' value='🔊 Play' />
-</body>
+<!doctype html>
+<html lang="de">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Aprender español</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  </head>
+  
+  <body>
+	<header class="bg-primary text-white text-center py-3">
+        <h1>Vokabel-Lernapp</h1>
+    </header>
+    
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12 text-center">
+                <p>Klicken Sie auf den Button, um die Vokabel vorzulesen:</p>
+                <button id="playButton" class="btn btn-primary">🔊 Play</button>
+                <button id="nextButton" class="btn btn-success ms-2">Nächste Vokabel</button>
+            </div>
+        </div>
+    </div>
+	
+	
+	
+	
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  
+	<script src="https://code.responsivevoice.org/responsivevoice.js?key=iF4CwuXp"></script>
+
+    <script>
+        // Ihre Liste von Vokabeln
+        const vokabeln = [
+            "Aprender español",
+            "Buenos días",
+            "Encantado de conocerle",
+            // Fügen Sie hier weitere Vokabeln hinzu
+        ];
+
+        let currentVokabelIndex = 0;
+
+        // Funktion, um die nächste Vokabel zu laden
+        function loadNextVokabel() {
+            if (currentVokabelIndex < vokabeln.length - 1) {
+                currentVokabelIndex++;
+            } else {
+                currentVokabelIndex = 0; // Zurück zur ersten Vokabel, wenn am Ende
+            }
+            // Nicht sofort vorsprechen, wenn die nächste Vokabel geladen wird
+        }
+
+        // Event-Listener für die Buttons
+        document.getElementById("playButton").addEventListener("click", function() {
+            responsiveVoice.speak(vokabeln[currentVokabelIndex]);
+        });
+
+        document.getElementById("nextButton").addEventListener("click", function() {
+            loadNextVokabel();
+        });
+    </script>
+
+  
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+		document.documentElement.style.setProperty('--primary', '#EF4135'); /* Rot (Pantone 186 C) */
+		document.documentElement.style.setProperty('--secondary', '#FFC300'); /* Gelb (Pantone 109 C) */
+		});
+	</script>
+  
+  </body>
+  
 </html>
