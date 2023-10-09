@@ -4,6 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Aprender español</title>
+	<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+	<link rel="manifest" href="site.webmanifest">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 
@@ -18,10 +22,10 @@
 				<div class="collapse navbar-collapse" id="navbarText">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 						<li class="nav-item">
-							<a class="nav-link text-white" href="lektionen.html">Lektionen</a>
+							<a class="nav-link text-white" style="font-size: 1.2rem;" href="lektionen.html">Lektionen</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="einstellungen.html">Einstellungen</a>
+							<a class="nav-link" style="font-size: 1.2rem;" href="einstellungen.html">Einstellungen</a>
 						</li>
 					</ul>
 				</div>
@@ -32,37 +36,39 @@
 	<main>
 		<div class="container mt-4">
 			<div class="row mb-3">
-				<div class="text-start col-lg-6 col-md-8 col-sm-12 d-grid">
+				<div class="text-start col-lg-6 col-md-8 col-sm-12 d-grid px-0">
 					<h1>Einstellungen</h1>
 				</div>
 			</div>
 			<div class="row mb-2">
-				<div class="text-start col-lg-6 col-md-8 col-sm-12 d-grid">
+				<div class="text-start col-lg-6 col-md-8 col-sm-12 d-grid px-0">
 					<input type="checkbox" class="btn-check" id="btn-random" autocomplete="off">
 					<label class="btn btn-outline-secondary btn-lg" for="btn-random">Zufällige Reihenfolge</label><br>
 				</div>
 			</div>
 			<div class="row mb-1">
-				<div class="text-start col-lg-6 col-md-8 col-sm-12 d-grid">
+				<div class="text-start col-lg-6 col-md-8 col-sm-12 d-grid px-0">
 					<input type="checkbox" class="btn-check" id="btn-audio" autocomplete="off">
 					<label class="btn btn-outline-secondary btn-lg" for="btn-audio">Audio Modus</label><br>
 				</div>
 			</div>
-			<div class="row mb-5">
-				<div class="col-lg-6 col-md-8 col-sm-12 d-grid">
+			<div class="row mb-4">
+				<div class="col-lg-6 col-md-8 col-sm-12 d-grid px-0">
 					<label for="delay-input" class="form-label">Delay in ms:</label>
 					<input type="number" class="form-control form-control-lg bg-secondary" id="delay-input">
 				</div>
 			</div>
-			<div class="row mb-2">
-				<div class="col-lg-6 col-md-8 col-sm-12 d-grid mb-3">
+			<div class="row mb-1">
+				<div class="col-lg-6 col-md-8 col-sm-12 d-grid mb-3 px-0">
 					<label for="voice-german" class="form-label">Stimme deutsch:</label>
 					<select class="voice-select form-select-lg bg-secondary" id="voice-german">
 						<option value="Deutsch Male">Deutsch Male</option>
 						<option value="Deutsch Female">Deutsch Female</option>
 					</select>
 				</div>
-				<div class="col-lg-6 col-md-8 col-sm-12 d-grid mb-3">
+			</div>	
+			<div class="row mb-3">
+				<div class="col-lg-6 col-md-8 col-sm-12 d-grid mb-3 px-0">
 					<label for="voice-spanish" class="form-label">Stimme spanisch:</label>
 					<select class="voice-select form-select-lg bg-secondary" id="voice-spanish">
 						<option value="Spanish Male">Spanish Male</option>
@@ -70,10 +76,13 @@
 						<option value="Spanish Latin American Male">Spanish Latin American Male</option>
 					</select>
 				</div>
-				
-				<!-- Random Voice, pitch,  -->
-				
 			</div>
+			<div class="row mb-2">
+					<a class="btn btn-primary btn-lg text-center col-lg-6 col-md-8 col-sm-12" href="index.html">OK</a>
+				</div>
+				<!-- Random Voice, pitch, lernrichtung, lektion vor zurück, auswertung, vokabel vor und zurück, vokabel editor -->
+				
+		</div>
 <!-- 			<div class="row mb-2">
 				<div class="text-start col-lg-6 col-md-8 col-sm-12 d-grid">
 					<input type="checkbox" class="btn-check" id="btn-direction" autocomplete="off">
