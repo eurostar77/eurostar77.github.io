@@ -789,11 +789,3 @@ if (document.body.id === "index"){
 			this.select();
 		});
 }
-
-
-
-
-
-
-
-
