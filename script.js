@@ -548,7 +548,7 @@ if (document.body.id === "index"){
 	let delay = localStorage.getItem("delay") ?? '1000';
 
 	// GUI initialization
-	document.getElementById("lesson-heading").innerHTML = selectedLesson.name;
+	/* document.getElementById("lesson-heading").innerHTML = selectedLesson.name; */
 
 	if(!audioMode){
 		btnQuestion.addEventListener("click", function() {
@@ -562,7 +562,7 @@ if (document.body.id === "index"){
 		btnPlay.addEventListener("click", function() {
 			deutscheVokabelDiv.style.display = "none";
 			spanischeVokabelDiv.style.display = "block";
-			responsiveVoice.speak(vokabeln[currentVokabelIndex][3], "Spanish Female");
+			responsiveVoice.speak(vokabeln[currentVokabelIndex][3], "Spanish Male");
 		});
 		btnNext.addEventListener("click", function() {
 			loadNextVokabel()
@@ -599,7 +599,7 @@ if (document.body.id === "index"){
 		const germanText = vokabeln[currentVokabelIndex][2];
 		const spanishText = vokabeln[currentVokabelIndex][3];
 
-		responsiveVoice.speak(germanText, "Deutsch Female", {
+		responsiveVoice.speak(germanText, "Deutsch Male", {
 			onend: function() {
 				if (!playState) {
 					return;
@@ -609,7 +609,7 @@ if (document.body.id === "index"){
 					if (!playState) {
 						return;
 					}
-					responsiveVoice.speak(spanishText, "Spanish Female", {
+					responsiveVoice.speak(spanishText, "Spanish Male", {
 						onend: function() {
 							if (!playState) {
 								return;
