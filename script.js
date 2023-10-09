@@ -611,6 +611,8 @@ if (document.body.id === "index"){
 					if (!playState) {
 						return;
 					}
+					deutscheVokabelDiv.style.display = "none";
+					spanischeVokabelDiv.style.display = "block";
 					responsiveVoice.speak(spanishText, spanishVoice, {
 						onend: function() {
 							if (!playState) {
