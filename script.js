@@ -528,7 +528,7 @@ if (document.body.id === "index"){
 	// Elemente
 	const deutscheVokabelDiv = document.getElementById("deutscheVokabel");
 	const spanischeVokabelDiv = document.getElementById("spanischeVokabel");
-	const btnLesson = document.getElementById("btn-question");
+	const btnQuestion = document.getElementById("btn-question");
 	const btnAnswer = document.getElementById("btn-answer");
 	const btnPlay = document.getElementById("btn-play");
 	const btnNext = document.getElementById("btn-next");
@@ -551,7 +551,7 @@ if (document.body.id === "index"){
 	document.getElementById("lesson-heading").innerHTML = selectedLesson.name;
 
 	if(!audioMode){
-		btnLesson.addEventListener("click", function() {
+		btnQuestion.addEventListener("click", function() {
 			deutscheVokabelDiv.style.display = "block";
 			spanischeVokabelDiv.style.display = "none";
 		});
@@ -560,6 +560,8 @@ if (document.body.id === "index"){
 			spanischeVokabelDiv.style.display = "block";
 		});
 		btnPlay.addEventListener("click", function() {
+			deutscheVokabelDiv.style.display = "none";
+			spanischeVokabelDiv.style.display = "block";
 			responsiveVoice.speak(vokabeln[currentVokabelIndex][3], "Spanish Female");
 		});
 		btnNext.addEventListener("click", function() {
@@ -568,7 +570,7 @@ if (document.body.id === "index"){
 	}
 	
 	if(audioMode){
-		btnLesson.style.display = "none";
+		btnQuestion.style.display = "none";
 		btnAnswer.style.display = "none";
 		btnPlay.style.display = "none";
 		btnNext.style.display = "none";
