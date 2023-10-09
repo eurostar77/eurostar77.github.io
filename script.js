@@ -532,6 +532,7 @@ if (document.body.id === "index"){
 	const btnAnswer = document.getElementById("btn-answer");
 	const btnPlay = document.getElementById("btn-play");
 	const btnNext = document.getElementById("btn-next");
+	const btnAutoPlay = document.getElementById("btn-auto-play");
 
 	// Einstellungen
 	const randomSelectedVokabeln = [];
@@ -543,32 +544,89 @@ if (document.body.id === "index"){
 	initRandomAvaillableVokabeln();
 	let currentVokabelIndex;
 	loadNextVokabel();
+	let playState = false;
+	let delay = localStorage.getItem("delay") ?? '1000';
 
 	// GUI initialization
 	document.getElementById("lesson-heading").innerHTML = selectedLesson.name;
-	if(btnLesson){
+
+	if(!audioMode){
 		btnLesson.addEventListener("click", function() {
 			deutscheVokabelDiv.style.display = "block";
 			spanischeVokabelDiv.style.display = "none";
 		});
-	}
-	if(btnAnswer){
 		btnAnswer.addEventListener("click", function() {
 			deutscheVokabelDiv.style.display = "none";
 			spanischeVokabelDiv.style.display = "block";
 		});
-	}
-	if(btnPlay){
 		btnPlay.addEventListener("click", function() {
-			responsiveVoice.speak(vokabeln[currentVokabelIndex][1], "Spanish Female");
+			responsiveVoice.speak(vokabeln[currentVokabelIndex][3], "Spanish Female");
 		});
-	}
-	if(btnNext){
 		btnNext.addEventListener("click", function() {
 			loadNextVokabel()
 		});
 	}
 	
+	if(audioMode){
+		btnLesson.style.display = "none";
+		btnAnswer.style.display = "none";
+		btnPlay.style.display = "none";
+		btnNext.style.display = "none";
+		btnAutoPlay.style.display = "block";
+		btnAutoPlay.className = "btn btn-primary btn-lg w-100 mt-3";
+		btnAutoPlay.addEventListener("click", function() {
+			setPlayState();
+		});
+	}
+	
+	function setPlayState(){
+		if(playState){
+			playState = false;
+			btnAutoPlay.innerHTML = "Play";
+		}else{
+			playState = true;
+			btnAutoPlay.innerHTML = "Pause";
+			speakGermanThenSpanish();
+		}
+	}
+	
+	function speakGermanThenSpanish() {
+		if (!playState) {
+			return;
+		}
+		const germanText = vokabeln[currentVokabelIndex][2];
+		const spanishText = vokabeln[currentVokabelIndex][3];
+
+		responsiveVoice.speak(germanText, "Deutsch Female", {
+			onend: function() {
+				if (!playState) {
+					return;
+				}
+				// Deutsch wurde gesprochen, jetzt eine Pause
+				setTimeout(function() {
+					if (!playState) {
+						return;
+					}
+					responsiveVoice.speak(spanishText, "Spanish Female", {
+						onend: function() {
+							if (!playState) {
+								return;
+							}
+							// Spanisch wurde gesprochen, jetzt eine Pause
+							setTimeout(function() {
+								if (!playState) {
+									return;
+								}
+								loadNextVokabel();
+								speakGermanThenSpanish(); // Von vorne beginnen
+							}, 1000);
+						},
+					});
+				}, delay);
+			},
+		});
+	}
+
 	function loadNextVokabel() {
 		if (randomMode) {
 			if (randomAvailableVokabeln.length === 0) {
@@ -580,7 +638,7 @@ if (document.body.id === "index"){
 			randomSelectedVokabeln.push(selectedIndex);
 			currentVokabelIndex = selectedIndex;
 		} else {
-			if(!currentVokabelIndex){
+			if(currentVokabelIndex === null || currentVokabelIndex === undefined){
 				currentVokabelIndex = startIndex;
 			}else{
 				currentVokabelIndex++;
@@ -628,28 +686,6 @@ if (document.body.id === "index"){
 			endIndex: endIndex,
 		};
 	}
-	
-	////
-	/* const progress = {};
-	
-	function getRandomQuestion(lessonNumber) {
-		// Überprüfen, ob es einen Fortschritt für diese Lektion gibt, andernfalls initialisieren.
-			if (!progress[lessonNumber]) {
-				progress[lessonNumber] = {
-				  askedQuestions: [],
-				};
-		}
-		const lessonQuestions = vokabeln.filter((vokabel) => vokabel[0] === lessonNumber);
-		let randomIndex;
-		do {
-			randomIndex = Math.floor(Math.random() * lessonQuestions.length);
-		} while (progress[lessonNumber].askedQuestions.includes(randomIndex));
-		
-		progress[lessonNumber].askedQuestions.push(randomIndex);
-		
-		return lessonQuestions[randomIndex];
-	} */
-	////
 	
 }else if (document.body.id === "lessons"){
 	
@@ -702,6 +738,7 @@ if (document.body.id === "index"){
 	
 		initToggleButtonsFromLocalStorage('btn-random', 'randomMode');
 		initToggleButtonsFromLocalStorage('btn-audio', 'audioMode');
+		initDelayFromLocalStorage();
 
 		function initToggleButtonsFromLocalStorage(checkboxId, key) {
 			const checkbox = document.getElementById(checkboxId);
@@ -720,6 +757,17 @@ if (document.body.id === "index"){
 			}
 		}
 		
+		function initDelayFromLocalStorage(){
+			const input = document.getElementById('delay-input');
+			const delay = localStorage.getItem('delay');
+			if(delay){
+				input.value = delay;
+			}else{
+				input.value = 1000;
+				localStorage.setItem('delay','1000');
+			}
+		}
+		
 		document.getElementById('btn-random').addEventListener('change', function () {
 			saveBtnStateToLocalStorage('btn-random', 'randomMode');
 		});
@@ -732,6 +780,14 @@ if (document.body.id === "index"){
 			const checkbox = document.getElementById(checkboxId);
 			localStorage.setItem(key, JSON.stringify(checkbox.checked));
 		}	
+		
+		document.getElementById('delay-input').addEventListener('input', function () {
+			localStorage.setItem('delay', event.target.value);
+		});
+		
+		document.getElementById('delay-input').addEventListener("click", function () {
+			this.select();
+		});
 }
 
 

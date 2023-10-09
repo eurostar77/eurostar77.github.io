@@ -11,7 +11,7 @@
 	<header class="bg-es-red text-white py-3">
 		<nav class="navbar navbar-expand-lg">
 			<div class="container-fluid">
-				<a class="navbar-brand text-white" style="font-size: 2rem;" href="index.html">¡Aprender español!</a>
+				<a class="navbar-brand text-white" style="font-size: 1.7rem;" href="index.html">¡Aprender español!</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>	
@@ -42,10 +42,22 @@
 					<label class="btn btn-outline-secondary btn-lg" for="btn-random">Zufällige Reihenfolge</label><br>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row mb-1">
 				<div class="text-start col-lg-6 col-md-8 col-sm-12 d-grid">
 					<input type="checkbox" class="btn-check" id="btn-audio" autocomplete="off">
 					<label class="btn btn-outline-secondary btn-lg" for="btn-audio">Audio Modus</label><br>
+				</div>
+			</div>
+			<div class="row mb-5">
+				<div class="col-lg-6 col-md-8 col-sm-12 d-grid">
+					<label for="delay-input" class="form-label">Delay in ms:</label>
+					<input type="number" class="form-control form-control-lg bg-secondary" id="delay-input">
+				</div>
+			</div>
+			<div class="row mb-2">
+				<div class="text-start col-lg-6 col-md-8 col-sm-12 d-grid">
+					<input type="checkbox" class="btn-check" id="btn-direction" autocomplete="off">
+					<label class="btn btn-outline-secondary btn-lg" for="btn-direction">spanisch/deutsch</label><br>
 				</div>
 			</div>
 		</div>
@@ -56,6 +68,10 @@
 			background-color: #FFC300;
 			color: black;
 			padding: 4px;
+		}
+		
+		.bg-es-yellow:focus {
+		  background-color:  #FFC300 !important; /* !important hinzufügen, um sicherzustellen, dass die Regel Vorrang hat */
 		}
 		
 		.bg-es-yellow-light {
