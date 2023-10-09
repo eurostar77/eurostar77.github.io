@@ -546,6 +546,8 @@ if (document.body.id === "index"){
 	loadNextVokabel();
 	let playState = false;
 	let delay = localStorage.getItem("delay") ?? '1000';
+	let spanishVoice = localStorage.getItem("spanishVoice") ?? 'Spanish Latin American Male';
+	let germanVoice = localStorage.getItem("germanVoice") ?? 'Deutsch Male';
 
 	// GUI initialization
 	/* document.getElementById("lesson-heading").innerHTML = selectedLesson.name; */
@@ -562,7 +564,7 @@ if (document.body.id === "index"){
 		btnPlay.addEventListener("click", function() {
 			deutscheVokabelDiv.style.display = "none";
 			spanischeVokabelDiv.style.display = "block";
-			responsiveVoice.speak(vokabeln[currentVokabelIndex][3], "Spanish Male");
+			responsiveVoice.speak(vokabeln[currentVokabelIndex][3], spanishVoice);
 		});
 		btnNext.addEventListener("click", function() {
 			loadNextVokabel()
@@ -599,7 +601,7 @@ if (document.body.id === "index"){
 		const germanText = vokabeln[currentVokabelIndex][2];
 		const spanishText = vokabeln[currentVokabelIndex][3];
 
-		responsiveVoice.speak(germanText, "Deutsch Male", {
+		responsiveVoice.speak(germanText, germanVoice, {
 			onend: function() {
 				if (!playState) {
 					return;
@@ -609,7 +611,7 @@ if (document.body.id === "index"){
 					if (!playState) {
 						return;
 					}
-					responsiveVoice.speak(spanishText, "Spanish Male", {
+					responsiveVoice.speak(spanishText, spanishVoice, {
 						onend: function() {
 							if (!playState) {
 								return;
@@ -738,56 +740,95 @@ if (document.body.id === "index"){
 		
 }else if (document.body.id === "settings"){
 	
-		initToggleButtonsFromLocalStorage('btn-random', 'randomMode');
-		initToggleButtonsFromLocalStorage('btn-audio', 'audioMode');
-		initDelayFromLocalStorage();
+	initToggleButtonsFromLocalStorage('btn-random', 'randomMode');
+	initToggleButtonsFromLocalStorage('btn-audio', 'audioMode');
+	initDelayFromLocalStorage();
+	initGermanVoiceFromLocalStorage();
+	initSpanishVoiceFromLocalStorage();
 
-		function initToggleButtonsFromLocalStorage(checkboxId, key) {
-			const checkbox = document.getElementById(checkboxId);
-			const toggleStateString = localStorage.getItem(key);
+	function initToggleButtonsFromLocalStorage(checkboxId, key) {
+		const checkbox = document.getElementById(checkboxId);
+		const toggleStateString = localStorage.getItem(key);
 
-			if (toggleStateString !== null) {
-				let toggleState = JSON.parse(toggleStateString);
-				if (toggleState) {
-					checkbox.checked = true;
-				} else {
-					checkbox.checked = false;
-				}
+		if (toggleStateString !== null) {
+			let toggleState = JSON.parse(toggleStateString);
+			if (toggleState) {
+				checkbox.checked = true;
 			} else {
 				checkbox.checked = false;
-				saveBtnStateToLocalStorage(checkboxId, key);
 			}
+		} else {
+			checkbox.checked = false;
+			saveBtnStateToLocalStorage(checkboxId, key);
 		}
-		
-		function initDelayFromLocalStorage(){
-			const input = document.getElementById('delay-input');
-			const delay = localStorage.getItem('delay');
-			if(delay){
-				input.value = delay;
-			}else{
-				input.value = 1000;
-				localStorage.setItem('delay','1000');
-			}
+	}
+	
+	function initDelayFromLocalStorage(){
+		const input = document.getElementById('delay-input');
+		const delay = localStorage.getItem('delay');
+		if(delay){
+			input.value = delay;
+		}else{
+			input.value = 1000;
+			localStorage.setItem('delay','1000');
 		}
-		
-		document.getElementById('btn-random').addEventListener('change', function () {
-			saveBtnStateToLocalStorage('btn-random', 'randomMode');
-		});
+	}
+	
+	document.getElementById('btn-random').addEventListener('change', function () {
+		saveBtnStateToLocalStorage('btn-random', 'randomMode');
+	});
 
-		document.getElementById('btn-audio').addEventListener('change', function () {
-			saveBtnStateToLocalStorage('btn-audio', 'audioMode');
-		});
-		
-		function saveBtnStateToLocalStorage(checkboxId, key) {
-			const checkbox = document.getElementById(checkboxId);
-			localStorage.setItem(key, JSON.stringify(checkbox.checked));
-		}	
-		
-		document.getElementById('delay-input').addEventListener('input', function () {
-			localStorage.setItem('delay', event.target.value);
-		});
-		
-		document.getElementById('delay-input').addEventListener("click", function () {
-			this.select();
-		});
+	document.getElementById('btn-audio').addEventListener('change', function () {
+		saveBtnStateToLocalStorage('btn-audio', 'audioMode');
+	});
+	
+	function saveBtnStateToLocalStorage(checkboxId, key) {
+		const checkbox = document.getElementById(checkboxId);
+		localStorage.setItem(key, JSON.stringify(checkbox.checked));
+	}	
+	
+	document.getElementById('delay-input').addEventListener('input', function () {
+		localStorage.setItem('delay', event.target.value);
+	});
+	
+	document.getElementById('delay-input').addEventListener("click", function () {
+		this.select();
+	});
+	
+	function initGermanVoiceFromLocalStorage() {
+		const germanVoiceSelect = document.getElementById('voice-german');
+		const storedGermanVoice = localStorage.getItem('germanVoice');
+
+		// Wenn die Auswahl im Local Storage gespeichert wurde, wählen Sie sie aus
+		if (storedGermanVoice) {
+			germanVoiceSelect.value = storedGermanVoice;
+		} else {
+			// Wenn keine Auswahl im Local Storage vorhanden ist, setzen Sie den Standardwert auf "Deutsch Male"
+			germanVoiceSelect.value = "Deutsch Male";
+		}
+	}
+
+	function initSpanishVoiceFromLocalStorage() {
+		const spanishVoiceSelect = document.getElementById('voice-spanish');
+		const storedSpanishVoice = localStorage.getItem('spanishVoice');
+
+		// Wenn die Auswahl im Local Storage gespeichert wurde, wählen Sie sie aus
+		if (storedSpanishVoice) {
+			spanishVoiceSelect.value = storedSpanishVoice;
+		} else {
+			// Wenn keine Auswahl im Local Storage vorhanden ist, setzen Sie den Standardwert auf "Spanish Latin American Male"
+			spanishVoiceSelect.value = "Spanish Latin American Male";
+		}
+	}
+	// Listener für Änderungen der deutschen Stimmauswahl
+	document.getElementById('voice-german').addEventListener('change', function () {
+		const selectedGermanVoice = this.value;
+		localStorage.setItem('germanVoice', selectedGermanVoice);
+	});
+
+	// Listener für Änderungen der spanischen Stimmauswahl
+	document.getElementById('voice-spanish').addEventListener('change', function () {
+		const selectedSpanishVoice = this.value;
+		localStorage.setItem('spanishVoice', selectedSpanishVoice);
+	});
 }
