@@ -705,7 +705,7 @@ if (document.body.id === "index"){
 
 		for (const lesson of allLessons) {
 			const lessonContainer = document.createElement("div");
-			lessonContainer.className = "col-12 mb-2 px-0";
+			lessonContainer.className = "col-12 mb-2 px-0 d-grid";
 			const button = document.createElement("button");
 			button.className = "btn btn-outline-secondary btn-lg text-start col-lg-6 col-md-8 col-sm-12";
 			button.type = "button";
